@@ -249,7 +249,9 @@ class qtype_essaynew_renderer extends qtype_renderer {
             'aria-labelledby' => $labelbyid,
             'class' => 'list-unstyled m-0',
         ]);
-        $output .= '<script type="text/javascript" src="/question/type/essaynew/js/annotatebutton.js"></script>';    
+        $baseurl = new moodle_url('/');
+        $baseurl = $baseurl->out(false);
+        $output .= '<script type="text/javascript" src="'. $baseurl .'/question/type/essaynew/js/annotatebutton.js"></script>';    
         return $output;
     }
 
