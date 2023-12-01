@@ -32,7 +32,7 @@ $settings->add(new admin_setting_configtext(
     'qtype_essaynew/imagemagickpath',
     get_string('imagemagickpath', 'qtype_essaynew'),
     get_string('imagemagickpath_desc', 'qtype_essaynew'),
-    '',
+    'convert',
     PARAM_TEXT
 ));
 
@@ -40,7 +40,7 @@ $settings->add(new admin_setting_configtext(
     'qtype_essaynew/ghostscriptpath',
     get_string('ghostscriptpath', 'qtype_essaynew'),
     get_string('ghostscriptpath_desc', 'qtype_essaynew'),
-    '',
+    'gs',
     PARAM_TEXT
 ));
 }

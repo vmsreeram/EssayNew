@@ -153,8 +153,8 @@ class qtype_essaynew_renderer extends qtype_renderer {
             }
             if(!empty($fileurl) && !empty($filename))
             {
-                $baseurl = new moodle_url('/');
-                $baseurl = $baseurl->out(false);
+                // $baseurl = new moodle_url('/');
+                // $baseurl = $baseurl->out(false);
                 $icon = $this->output->pix_icon('f/pdf', "PDF document", 'core', ['class' => 'icon']);
                 $annotatedfiles .= '<p><a href="' . $fileurl . '">' . $icon . $filename  . '</a></p>';
                 // $annotatedfiles .= '<p><a href="' . $fileurl . '"><img class="icon icon" alt="PDF document" title="PDF document" src="'.$baseurl.'/theme/image.php/boost/core/1644642657/f/pdf" />' . 'Feedback_' . $filename  . '</a></p>';
