@@ -26,6 +26,7 @@
 $string['acceptedfiletypes'] = 'Accepted file types';
 $string['acceptedfiletypes_help'] = 'Accepted file types can be restricted by entering a list of file extensions. If the field is left empty, then all file types are allowed.';
 $string['allowattachments'] = 'Allow attachments';
+$string['annotate_button_label'] = 'Annotate';
 $string['answerfiles'] = 'Answer files';
 $string['answertext'] = 'Answer text';
 $string['attachedfiles'] = 'Attachments: {$a}';
