@@ -63,10 +63,10 @@ $shellOutput = shell_exec($gsPath . ' -sDEVICE=pdfwrite -dCompatibilityLevel=1.4
 
 //Getting all the data from mypdfannotate.js
 require_login();
-$value = $_POST['id'];
-$contextid = $_POST['contextid'];
-$attemptid = $_POST['attemptid'];
-$filename = $_POST['filename'];
+$value = required_param('id', PARAM_RAW);
+$contextid = required_param('contextid', PARAM_INT);
+$attemptid = required_param('attemptid', PARAM_INT);
+$filename = required_param('filename', PARAM_FILE);
 $component = 'question';
 $filearea = 'response_attachments';
 $filepath = '/';
