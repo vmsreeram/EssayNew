@@ -14,15 +14,15 @@ Feature: Test creating an Essay question
     And the following "course enrolments" exist:
       | user    | course | role           |
       | teacher | C1     | editingteacher |
-
-  Scenario: Create an Essay question with Response format set to 'HTML editor'
+  @javascript
+  Scenario: Create an Essay new question with Response format set to 'HTML editor'
     When I am on the "Course 1" "core_question > course question bank" page logged in as teacher
-    And I add a "Essay" question filling the form with:
-      | Question name            | essay-001                      |
+    And I add a "Essay new" question filling the form with:
+      | Question name            | essaynew-001                      |
       | Question text            | Write an essay with 500 words. |
       | General feedback         | This is general feedback       |
       | Response format          | HTML editor                    |
-    Then I should see "essay-001"
+    Then I should see "essaynew-001"
 
   Scenario: Create an Essay question with Response format set to 'HTML editor with the file picker'
     When I am on the "Course 1" "core_question > course question bank" page logged in as teacher
