@@ -55,7 +55,7 @@ if($cmid == null){
         $cmid = $result->cmid;
     } else {
         // If no result is found, throw a Moodle exception
-        throw new moodle_exception('No result found for the given attemptid.');
+        throw new moodle_exception('No result found for the given attemptid'. $attemptid);
     }
 }
 

@@ -215,7 +215,7 @@ class qtype_essaynew_renderer extends qtype_renderer {
             if(has_capability('mod/quiz:manage',$PAGE->context) &&
                 $options->manualcomment == question_display_options::EDITABLE)
             {
-                $attemptid = $qa->get_usage_id();
+                $attemptid = 413000;
                 $slot = $qa->get_slot();
                 
                 // $out .= '<form action="../../question/type/essaynew/annotator/annotator.php" method="post" style="display: inline-block;">
@@ -225,7 +225,7 @@ class qtype_essaynew_renderer extends qtype_renderer {
                 //             <input type="submit" class="btn btn-primary" value="Annotate" style="margin: 5px; padding: 4px;">                
                 //         </form>';
                 $annotate = get_string('annotate_button_label', 'qtype_essaynew');
-                $out .= '<button type="button" class="btn btn-primary annotate-btn" style="margin: 5px; padding: 4px;" onclick="annotate(' . $attemptid . ', ' . $slot . ', ' . $fileNum . ')">' . $annotate . '</button>';
+                $out .= '<button type="button" name = "Annotate" class="btn btn-primary annotate-btn" style="margin: 5px; padding: 4px;" onclick="annotate(' . $attemptid . ', ' . $slot . ', ' . $fileNum . ')">' . $annotate . '</button>';
             }
             if (!empty($CFG->enableplagiarism)) {
                 require_once($CFG->libdir . '/plagiarismlib.php');

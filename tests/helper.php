@@ -32,20 +32,20 @@ defined('MOODLE_INTERNAL') || die();
  * @copyright  2013 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class qtype_essay_test_helper extends question_test_helper {
+class qtype_essaynew_test_helper extends question_test_helper {
     public function get_test_questions() {
         return array('editor', 'editorfilepicker', 'plain', 'monospaced', 'responsetemplate', 'noinline');
     }
 
     /**
      * Helper method to reduce duplication.
-     * @return qtype_essay_question
+     * @return qtype_essaynew_question
      */
-    protected function initialise_essay_question() {
-        question_bank::load_question_definition_classes('essay');
-        $q = new qtype_essay_question();
+    protected function initialise_essaynew_question() {
+        question_bank::load_question_definition_classes('essaynew');
+        $q = new qtype_essaynew_question();
         test_question_maker::initialise_a_question($q);
-        $q->name = 'Essay question (HTML editor)';
+        $q->name = 'Essay new question (HTML editor)';
         $q->questiontext = 'Please write a story about a frog.';
         $q->generalfeedback = 'I hope your story had a beginning, a middle and an end.';
         $q->responseformat = 'editor';
@@ -59,17 +59,17 @@ class qtype_essay_test_helper extends question_test_helper {
         $q->filetypeslist = null;
         $q->graderinfo = '';
         $q->graderinfoformat = FORMAT_HTML;
-        $q->qtype = question_bank::get_qtype('essay');
+        $q->qtype = question_bank::get_qtype('essaynew');
 
         return $q;
     }
 
     /**
      * Makes an essay question using the HTML editor as input.
-     * @return qtype_essay_question
+     * @return qtype_essaynew_question
      */
-    public function make_essay_question_editor() {
-        return $this->initialise_essay_question();
+    public function make_essaynew_question_editor() {
+        return $this->initialise_essaynew_question();
     }
 
     /**
@@ -79,10 +79,10 @@ class qtype_essay_test_helper extends question_test_helper {
      *
      * @return stdClass the data that would be returned by $form->get_gata();
      */
-    public function get_essay_question_form_data_editor() {
+    public function get_essaynew_question_form_data_editor() {
         $fromform = new stdClass();
 
-        $fromform->name = 'Essay question (HTML editor)';
+        $fromform->name = 'Essay new question (HTML editor)';
         $fromform->questiontext = array('text' => 'Please write a story about a frog.', 'format' => FORMAT_HTML);
         $fromform->defaultmark = 1.0;
         $fromform->generalfeedback = array('text' => 'I hope your story had a beginning, a middle and an end.', 'format' => FORMAT_HTML);
@@ -103,10 +103,10 @@ class qtype_essay_test_helper extends question_test_helper {
     /**
      * Makes an essay question using the HTML editor allowing embedded files as
      * input, and up to three attachments.
-     * @return qtype_essay_question
+     * @return qtype_essaynew_question
      */
-    public function make_essay_question_editorfilepicker() {
-        $q = $this->initialise_essay_question();
+    public function make_essaynew_question_editorfilepicker() {
+        $q = $this->initialise_essaynew_question();
         $q->responseformat = 'editorfilepicker';
         $q->attachments = 3;
         return $q;
@@ -115,10 +115,10 @@ class qtype_essay_test_helper extends question_test_helper {
     /**
      * Makes an essay question using the HTML editor allowing embedded files as
      * input, and up to two attachments, two needed.
-     * @return qtype_essay_question
+     * @return qtype_essaynew_question
      */
-    public function make_essay_question_editorfilepickertworequired() {
-        $q = $this->initialise_essay_question();
+    public function make_essaynew_question_editorfilepickertworequired() {
+        $q = $this->initialise_essaynew_question();
         $q->responseformat = 'editorfilepicker';
         $q->attachments = 2;
         $q->attachmentsrequired = 2;
@@ -132,10 +132,10 @@ class qtype_essay_test_helper extends question_test_helper {
      *
      * @return stdClass the data that would be returned by $form->get_gata();
      */
-    public function get_essay_question_form_data_editorfilepicker() {
+    public function get_essaynew_question_form_data_editorfilepicker() {
         $fromform = new stdClass();
 
-        $fromform->name = 'Essay question with filepicker and attachments';
+        $fromform->name = 'Essay new question with filepicker and attachments';
         $fromform->questiontext = array('text' => 'Please write a story about a frog.', 'format' => FORMAT_HTML);
         $fromform->defaultmark = 1.0;
         $fromform->generalfeedback = array('text' => 'I hope your story had a beginning, a middle and an end.', 'format' => FORMAT_HTML);
@@ -155,10 +155,10 @@ class qtype_essay_test_helper extends question_test_helper {
 
     /**
      * Makes an essay question using plain text input.
-     * @return qtype_essay_question
+     * @return qtype_essaynew_question
      */
-    public function make_essay_question_plain() {
-        $q = $this->initialise_essay_question();
+    public function make_essaynew_question_plain() {
+        $q = $this->initialise_essaynew_question();
         $q->responseformat = 'plain';
         return $q;
     }
@@ -170,10 +170,10 @@ class qtype_essay_test_helper extends question_test_helper {
      *
      * @return stdClass the data that would be returned by $form->get_gata();
      */
-    public function get_essay_question_form_data_plain() {
+    public function get_essaynew_question_form_data_plain() {
         $fromform = new stdClass();
 
-        $fromform->name = 'Essay question with filepicker and attachments';
+        $fromform->name = 'Essay new question with filepicker and attachments';
         $fromform->questiontext = array('text' => 'Please write a story about a frog.', 'format' => FORMAT_HTML);
         $fromform->defaultmark = 1.0;
         $fromform->generalfeedback = array('text' => 'I hope your story had a beginning, a middle and an end.', 'format' => FORMAT_HTML);
@@ -193,16 +193,16 @@ class qtype_essay_test_helper extends question_test_helper {
 
     /**
      * Makes an essay question using monospaced input.
-     * @return qtype_essay_question
+     * @return qtype_essaynew_question
      */
-    public function make_essay_question_monospaced() {
-        $q = $this->initialise_essay_question();
+    public function make_essaynew_question_monospaced() {
+        $q = $this->initialise_essaynew_question();
         $q->responseformat = 'monospaced';
         return $q;
     }
 
-    public function make_essay_question_responsetemplate() {
-        $q = $this->initialise_essay_question();
+    public function make_essaynew_question_responsetemplate() {
+        $q = $this->initialise_essaynew_question();
         $q->responsetemplate = 'Once upon a time';
         $q->responsetemplateformat = FORMAT_HTML;
         return $q;
@@ -210,10 +210,10 @@ class qtype_essay_test_helper extends question_test_helper {
 
     /**
      * Makes an essay question without an online text editor.
-     * @return qtype_essay_question
+     * @return qtype_essaynew_question
      */
-    public function make_essay_question_noinline() {
-        $q = $this->initialise_essay_question();
+    public function make_essaynew_question_noinline() {
+        $q = $this->initialise_essaynew_question();
         $q->responseformat = 'noinline';
         $q->attachments = 3;
         $q->attachmentsrequired = 1;
