@@ -215,8 +215,8 @@ class qtype_essaynew_renderer extends qtype_renderer {
             if(has_capability('mod/quiz:manage',$PAGE->context) &&
                 $options->manualcomment == question_display_options::EDITABLE)
             {
-                $attemptid = 413000;
-                $slot = $qa->get_slot();
+                $attemptid = optional_param('attempt', null, PARAM_INT);
+                $slot = optional_param('slot', null, PARAM_INT);
                 
                 // $out .= '<form action="../../question/type/essaynew/annotator/annotator.php" method="post" style="display: inline-block;">
                 //             <input type="hidden" value="' . $attemptid . '" name="attempt">
