@@ -65,4 +65,8 @@ Scenario: Student uploads a file and teacher is able to annotate
     And I wait "3" seconds
     And I follow "Make comment or override mark"
     And I wait "3" seconds
+    Then The document should open in a new tab
+    And I wait "3" seconds
+    And I press "Annotate"
+    And I wait "3" seconds
     

@@ -59,6 +59,10 @@ if($cmid == null){
     }
 }
 
+if(!is_dir($tempPath) && !mkdir($tempPath,0777,true)){
+    throw new moodle_exception("Cannot create directory");
+}
+
 // $PAGE->set_url('/mod/quiz/annotator.php', array('attempt' => $attemptid, 'slot' => $slot, 'fileno' => $fileno));
 $PAGE->set_url('/question/type/essaynew/annotator/annotator.php', array('attempt' => $attemptid, 'slot' => $slot, 'fileno' => $fileno));
 
