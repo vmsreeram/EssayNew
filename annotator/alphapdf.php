@@ -6,6 +6,7 @@
  * Link : http://www.fpdf.org/en/script/script74.php
  * Changes were made by Asha Jose and Parvathy S Kumar in lines 10-14
  */
+defined('MOODLE_INTERNAL') || die();
 
 include 'fpdi-fpdf/fpdf/fpdf.php';
 include 'fpdi-fpdf/fpdi/src/autoload.php';

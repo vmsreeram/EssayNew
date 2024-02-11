@@ -63,6 +63,7 @@ $shellOutput = shell_exec($gsPath . ' -sDEVICE=pdfwrite -dCompatibilityLevel=1.4
 
 //Getting all the data from mypdfannotate.js
 require_login();
+// add cap req : grade
 $value = required_param('id', PARAM_RAW);
 $contextid = required_param('contextid', PARAM_INT);
 $attemptid = required_param('attemptid', PARAM_INT);

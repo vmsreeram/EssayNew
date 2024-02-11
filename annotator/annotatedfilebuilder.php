@@ -6,6 +6,7 @@
  * The data stored as suitable arrays by the parser.php file is utilized here.
  * Depending on the data, different objects can be drawn on top of a pdf using these functions.
  */
+defined('MOODLE_INTERNAL') || die();
 
 define("BRUSHSIZE",0.50);
 define("FONTTYPE",'Times');

@@ -70,6 +70,7 @@ if (!empty($cmid)) {
     $context = context_module::instance($cm->id);
     $PAGE->set_context($context);
 }
+// else throw
 
 require_capability('mod/quiz:manage', $PAGE->context);  // added security feature
 if(!is_dir($tempPath) && !mkdir($tempPath,0777,true)){
