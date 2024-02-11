@@ -5,6 +5,7 @@
  * The data from serialiser of fabricjs is read and processed.
  * The processed data is then stored in utiliszable manner for fpdf
  */
+defined('MOODLE_INTERNAL') || die();
 
 define("RATIO", 0.238); //Ratio to convert FabricJS objects to FPDF objects
 

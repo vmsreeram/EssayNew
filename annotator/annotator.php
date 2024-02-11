@@ -59,9 +59,7 @@ if($cmid == null){
     }
 }
 
-if(!is_dir($tempPath) && !mkdir($tempPath,0777,true)){
-    throw new moodle_exception("Cannot create directory");
-}
+
 
 // $PAGE->set_url('/mod/quiz/annotator.php', array('attempt' => $attemptid, 'slot' => $slot, 'fileno' => $fileno));
 $PAGE->set_url('/question/type/essaynew/annotator/annotator.php', array('attempt' => $attemptid, 'slot' => $slot, 'fileno' => $fileno));
@@ -71,9 +69,12 @@ if (!empty($cmid)) {
     $context = context_module::instance($cm->id);
     $PAGE->set_context($context);
 }
+// else throw
 
 require_capability('mod/quiz:manage', $PAGE->context);  // added security feature
-
+if(!is_dir($tempPath) && !mkdir($tempPath,0777,true)){
+    throw new moodle_exception("Cannot create directory");
+}
 $attemptobj = quiz_create_attempt_handling_errors($attemptid, $cmid);
 $attemptobj->preload_all_attempt_step_users();
 
