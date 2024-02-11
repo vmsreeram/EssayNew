@@ -42,7 +42,7 @@ Scenario: Student uploads a file and teacher is able to annotate
 
     When I log in as "student"
     And I follow "Manage private files"
-    And I upload "mod/assign/feedback/editpdf/tests/fixtures/testgs.pdf" file to "Files" filemanager
+    And I upload "question/type/essaynew/tests/fixtures/blank.pdf" file to "Files" filemanager
     And I press "Save changes"
     And I am on the "Quiz 1" "quiz activity" page
     And I press "Attempt quiz"
@@ -50,7 +50,7 @@ Scenario: Student uploads a file and teacher is able to annotate
     And I should see "You can drag and drop files here to add them."
     And I click on "Add..." "button"
     And I click on "Private files" "link" in the ".fp-repo-area" "css_element"
-    And I click on "testgs.pdf" "link"
+    And I click on "blank.pdf" "link"
     And I click on "Select this file" "button"
     And I press "Finish attempt"
     And I press "Submit all and finish"
@@ -68,5 +68,9 @@ Scenario: Student uploads a file and teacher is able to annotate
     Then The document should open in a new tab
     And I wait "3" seconds
     And I press "Annotate"
+    And I wait for the complete PDF to load
     And I wait "3" seconds
-    
+    And I annotate the pdf 
+    And I wait "3" seconds
+    And I press "Save"
+    And I wait "5" seconds

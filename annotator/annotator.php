@@ -27,6 +27,7 @@
 require_once('../../../../config.php');
 require_once('../../../../mod/quiz/locallib.php');
 require_login();        // added just now
+
 //The $tempPath is the path to the subdirectory EssayPDF created in moodle's temp directory 
 $tempPath = $CFG->tempdir ."/EssayPDF";
 $dummyFile= $tempPath ."/dummy.pdf";
@@ -59,9 +60,7 @@ if($cmid == null){
     }
 }
 
-if(!is_dir($tempPath) && !mkdir($tempPath,0777,true)){
-    throw new moodle_exception("Cannot create directory");
-}
+
 
 // $PAGE->set_url('/mod/quiz/annotator.php', array('attempt' => $attemptid, 'slot' => $slot, 'fileno' => $fileno));
 $PAGE->set_url('/question/type/essaynew/annotator/annotator.php', array('attempt' => $attemptid, 'slot' => $slot, 'fileno' => $fileno));
@@ -73,7 +72,9 @@ if (!empty($cmid)) {
 }
 
 require_capability('mod/quiz:manage', $PAGE->context);  // added security feature
-
+if(!is_dir($tempPath) && !mkdir($tempPath,0777,true)){
+    throw new moodle_exception("Cannot create directory");
+}
 $attemptobj = quiz_create_attempt_handling_errors($attemptid, $cmid);
 $attemptobj->preload_all_attempt_step_users();
 
