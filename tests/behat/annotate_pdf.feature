@@ -4,9 +4,7 @@ Feature: The essay new question in a quiz can be annotated by teacher after subm
     I need to use the PDF editor to annotate the submitted file for the essay new question 
 
     
-
-@javascript
-Scenario: Student uploads a file and teacher is able to annotate 
+Background:
     Given the following "users" exist:
       | username |
       | teacher  |
@@ -40,6 +38,9 @@ Scenario: Student uploads a file and teacher is able to annotate
       | blockname     | contextlevel | reference | pagetypepattern | defaultregion |
       | private_files | System       | 1         | my-index        | side-post     |
 
+@javascript
+Scenario: Student uploads a pdf file and teacher is able to annotate 
+    
     When I log in as "student"
     And I follow "Manage private files"
     And I upload "question/type/essaynew/tests/fixtures/blank.pdf" file to "Files" filemanager
@@ -86,3 +87,71 @@ Scenario: Student uploads a file and teacher is able to annotate
     And I wait "5" seconds
     And I should see "Corrected Documents"
     
+@javascript
+Scenario: Student uploads a png file and teacher is able to annotate 
+    When I log in as "student"
+    And I follow "Manage private files"
+    And I upload "question/type/essaynew/tests/fixtures/blank.png" file to "Files" filemanager
+    And I press "Save changes"
+    And I am on the "Quiz 1" "quiz activity" page
+    And I press "Attempt quiz"
+    And I should see "First question"
+    And I should see "You can drag and drop files here to add them."
+    And I click on "Add..." "button"
+    And I click on "Private files" "link" in the ".fp-repo-area" "css_element"
+    And I click on "blank.png" "link"
+    And I click on "Select this file" "button"
+    And I press "Finish attempt"
+    And I press "Submit all and finish"
+    And I click on "Submit" "button" in the "Submit all your answers and finish?" "dialogue"
+    And I log out
+
+    And I am on the "Quiz 1" "mod_quiz > View" page logged in as "teacher"
+    And I follow "Attempts: 1"
+    And I follow "Review attempt"
+    And I follow "Make comment or override mark"
+    Then The document should open in a new tab
+    And I press "Annotate"
+    And I wait for the complete PDF to load
+    And I annotate the pdf 
+    And I press "Save"
+    And I should see "file has been saved"
+    And I wait "3" seconds
+    And I go back to previous page
+    And I set the field "Mark" to "10"
+    And I wait "3" seconds
+    And I press "Save" 
+    And I switch to main window 
+    And I wait "5" seconds
+    And I reload the page
+    And I wait "3" seconds
+    And I should see "Corrected Documents"
+    And I wait "3" seconds
+    And I log out 
+
+    And I log in as "student"
+    And I am on the "Quiz 1" "quiz activity" page 
+    And I follow "Review"
+    And I wait "5" seconds
+    And I should see "Corrected Documents"
+
+
+@javascript
+Scenario: Student uploads unsupported mime-type file
+
+    When I log in as "student"
+    And I follow "Manage private files"
+    And I upload "question/type/essaynew/tests/fixtures/blank.zip" file to "Files" filemanager
+    And I press "Save changes"
+    And I am on the "Quiz 1" "quiz activity" page
+    And I press "Attempt quiz"
+    And I should see "First question"
+    And I should see "You can drag and drop files here to add them."
+    And I click on "Add..." "button"
+    And I click on "Private files" "link" in the ".fp-repo-area" "css_element"
+    And I click on "blank.zip" "link"
+    And I click on "Select this file" "button"
+    And I press "Finish attempt"
+    And I press "Submit all and finish"
+    And I click on "Submit" "button" in the "Submit all your answers and finish?" "dialogue"
+    And I log out

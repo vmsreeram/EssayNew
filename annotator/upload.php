@@ -73,6 +73,37 @@ $filearea = 'response_attachments';
 $filepath = '/';
 $itemid = $attemptid;
 
+// creating context
+global $DB;
+
+    // SQL query
+$sql = "SELECT cm.id AS cmid
+        FROM {quiz_attempts} qa
+        JOIN {course_modules} cm ON qa.quiz = cm.instance AND cm.module = (SELECT id FROM {modules} WHERE name = 'quiz')
+        WHERE qa.id = :attemptid";
+
+// Parameters for the query
+$params = ['attemptid' => $attemptid];
+
+// Execute the query
+$result = $DB->get_record_sql($sql, $params);
+// Check if a result is found
+if ($result) {
+    // Access the cmid from the result
+    $cmid = $result->cmid;
+} else {
+    // If no result is found, throw a Moodle exception
+    throw new moodle_exception('No result found for the given attemptid'. $attemptid);
+}
+
+if (!empty($cmid)) {
+    $cm = get_coursemodule_from_id('quiz', $cmid); 
+    $context = context_module::instance($cm->id);
+    $PAGE->set_context($context);
+}
+
+require_capability('mod/quiz:manage', $PAGE->context); 
+
 $fs = get_file_storage();
 // Prepare file record object
 $fileinfo = array(

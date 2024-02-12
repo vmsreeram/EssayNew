@@ -66,7 +66,7 @@ if($cmid == null){
 $PAGE->set_url('/question/type/essaynew/annotator/annotator.php', array('attempt' => $attemptid, 'slot' => $slot, 'fileno' => $fileno));
 
 if (!empty($cmid)) {
-    $cm = get_coursemodule_from_id('quiz', $cmid); // Replace 'quiz' with your actual module type
+    $cm = get_coursemodule_from_id('quiz', $cmid);
     $context = context_module::instance($cm->id);
     $PAGE->set_context($context);
 }
@@ -164,7 +164,8 @@ if($doesExists === true)   // if exists then update $fileurl to the url of this 
 
     // convert that file into PDF, based on mime type (NOTE: this will be created in the cwd)
     
-    $convert = get_config('qtype_essaynew', 'imagemagickpath');
+    // $convert = get_config('qtype_essaynew', 'imagemagickpath');
+    $convert = '/usr/bin/convert';
 
     //$convert = "/opt/homebrew/bin/convert";
     if($mime === "image")
