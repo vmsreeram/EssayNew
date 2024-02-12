@@ -43,9 +43,9 @@ function convert_pdf_version($file, $path)
             $srcfile_new = $path."/newdummy.pdf";
             $srcfile = $file;
             //Using GhostScript convert the pdf version to 1.4
-            $gsPath = get_config('qtype_essaynew', 'ghostscriptpath');
+            // $gsPath = get_config('qtype_essaynew', 'ghostscriptpath');
 
-            //$gsPath = '/opt/homebrew/bin/gs';
+            $gsPath = '/usr/bin/gs';
 $shellOutput = shell_exec($gsPath . ' -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dNOPAUSE -dBATCH -sOutputFile="' . $srcfile_new . '" "' . $srcfile . '"'.'  2>&1');
 
             if(is_null($shellOutput))

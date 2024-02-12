@@ -229,12 +229,41 @@ PDFAnnotate.prototype.deleteSelectedObject = function () {
 
 		//Getting the response once upload.php finishes execution
 		//readyState will become 4 if the execution finishes
-		if (this.status ==200 && this.readyState ==4) {
-			alert("file has been saved");
+		if (this.status == 200 && this.readyState == 4) {
+			showMessage("file has been saved");
+		} else if (this.status != 200 && this.readyState == 4) {
+			showMessage("Not able to save the file");
 		}
-		else if (this.status !=200 && this.readyState ==4) {
-			alert("Not able to save the file");
+		
+		function showMessage(message) {
+			// Create a message box
+			var messageBox = document.createElement("div");
+			messageBox.innerHTML = "<p>" + message + "</p>";
+		
+			// Style the message box
+			messageBox.style.position = "fixed";
+			messageBox.style.top = "50%";
+			messageBox.style.left = "50%";
+			messageBox.style.transform = "translate(-50%, -50%)";
+			messageBox.style.backgroundColor = "#4CAF50";
+			messageBox.style.color = "#fff";
+			messageBox.style.padding = "20px";
+			messageBox.style.borderRadius = "5px";
+			messageBox.style.boxShadow = "0 0 10px rgba(0, 0, 0, 0.3)";
+			messageBox.style.transition = "opacity 0.5s";
+		
+			// Append the message box to the body
+			document.body.appendChild(messageBox);
+		
+			// Automatically remove the message box after 3 seconds
+			setTimeout(function () {
+				messageBox.style.opacity = "0";
+				setTimeout(function () {
+					document.body.removeChild(messageBox);
+				}, 500); // Fade-out transition time
+			}, 3000); // Display time
 		}
+		
 
 	  };
 	  //Sending data to upload.php

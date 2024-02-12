@@ -40,4 +40,23 @@ class behat_qtype_essaynew extends behat_base {
         //You can even switch to that window
         $session->switchToWindow($windowNames[1]);
     }
+
+    /**
+    * @Then /^I switch to main window$/
+    */  
+    public function i_switch_to_main_window()
+    {
+        $session = $this->getSession();
+        $windowNames = $session->getWindowNames();
+        $session->switchToWindow($windowNames[0]);
+    }
+
+    /**
+    * @When /^I go back to previous page$/
+    */  
+    public function i_go_back_to_previous_page()
+    {
+        $session = $this->getSession();
+        $session->back();
+    }
 }

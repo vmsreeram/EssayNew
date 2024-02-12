@@ -58,19 +58,31 @@ Scenario: Student uploads a file and teacher is able to annotate
     And I log out
 
     And I am on the "Quiz 1" "mod_quiz > View" page logged in as "teacher"
-    And I wait "3" seconds
     And I follow "Attempts: 1"
-    And I wait "3" seconds
     And I follow "Review attempt"
-    And I wait "3" seconds
     And I follow "Make comment or override mark"
-    And I wait "3" seconds
     Then The document should open in a new tab
-    And I wait "3" seconds
     And I press "Annotate"
     And I wait for the complete PDF to load
-    And I wait "3" seconds
     And I annotate the pdf 
-    And I wait "3" seconds
     And I press "Save"
+    And I should see "file has been saved"
+    And I wait "3" seconds
+    And I go back to previous page
+    And I set the field "Mark" to "10"
+    And I wait "3" seconds
+    And I press "Save" 
+    And I switch to main window 
     And I wait "5" seconds
+    And I reload the page
+    And I wait "3" seconds
+    And I should see "Corrected Documents"
+    And I wait "3" seconds
+    And I log out 
+
+    And I log in as "student"
+    And I am on the "Quiz 1" "quiz activity" page 
+    And I follow "Review"
+    And I wait "5" seconds
+    And I should see "Corrected Documents"
+    
