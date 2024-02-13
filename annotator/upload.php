@@ -46,6 +46,7 @@ function convert_pdf_version($file, $path)
             // $gsPath = get_config('qtype_essaynew', 'ghostscriptpath');
 
             $gsPath = '/usr/bin/gs';
+            // $gsPath = '/opt/homebrew/bin/gs';
 $shellOutput = shell_exec($gsPath . ' -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dNOPAUSE -dBATCH -sOutputFile="' . $srcfile_new . '" "' . $srcfile . '"'.'  2>&1');
 
             if(is_null($shellOutput))

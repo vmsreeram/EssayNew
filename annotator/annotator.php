@@ -56,7 +56,7 @@ if($cmid == null){
         $cmid = $result->cmid;
     } else {
         // If no result is found, throw a Moodle exception
-        throw new moodle_exception('No result found for the given attemptid'. $attemptid);
+        throw new moodle_exception('Some error occurred.');
     }
 }
 
@@ -70,7 +70,10 @@ if (!empty($cmid)) {
     $context = context_module::instance($cm->id);
     $PAGE->set_context($context);
 }
-// else throw
+else 
+{
+    throw new moodle_exception('Some error occurred.');
+}
 
 require_capability('mod/quiz:manage', $PAGE->context);  // added security feature
 if(!is_dir($tempPath) && !mkdir($tempPath,0777,true)){
@@ -177,7 +180,9 @@ if($doesExists === true)   // if exists then update $fileurl to the url of this 
     else
     {
         $canProceed=false;
-        throw new Exception("Unsupported File Type");
+        echo("Unsupported File Type");
+        return;
+        // throw new Exception("Unsupported File Type");
     }
    
 

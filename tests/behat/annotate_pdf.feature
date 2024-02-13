@@ -155,3 +155,13 @@ Scenario: Student uploads unsupported mime-type file
     And I press "Submit all and finish"
     And I click on "Submit" "button" in the "Submit all your answers and finish?" "dialogue"
     And I log out
+
+    And I am on the "Quiz 1" "mod_quiz > View" page logged in as "teacher"
+    And I follow "Attempts: 1"
+    And I follow "Review attempt"
+    And I follow "Make comment or override mark"
+    Then The document should open in a new tab
+    And I press "Annotate"
+    And I wait "2" seconds
+    And I should see "Unsupported File Type"
+    And I log out
