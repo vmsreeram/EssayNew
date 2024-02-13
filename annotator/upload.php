@@ -47,7 +47,9 @@ function convert_pdf_version($file, $path)
 
             $gsPath = '/usr/bin/gs';
             // $gsPath = '/opt/homebrew/bin/gs';
-$shellOutput = shell_exec($gsPath . ' -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dNOPAUSE -dBATCH -sOutputFile="' . $srcfile_new . '" "' . $srcfile . '"'.'  2>&1');
+            $command = $gsPath . ' -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dNOPAUSE -dBATCH -sOutputFile="' . $srcfile_new . '" "' . $srcfile . '"'.'  2>&1';
+            $safecommand = escapeshellcmd($command);
+            $shellOutput = shell_exec($safecommand);
 
             if(is_null($shellOutput))
             {
@@ -103,7 +105,7 @@ if (!empty($cmid)) {
     $PAGE->set_context($context);
 }
 
-require_capability('mod/quiz:manage', $PAGE->context); 
+require_capability('mod/quiz:grade', $PAGE->context); 
 
 $fs = get_file_storage();
 // Prepare file record object
