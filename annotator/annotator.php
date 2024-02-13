@@ -184,11 +184,13 @@ if($doesExists === true)   // if exists then update $fileurl to the url of this 
     if($canProceed == true)
     {
         //Execute the commands of imagemagick(Convert texts and images to PDF)
+        $safecommand = escapeshellcmd($command);
         $shellOutput = shell_exec($command.'  2>&1');
 
         // now delete that non-pdf file from tempPath; because we don't need it anymore
         
         $command = "rm '" . $fileToConvert . "'";
+        $safecommand = escapeshellcmd($command);
         $shellOutput = shell_exec($command.'  2>&1');
 
         // create a PDF file in moodle database from the above created PDF file
