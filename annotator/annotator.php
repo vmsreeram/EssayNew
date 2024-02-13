@@ -72,7 +72,7 @@ if (!empty($cmid)) {
 }
 // else throw
 
-require_capability('mod/quiz:manage', $PAGE->context);  // added security feature
+require_capability('mod/quiz:grade', $PAGE->context);  // added security feature
 if(!is_dir($tempPath) && !mkdir($tempPath,0777,true)){
     throw new moodle_exception("Cannot create directory");
 }

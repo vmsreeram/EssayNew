@@ -104,7 +104,7 @@ if (!empty($cmid)) {
     $PAGE->set_context($context);
 }
 
-require_capability('mod/quiz:manage', $PAGE->context); 
+require_capability('mod/quiz:grade', $PAGE->context); 
 
 $fs = get_file_storage();
 // Prepare file record object
