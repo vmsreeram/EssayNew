@@ -37,14 +37,16 @@ Background:
     And the following "blocks" exist:
       | blockname     | contextlevel | reference | pagetypepattern | defaultregion |
       | private_files | System       | 1         | my-index        | side-post     |
+    And the following "user private files" exist:
+      | user    | filepath                                        | filename  |
+      | student | question/type/essaynew/tests/fixtures/blank.pdf | blank.pdf |
+      | student | question/type/essaynew/tests/fixtures/blank.png | blank.png |
+      | student | question/type/essaynew/tests/fixtures/blank.zip | blank.zip |
 
 @javascript
 Scenario: Student uploads a pdf file and teacher is able to annotate 
     
     When I log in as "student"
-    And I follow "Manage private files"
-    And I upload "question/type/essaynew/tests/fixtures/blank.pdf" file to "Files" filemanager
-    And I press "Save changes"
     And I am on the "Quiz 1" "quiz activity" page
     And I press "Attempt quiz"
     And I should see "First question"
@@ -90,9 +92,6 @@ Scenario: Student uploads a pdf file and teacher is able to annotate
 @javascript
 Scenario: Student uploads a png file and teacher is able to annotate 
     When I log in as "student"
-    And I follow "Manage private files"
-    And I upload "question/type/essaynew/tests/fixtures/blank.png" file to "Files" filemanager
-    And I press "Save changes"
     And I am on the "Quiz 1" "quiz activity" page
     And I press "Attempt quiz"
     And I should see "First question"
@@ -140,9 +139,6 @@ Scenario: Student uploads a png file and teacher is able to annotate
 Scenario: Student uploads unsupported mime-type file
 
     When I log in as "student"
-    And I follow "Manage private files"
-    And I upload "question/type/essaynew/tests/fixtures/blank.zip" file to "Files" filemanager
-    And I press "Save changes"
     And I am on the "Quiz 1" "quiz activity" page
     And I press "Attempt quiz"
     And I should see "First question"
@@ -164,4 +160,3 @@ Scenario: Student uploads unsupported mime-type file
     And I press "Annotate"
     And I wait "2" seconds
     And I should see "Unsupported File Type"
-    And I log out
