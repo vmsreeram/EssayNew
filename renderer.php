@@ -125,7 +125,7 @@ class qtype_essaynew_renderer extends qtype_renderer {
      */
     public function feedback_files_read_only(question_attempt $qa, question_display_options $options) {
         global $CFG;
-        $qaid = $qa->get_database_id();
+        $qnum = $qa->get_slot();
         $contextID = $options->context->id;
         $component = 'question';
         $filearea = 'response_attachments';
@@ -139,8 +139,7 @@ class qtype_essaynew_renderer extends qtype_renderer {
             $fileurl = "";
             $fs = get_file_storage();
             ////
-            $exploded = explode(".", $filename);
-            $filename = $exploded[0] . "-_-" . $qaid . "." . $exploded[1];
+            $filename = "Q" . $qnum . "_" . $filename;
             ////
             $doesExists = $fs->file_exists($contextID, $component, $filearea, $itemid, $filepath, $filename);
             if($doesExists === true)
@@ -232,7 +231,7 @@ class qtype_essaynew_renderer extends qtype_renderer {
                 $mime = explode(' ',get_mimetype_description($file))[0];
                 $onclick = ' ';
                 $tooltipMessage = '';
-                if ($mime === 'Image' || $mime === 'Text') {
+                if ($mime === 'Image' || $mime === 'Text' || $mime === "PDF") {
                     $onclick = "annotate($attemptid,$slot,$fileNum)";
                 } else {
                     $tooltipMessage = 'Unsupported file type';
