@@ -224,8 +224,16 @@ class qtype_essaynew_renderer extends qtype_renderer {
                 //             <input type="hidden" value="' . $fileNum . '" name="fileno">
                 //             <input type="submit" class="btn btn-primary" value="Annotate" style="margin: 5px; padding: 4px;">                
                 //         </form>';
+                $mime = explode(' ',get_mimetype_description($file))[0];
+                $onclick = ' ';
+                $tooltipMessage = '';
+                if ($mime === 'Image' || $mime === 'Text') {
+                    $onclick = "annotate($attemptid,$slot,$fileNum)";
+                } else {
+                    $tooltipMessage = 'Unsupported file type';
+                }
                 $annotate = get_string('annotate_button_label', 'qtype_essaynew');
-                $out .= '<button type="button" name = "Annotate" class="btn btn-primary annotate-btn" style="margin: 5px; padding: 4px;" onclick="annotate(' . $attemptid . ', ' . $slot . ', ' . $fileNum . ')">' . $annotate . '</button>';
+                $out .= '<button type="button" name = "Annotate" class="btn btn-primary annotate-btn" style="margin: 5px; padding: 4px;" onclick="'. $onclick.'" title="'.$tooltipMessage.'">' . $annotate . '</button>';
             }
             if (!empty($CFG->enableplagiarism)) {
                 require_once($CFG->libdir . '/plagiarismlib.php');
