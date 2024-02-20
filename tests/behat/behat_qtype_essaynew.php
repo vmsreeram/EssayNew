@@ -60,13 +60,5 @@ class behat_qtype_essaynew extends behat_base {
         $session->back();
     }
 
-    /**
-     * @Then I hover over :text
-     */ 
-    public function i_hover_over($text){
-        $session = $this->getSession(); 
-        $xpathSelector = sprintf('//button[contains(text(), "%s")]', $text);
-        $element = $session->getPage()->find('xpath', $xpathSelector);
-        $element->mouseOver();
-    }
+    
 }

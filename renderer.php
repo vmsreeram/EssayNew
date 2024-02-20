@@ -232,12 +232,14 @@ class qtype_essaynew_renderer extends qtype_renderer {
                 $mime = explode(' ',get_mimetype_description($file))[0];
                 $onclick = ' ';
                 $tooltipMessage = '';
+                $annotate = get_string('annotate_button_label', 'qtype_essaynew');
                 if ($mime === 'Image' || $mime === 'Text' || $mime === "PDF") {
                     $onclick = "annotate($attemptid,$slot,$fileNum)";
                 } else {
+                    $annotate = 'Unsupported file type';
                     $tooltipMessage = 'Unsupported file type';
                 }
-                $annotate = get_string('annotate_button_label', 'qtype_essaynew');
+                
                 $out .= '<button type="button" name = "Annotate" class="btn btn-primary annotate-btn" style="margin: 5px; padding: 4px;" onclick="'. $onclick.'" title="'.$tooltipMessage.'">' . $annotate . '</button>';
             }
             if (!empty($CFG->enableplagiarism)) {
