@@ -127,7 +127,8 @@ $canProceed=true;
 $format = explode(".", $filename);
 $format = end($format);     //Changed
 $ispdf = true;
-if($format !== 'pdf')
+$mime = explode(' ',get_mimetype_description($file))[0];
+if($mime !== "PDF")
 {
     $ispdf = false;
     $filename = (explode(".", $filename))[0] . "_topdf.pdf";

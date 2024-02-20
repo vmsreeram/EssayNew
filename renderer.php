@@ -187,7 +187,8 @@ class qtype_essaynew_renderer extends qtype_renderer {
             // check if format is not PDF
             // then change the filename as originalFileName_topdf.pdf
             $temp_name = explode('.', $name);
-            if(end($temp_name) != "pdf")
+            $mime = explode(' ',get_mimetype_description($file))[0];
+            if($mime != "PDF")
             {
                 $name = ($temp_name)[0] . "_topdf.pdf";
             }
