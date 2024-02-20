@@ -174,10 +174,11 @@ if($doesExists === true)   // if exists then update $fileurl to the url of this 
     
     // $convert = get_config('qtype_essaynew', 'imagemagickpath');
     $convert = '/usr/bin/convert';
-
-    //$convert = "/opt/homebrew/bin/convert";
+    // $imagick = new Imagick();
+    // $convert = "/opt/homebrew/bin/convert";
     if($mime === "image")
         $command = $convert." '" . $fileToConvert ."'  -page a4 " .$dummyFile;
+        // $imagick->readImage($fileToConvert);
     else if($mime=="text")
     {
         $command = $convert." TEXT:'" . $fileToConvert ."' " .$dummyFile;
@@ -196,6 +197,15 @@ if($doesExists === true)   // if exists then update $fileurl to the url of this 
         //Execute the commands of imagemagick(Convert texts and images to PDF)
         $safecommand = escapeshellcmd($command);
         $shellOutput = shell_exec($safecommand.'  2>&1');
+
+        // $imagick->setSize(2480, 3508); // A4 size in points (72 points per inch)
+
+        // // Save the resulting PDF file
+        // $imagick->writeImages($dummyFile, true);
+
+        // // Free up resources
+        // $imagick->clear();
+        // $imagick->destroy();
 
         // now delete that non-pdf file from tempPath; because we don't need it anymore
         

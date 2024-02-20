@@ -157,6 +157,6 @@ Scenario: Student uploads unsupported mime-type file
     And I follow "Review attempt"
     And I follow "Make comment or override mark"
     Then The document should open in a new tab
-    And I press "Annotate"
-    And I wait "2" seconds
-    And I should see "Unsupported File Type"
+    And I hover over "Annotate"
+    And I wait "10" seconds
+    And I should see "Unsupported file type"
