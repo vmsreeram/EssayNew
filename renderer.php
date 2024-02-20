@@ -125,6 +125,7 @@ class qtype_essaynew_renderer extends qtype_renderer {
      */
     public function feedback_files_read_only(question_attempt $qa, question_display_options $options) {
         global $CFG;
+        $qaid = $qa->get_database_id();
         $contextID = $options->context->id;
         $component = 'question';
         $filearea = 'response_attachments';
@@ -137,6 +138,10 @@ class qtype_essaynew_renderer extends qtype_renderer {
         {
             $fileurl = "";
             $fs = get_file_storage();
+            ////
+            $exploded = explode(".", $filename);
+            $filename = $exploded[0] . "-_-" . $qaid . "." . $exploded[1];
+            ////
             $doesExists = $fs->file_exists($contextID, $component, $filearea, $itemid, $filepath, $filename);
             if($doesExists === true)
             {

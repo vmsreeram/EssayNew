@@ -86,6 +86,7 @@ $que_for_commenting = $attemptobj->render_question_for_commenting($slot);
 
 // we need $qa and $options to get all files submitted by student
 $qa = $attemptobj->get_question_attempt($slot);
+$qaid = $qa->get_database_id();
 $options = $attemptobj->get_display_options(true);
 
 // get all the files
@@ -113,6 +114,10 @@ $contextid = $options->context->id;
 $filename = explode("/", $fileurl);
 $filename = end($filename);     //Changed
 $filename = urldecode($filename);
+////
+$exploded = explode(".", $filename);
+$filename = $exploded[0] . "-_-" . $qaid . "." . $exploded[1];
+////
 $component = 'question';
 $filearea = 'response_attachments';
 $filepath = '/';
