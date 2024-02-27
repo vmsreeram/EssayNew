@@ -121,6 +121,7 @@ $component = 'question';
 $filearea = 'response_attachments';
 $filepath = '/';
 $itemid = $attemptobj->get_attemptid();
+$usageid = $qa->get_usage_id();
 
 $canProceed=true;
 // checking if file is not pdf
@@ -223,6 +224,9 @@ if($doesExists === true)   // if exists then update $fileurl to the url of this 
             'contextid' => $contextid,
             'component' => $component,
             'filearea' => $filearea,
+            // add usage and slot param
+            'usage' => $usageid,
+            'slot' => $slot,
             'itemid' => $itemid,
             'filepath' => $filepath,
             'filename' => $filename);
@@ -276,5 +280,7 @@ if($canProceed == true)
     var filearea = "<?= $filearea ?>"; 
     var filepath = "<?= $filepath ?>"; 
     var component = "<?= $component ?>"; 
+    var usageid = "<?= $usageid ?>"; 
+    var slot = "<?= $slot ?>"; 
 </script>
 <script type="text/javascript" src="./clickhandlers.js"></script>

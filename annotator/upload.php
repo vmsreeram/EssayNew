@@ -71,6 +71,8 @@ $value = required_param('id', PARAM_RAW);
 $contextid = required_param('contextid', PARAM_INT);
 $attemptid = required_param('attemptid', PARAM_INT);
 $filename = required_param('filename', PARAM_FILE);
+$usageid = required_param('usageid', PARAM_INT);
+$slot = required_param('slot', PARAM_INT);
 $component = 'question';
 $filearea = 'response_attachments';
 $filepath = '/';
@@ -113,6 +115,9 @@ $fileinfo = array(
     'contextid' => $contextid,
     'component' => $component,
     'filearea' => $filearea,
+    // add usage and slot param
+    'usage' => $usageid,
+    'slot' => $slot,
     'itemid' => $itemid,
     'filepath' => $filepath,
     'filename' => $filename);
@@ -168,6 +173,9 @@ if(file_exists($tempfile))
             'contextid' => $contextid,
             'component' => $component,
             'filearea' => $filearea,
+            // add usage and slot param
+            'usage' => $usageid,
+            'slot' => $slot,
             'itemid' => $itemid,
             'filepath' => $filepath,
             'filename' => $filename);
