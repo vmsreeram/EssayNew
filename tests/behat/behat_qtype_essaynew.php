@@ -10,7 +10,7 @@ class behat_qtype_essaynew extends behat_base {
     public function i_annotate_the_pdf(){
 
         $js = "
-        var pathString = 'M 100 100 L 200 200 L 300 450 L 450 450';
+        var pathString = 'M 100 100 Q 125 125 150 150 Q 175 175 200 200 L 200 200';
 
         var path = new fabric.Path(pathString, {
             fill: '', 

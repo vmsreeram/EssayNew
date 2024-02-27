@@ -128,7 +128,7 @@ $format = explode(".", $filename);
 $format = end($format);     //Changed
 $ispdf = true;
 $mime = explode(' ',get_mimetype_description($file))[0];
-if($mime !== "PDF")
+if($mime !== "PDF" && $format !== "pdf")
 {
     $ispdf = false;
     $filename = (explode(".", $filename))[0] . "_topdf.pdf";
@@ -164,6 +164,8 @@ if($doesExists === true)   // if exists then update $fileurl to the url of this 
     //Changes made by Asha & Parvathy begins
     // copy non-pdf file to the temp directory of moodledata
     $fileToConvert=$tempPath . "/" . $originalFile->get_filename();
+    // escapeshellcmd here
+    $fileToConvert = escapeshellcmd($fileToConvert);
     $originalFile->copy_content_to($fileToConvert);
     
     // get the mime-type of the original file
@@ -196,6 +198,7 @@ if($doesExists === true)   // if exists then update $fileurl to the url of this 
     {
         //Execute the commands of imagemagick(Convert texts and images to PDF)
         $safecommand = escapeshellcmd($command);
+        // $safecommand = $command;
         $shellOutput = shell_exec($safecommand.'  2>&1');
 
         // $imagick->setSize(2480, 3508); // A4 size in points (72 points per inch)
@@ -211,6 +214,7 @@ if($doesExists === true)   // if exists then update $fileurl to the url of this 
         
         $command = "rm '" . $fileToConvert . "'";
         $safecommand = escapeshellcmd($command);
+        // $safecommand = $command;
         $shellOutput = shell_exec($safecommand.'  2>&1');
 
         // create a PDF file in moodle database from the above created PDF file
