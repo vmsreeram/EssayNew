@@ -157,4 +157,4 @@ Scenario: Student uploads unsupported mime-type file
     And I follow "Review attempt"
     And I follow "Make comment or override mark"
     Then The document should open in a new tab
-    And I should see "Unsupported file type"
+    And I should see "Unsupported file"

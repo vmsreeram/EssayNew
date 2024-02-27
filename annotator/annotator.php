@@ -114,9 +114,9 @@ $contextid = $options->context->id;
 $filename = explode("/", $fileurl);
 $filename = end($filename);     //Changed
 $filename = urldecode($filename);
-////
-$filename = "Q" . $qnum . "_" . $filename;
-////
+// ////
+// $filename = "Q" . $qnum . "_" . $filename;
+// ////
 $component = 'question';
 $filearea = 'response_attachments';
 $filepath = '/';
@@ -189,7 +189,7 @@ if($doesExists === true)   // if exists then update $fileurl to the url of this 
     else
     {
         $canProceed=false;
-        echo("Unsupported File Type");
+        echo("Unsupported File");
         return;
         // throw new Exception("Unsupported File Type");
     }

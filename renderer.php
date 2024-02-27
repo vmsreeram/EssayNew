@@ -138,9 +138,9 @@ class qtype_essaynew_renderer extends qtype_renderer {
         {
             $fileurl = "";
             $fs = get_file_storage();
-            ////
-            $filename = "Q" . $qnum . "_" . $filename;
-            ////
+            // ////
+            // $filename = "Q" . $qnum . "_" . $filename;
+            // ////
             $doesExists = $fs->file_exists($contextID, $component, $filearea, $itemid, $filepath, $filename);
             if($doesExists === true)
             {
@@ -236,8 +236,8 @@ class qtype_essaynew_renderer extends qtype_renderer {
                 if ($mime === 'Image' || $mime === 'Text' || $mime === "PDF") {
                     $onclick = "annotate($attemptid,$slot,$fileNum)";
                 } else {
-                    $annotate = 'Unsupported file type';
-                    $tooltipMessage = 'Unsupported file type';
+                    $annotate = 'Unsupported file';
+                    $tooltipMessage = 'Unsupported file';
                 }
                 
                 $out .= '<button type="button" name = "Annotate" class="btn btn-primary annotate-btn" style="margin: 5px; padding: 4px;" onclick="'. $onclick.'" title="'.$tooltipMessage.'">' . $annotate . '</button>';
