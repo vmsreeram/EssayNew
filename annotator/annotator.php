@@ -175,8 +175,8 @@ if($doesExists === true)   // if exists then update $fileurl to the url of this 
 
     // convert that file into PDF, based on mime type (NOTE: this will be created in the cwd)
     
-    // $convert = get_config('qtype_essaynew', 'imagemagickpath');
-    $convert = '/usr/bin/convert';
+    $convert = get_config('qtype_essaynew', 'imagemagickpath');
+    // $convert = '/usr/bin/convert';
     // $imagick = new Imagick();
     // $convert = "/opt/homebrew/bin/convert";
     if($mime === "image")
