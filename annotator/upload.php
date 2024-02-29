@@ -126,7 +126,7 @@ $fileinfo = array(
 $json = json_decode($value,true);
 
 //Referencing the file from the temp directory 
-$path = $CFG->tempdir . '/essayannotatePDF';
+$path = $CFG->tempdir . '/essayPDF';
 $file = $path . '/dummy.pdf'; 
 $tempfile = $path . '/outputmoodle.pdf';
 

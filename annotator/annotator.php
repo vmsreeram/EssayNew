@@ -28,8 +28,8 @@ require_once('../../../../config.php');
 require_once('../../../../mod/quiz/locallib.php');
 require_login();        // added just now
 
-//The $tempPath is the path to the subdirectory essayannotatePDF created in moodle's temp directory 
-$tempPath = $CFG->tempdir ."/essayannotatePDF";
+//The $tempPath is the path to the subdirectory essayPDF created in moodle's temp directory 
+$tempPath = $CFG->tempdir ."/essayPDF";
 $dummyFile= $tempPath ."/dummy.pdf";
 
 $attemptid = required_param('attempt', PARAM_INT);
