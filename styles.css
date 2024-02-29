@@ -1,29 +1,29 @@
-.que.essay textarea.qtype_essaynew_response {
+.que.essayannotate textarea.qtype_essayannotate_response {
     width: 100%;
 }
 
-.que.essay textarea.qtype_essaynew_response.qtype_essaynew_plain {
+.que.essayannotate textarea.qtype_essayannotate_response.qtype_essayannotate_plain {
     white-space: pre-wrap;
     font: inherit;
 }
 
-.que.essay textarea.qtype_essaynew_response.qtype_essaynew_monospaced {
+.que.essayannotate textarea.qtype_essayannotate_response.qtype_essayannotate_monospaced {
     white-space: pre;
     font-family: Andale Mono, Monaco, Courier New, DejaVu Sans Mono, monospace;
 }
 
-.que.essay .qtype_essaynew_response {
+.que.essayannotate .qtype_essayannotate_response {
     min-height: 3em;
 }
 
-.que.essay .qtype_essaynew_response.readonly {
+.que.essayannotate .qtype_essayannotate_response.readonly {
     background-color: white;
 }
 
-.que.essay div.qtype_essaynew_response textarea {
+.que.essayannotate div.qtype_essayannotate_response textarea {
     width: 100%;
 }
 
-.que.essay .ablock .filemanager .fp-restrictions {
+.que.essayannotate .ablock .filemanager .fp-restrictions {
     margin-top: 1em;
 }

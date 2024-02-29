@@ -15,10 +15,10 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Essay question definition class.
+ * essayannotate question definition class.
  *
  * @package    qtype
- * @subpackage essay
+ * @subpackage essayannotate
  * @copyright  2009 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -29,12 +29,12 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->dirroot . '/question/type/questionbase.php');
 
 /**
- * Represents an essay question.
+ * Represents an essayannotate question.
  *
  * @copyright  2009 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class qtype_essaynew_question extends question_with_responses {
+class qtype_essayannotate_question extends question_with_responses {
 
     public $responseformat;
 
@@ -71,10 +71,10 @@ class qtype_essaynew_question extends question_with_responses {
 
     /**
      * @param moodle_page the page we are outputting to.
-     * @return qtype_essaynew_format_renderer_base the response-format-specific renderer.
+     * @return qtype_essayannotate_format_renderer_base the response-format-specific renderer.
      */
     public function get_format_renderer(moodle_page $page) {
-        return $page->get_renderer('qtype_essaynew', 'format_' . $this->responseformat);
+        return $page->get_renderer('qtype_essayannotate', 'format_' . $this->responseformat);
     }
 
     public function get_expected_data() {
@@ -104,7 +104,7 @@ class qtype_essaynew_question extends question_with_responses {
                 $attachedfiles[] = $file->get_filename() . ' (' . display_size($file->get_filesize()) . ')';
             }
             if ($attachedfiles) {
-                $output .= get_string('attachedfiles', 'qtype_essaynew', implode(', ', $attachedfiles));
+                $output .= get_string('attachedfiles', 'qtype_essayannotate', implode(', ', $attachedfiles));
             }
         }
         return $output;
@@ -220,7 +220,7 @@ class qtype_essaynew_question extends question_with_responses {
             // Response attachments visible if the question has them.
             return $this->responseformat === 'editorfilepicker';
 
-        } else if ($component == 'qtype_essaynew' && $filearea == 'graderinfo') {
+        } else if ($component == 'qtype_essayannotate' && $filearea == 'graderinfo') {
             return $options->manualcomment && $args[0] == $this->id;
 
         } else {
@@ -277,10 +277,10 @@ class qtype_essaynew_question extends question_with_responses {
         // Count the number of words in the response string.
         $count = count_words($responsestring);
         if ($this->maxwordlimit && $count > $this->maxwordlimit) {
-            return get_string('maxwordlimitboundary', 'qtype_essaynew',
+            return get_string('maxwordlimitboundary', 'qtype_essayannotate',
                     ['limit' => $this->maxwordlimit, 'count' => $count]);
         } else if ($count < $this->minwordlimit) {
-            return get_string('minwordlimitboundary', 'qtype_essaynew',
+            return get_string('minwordlimitboundary', 'qtype_essayannotate',
                     ['limit' => $this->minwordlimit, 'count' => $count]);
         } else {
             return null;
@@ -308,13 +308,13 @@ class qtype_essaynew_question extends question_with_responses {
 
         $count = count_words($response['answer']);
         if ($this->maxwordlimit && $count > $this->maxwordlimit) {
-            return get_string('wordcounttoomuch', 'qtype_essaynew',
+            return get_string('wordcounttoomuch', 'qtype_essayannotate',
                     ['limit' => $this->maxwordlimit, 'count' => $count]);
         } else if ($count < $this->minwordlimit) {
-            return get_string('wordcounttoofew', 'qtype_essaynew',
+            return get_string('wordcounttoofew', 'qtype_essayannotate',
                     ['limit' => $this->minwordlimit, 'count' => $count]);
         } else {
-            return get_string('wordcount', 'qtype_essaynew', $count);
+            return get_string('wordcount', 'qtype_essayannotate', $count);
         }
     }
 }

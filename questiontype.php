@@ -15,10 +15,10 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Question type class for the essay question type.
+ * Question type class for the essayannotate question type.
  *
  * @package    qtype
- * @subpackage essay
+ * @subpackage essayannotate
  * @copyright  2005 Mark Nielsen
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -30,12 +30,12 @@ require_once($CFG->libdir . '/questionlib.php');
 
 
 /**
- * The essay question type.
+ * The essayannotate question type.
  *
  * @copyright  2005 Mark Nielsen
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class qtype_essaynew extends question_type {
+class qtype_essayannotate extends question_type {
     public function is_manual_graded() {
         return true;
     }
@@ -46,7 +46,7 @@ class qtype_essaynew extends question_type {
 
     public function get_question_options($question) {
         global $DB;
-        $question->options = $DB->get_record('qtype_essaynew_options',
+        $question->options = $DB->get_record('qtype_essayannotate_options',
                 array('questionid' => $question->id), '*', MUST_EXIST);
         parent::get_question_options($question);
     }
@@ -65,11 +65,11 @@ class qtype_essaynew extends question_type {
         global $DB;
         $context = $formdata->context;
 
-        $options = $DB->get_record('qtype_essaynew_options', array('questionid' => $formdata->id));
+        $options = $DB->get_record('qtype_essayannotate_options', array('questionid' => $formdata->id));
         if (!$options) {
             $options = new stdClass();
             $options->questionid = $formdata->id;
-            $options->id = $DB->insert_record('qtype_essaynew_options', $options);
+            $options->id = $DB->insert_record('qtype_essayannotate_options', $options);
         }
 
         $options->responseformat = $formdata->responseformat;
@@ -91,11 +91,11 @@ class qtype_essaynew extends question_type {
         }
         $options->maxbytes = $formdata->maxbytes ?? 0;
         $options->graderinfo = $this->import_or_save_files($formdata->graderinfo,
-                $context, 'qtype_essaynew', 'graderinfo', $formdata->id);
+                $context, 'qtype_essayannotate', 'graderinfo', $formdata->id);
         $options->graderinfoformat = $formdata->graderinfo['format'];
         $options->responsetemplate = $formdata->responsetemplate['text'];
         $options->responsetemplateformat = $formdata->responsetemplate['format'];
-        $DB->update_record('qtype_essaynew_options', $options);
+        $DB->update_record('qtype_essayannotate_options', $options);
     }
 
     protected function initialise_question_instance(question_definition $question, $questiondata) {
@@ -119,7 +119,7 @@ class qtype_essaynew extends question_type {
     public function delete_question($questionid, $contextid) {
         global $DB;
 
-        $DB->delete_records('qtype_essaynew_options', array('questionid' => $questionid));
+        $DB->delete_records('qtype_essayannotate_options', array('questionid' => $questionid));
         parent::delete_question($questionid, $contextid);
     }
 
@@ -129,11 +129,11 @@ class qtype_essaynew extends question_type {
      */
     public function response_formats() {
         return array(
-            'editor' => get_string('formateditor', 'qtype_essaynew'),
-            'editorfilepicker' => get_string('formateditorfilepicker', 'qtype_essaynew'),
-            'plain' => get_string('formatplain', 'qtype_essaynew'),
-            'monospaced' => get_string('formatmonospaced', 'qtype_essaynew'),
-            'noinline' => get_string('formatnoinline', 'qtype_essaynew'),
+            'editor' => get_string('formateditor', 'qtype_essayannotate'),
+            'editorfilepicker' => get_string('formateditorfilepicker', 'qtype_essayannotate'),
+            'plain' => get_string('formatplain', 'qtype_essayannotate'),
+            'monospaced' => get_string('formatmonospaced', 'qtype_essayannotate'),
+            'noinline' => get_string('formatnoinline', 'qtype_essayannotate'),
         );
     }
 
@@ -142,8 +142,8 @@ class qtype_essaynew extends question_type {
      */
     public function response_required_options() {
         return array(
-            1 => get_string('responseisrequired', 'qtype_essaynew'),
-            0 => get_string('responsenotrequired', 'qtype_essaynew'),
+            1 => get_string('responseisrequired', 'qtype_essayannotate'),
+            0 => get_string('responsenotrequired', 'qtype_essayannotate'),
         );
     }
 
@@ -152,11 +152,11 @@ class qtype_essaynew extends question_type {
      */
     public function response_sizes() {
         $choices = [
-            2 => get_string('nlines', 'qtype_essaynew', 2),
-            3 => get_string('nlines', 'qtype_essaynew', 3),
+            2 => get_string('nlines', 'qtype_essayannotate', 2),
+            3 => get_string('nlines', 'qtype_essayannotate', 3),
         ];
         for ($lines = 5; $lines <= 40; $lines += 5) {
-            $choices[$lines] = get_string('nlines', 'qtype_essaynew', $lines);
+            $choices[$lines] = get_string('nlines', 'qtype_essayannotate', $lines);
         }
         return $choices;
     }
@@ -179,7 +179,7 @@ class qtype_essaynew extends question_type {
      */
     public function attachments_required_options() {
         return array(
-            0 => get_string('attachmentsoptional', 'qtype_essaynew'),
+            0 => get_string('attachmentsoptional', 'qtype_essayannotate'),
             1 => '1',
             2 => '2',
             3 => '3'
@@ -199,12 +199,12 @@ class qtype_essaynew extends question_type {
         parent::move_files($questionid, $oldcontextid, $newcontextid);
         $fs = get_file_storage();
         $fs->move_area_files_to_new_context($oldcontextid,
-                $newcontextid, 'qtype_essaynew', 'graderinfo', $questionid);
+                $newcontextid, 'qtype_essayannotate', 'graderinfo', $questionid);
     }
 
     protected function delete_files($questionid, $contextid) {
         parent::delete_files($questionid, $contextid);
         $fs = get_file_storage();
-        $fs->delete_area_files($contextid, 'qtype_essaynew', 'graderinfo', $questionid);
+        $fs->delete_area_files($contextid, 'qtype_essayannotate', 'graderinfo', $questionid);
     }
 }

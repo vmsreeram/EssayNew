@@ -26,12 +26,12 @@ defined('MOODLE_INTERNAL') || die();
 
 
 /**
- * Provides the information to backup essay questions
+ * Provides the information to backup essayannotate questions
  *
  * @copyright  2010 onwards Eloy Lafuente (stronk7) {@link http://stronk7.com}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class backup_qtype_essaynew_plugin extends backup_qtype_plugin {
+class backup_qtype_essayannotate_plugin extends backup_qtype_plugin {
 
     /**
      * Returns the qtype information to attach to question element
@@ -39,7 +39,7 @@ class backup_qtype_essaynew_plugin extends backup_qtype_plugin {
     protected function define_question_plugin_structure() {
 
         // Define the virtual plugin element with the condition to fulfill.
-        $plugin = $this->get_plugin_element(null, '../../qtype', 'essay');
+        $plugin = $this->get_plugin_element(null, '../../qtype', 'essayannotate');
 
         // Create one standard named plugin element (the visible container).
         $pluginwrapper = new backup_nested_element($this->get_recommended_name());
@@ -48,16 +48,16 @@ class backup_qtype_essaynew_plugin extends backup_qtype_plugin {
         $plugin->add_child($pluginwrapper);
 
         // Now create the qtype own structures.
-        $essay = new backup_nested_element('essay', array('id'), array(
+        $essayannotate = new backup_nested_element('essayannotate', array('id'), array(
                 'responseformat', 'responserequired', 'responsefieldlines', 'minwordlimit', 'maxwordlimit',
                 'attachments', 'attachmentsrequired', 'graderinfo', 'graderinfoformat', 'responsetemplate',
                 'responsetemplateformat', 'filetypeslist', 'maxbytes'));
 
         // Now the own qtype tree.
-        $pluginwrapper->add_child($essay);
+        $pluginwrapper->add_child($essayannotate);
 
         // Set source to populate the data.
-        $essay->set_source_table('qtype_essaynew_options',
+        $essayannotate->set_source_table('qtype_essayannotate_options',
                 array('questionid' => backup::VAR_PARENTID));
 
         // Don't need to annotate ids nor files.

@@ -18,7 +18,7 @@
  * Serve question type files
  *
  * @since      Moodle 2.0
- * @package    qtype_essaynew
+ * @package    qtype_essayannotate
  * @copyright  Dongsheng Cai <dongsheng@moodle.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -28,9 +28,9 @@ defined('MOODLE_INTERNAL') || die();
 
 
 /**
- * Checks file access for essay questions.
+ * Checks file access for essayannotate questions.
  *
- * @package  qtype_essaynew
+ * @package  qtype_essayannotate
  * @category files
  * @param stdClass $course course object
  * @param stdClass $cm course module object
@@ -41,8 +41,8 @@ defined('MOODLE_INTERNAL') || die();
  * @param array $options additional options affecting the file serving
  * @return bool
  */
-function qtype_essaynew_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, array $options=array()) {
+function qtype_essayannotate_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, array $options=array()) {
     global $CFG;
     require_once($CFG->libdir . '/questionlib.php');
-    question_pluginfile($course, $context, 'qtype_essaynew', $filearea, $args, $forcedownload, $options);
+    question_pluginfile($course, $context, 'qtype_essayannotate', $filearea, $args, $forcedownload, $options);
 }

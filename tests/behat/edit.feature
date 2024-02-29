@@ -1,7 +1,7 @@
-@qtype @qtype_essay
-Feature: Test editing an Essay question
+@qtype @qtype_essayannotate
+Feature: Test editing an essayannotate question
   As a teacher
-  In order to be able to update my Essay question
+  In order to be able to update my essayannotate question
   I need to edit them
 
   Background:
@@ -19,23 +19,23 @@ Feature: Test editing an Essay question
       | Course       | C1        | Test questions |
     And the following "questions" exist:
       | questioncategory | qtype | name      | template         |
-      | Test questions   | essay | essay-001 | editor           |
-      | Test questions   | essay | essay-002 | editorfilepicker |
-      | Test questions   | essay | essay-003 | plain            |
+      | Test questions   | essayannotate | essayannotate-001 | editor           |
+      | Test questions   | essayannotate | essayannotate-002 | editorfilepicker |
+      | Test questions   | essayannotate | essayannotate-003 | plain            |
 
-  Scenario: Edit an Essay question
+  Scenario: Edit an essayannotate question
     When I am on the "Course 1" "core_question > course question bank" page logged in as teacher
-    And I choose "Edit question" action for "essay-001" in the question bank
+    And I choose "Edit question" action for "essayannotate-001" in the question bank
     And I set the following fields to these values:
       | Question name | |
     And I press "id_submitbutton"
     And I should see "You must supply a value here."
     And I set the following fields to these values:
-      | Question name   | Edited essay-001 name |
+      | Question name   | Edited essayannotate-001 name |
       | Response format | No online text        |
     And I press "id_submitbutton"
     And I should see "When \"No online text\" is selected, or responses are optional, you must allow at least one attachment."
     And I set the following fields to these values:
       | Response format | Plain text |
     And I press "id_submitbutton"
-    Then I should see "Edited essay-001 name"
+    Then I should see "Edited essayannotate-001 name"

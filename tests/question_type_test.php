@@ -14,20 +14,20 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace qtype_essay;
+namespace qtype_essayannotate;
 
-use qtype_essay;
+use qtype_essayannotate;
 
 defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
-require_once($CFG->dirroot . '/question/type/essay/questiontype.php');
+require_once($CFG->dirroot . '/question/type/essayannotate/questiontype.php');
 
 
 /**
- * Unit tests for the essay question type class.
+ * Unit tests for the essayannotate question type class.
  *
- * @package    qtype_essay
+ * @package    qtype_essayannotate
  * @copyright  2010 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -35,7 +35,7 @@ class question_type_test extends \advanced_testcase {
     protected $qtype;
 
     protected function setUp(): void {
-        $this->qtype = new qtype_essay();
+        $this->qtype = new qtype_essayannotate();
     }
 
     protected function tearDown(): void {
@@ -50,7 +50,7 @@ class question_type_test extends \advanced_testcase {
     }
 
     public function test_name() {
-        $this->assertEquals($this->qtype->name(), 'essay');
+        $this->assertEquals($this->qtype->name(), 'essayannotate');
     }
 
     public function test_can_analyse_responses() {

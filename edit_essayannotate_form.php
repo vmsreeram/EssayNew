@@ -15,10 +15,10 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Defines the editing form for the essay question type.
+ * Defines the editing form for the essayannotate question type.
  *
  * @package    qtype
- * @subpackage essay
+ * @subpackage essayannotate
  * @copyright  2007 Jamie Pratt me@jamiep.org
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -28,30 +28,30 @@ defined('MOODLE_INTERNAL') || die();
 
 
 /**
- * Essay question type editing form.
+ * essayannotate question type editing form.
  *
  * @copyright  2007 Jamie Pratt me@jamiep.org
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class qtype_essaynew_edit_form extends question_edit_form {
+class qtype_essayannotate_edit_form extends question_edit_form {
 
     protected function definition_inner($mform) {
-        $qtype = question_bank::get_qtype('essay');
+        $qtype = question_bank::get_qtype('essayannotate');
 
-        $mform->addElement('header', 'responseoptions', get_string('responseoptions', 'qtype_essaynew'));
+        $mform->addElement('header', 'responseoptions', get_string('responseoptions', 'qtype_essayannotate'));
         $mform->setExpanded('responseoptions');
 
         $mform->addElement('select', 'responseformat',
-                get_string('responseformat', 'qtype_essaynew'), $qtype->response_formats());
+                get_string('responseformat', 'qtype_essayannotate'), $qtype->response_formats());
         $mform->setDefault('responseformat', $this->get_default_value('responseformat', 'editor'));
 
         $mform->addElement('select', 'responserequired',
-                get_string('responserequired', 'qtype_essaynew'), $qtype->response_required_options());
+                get_string('responserequired', 'qtype_essayannotate'), $qtype->response_required_options());
         $mform->setDefault('responserequired', $this->get_default_value('responserequired', 1));
         $mform->hideIf('responserequired', 'responseformat', 'eq', 'noinline');
 
         $mform->addElement('select', 'responsefieldlines',
-                get_string('responsefieldlines', 'qtype_essaynew'), $qtype->response_sizes());
+                get_string('responsefieldlines', 'qtype_essayannotate'), $qtype->response_sizes());
         $mform->setDefault('responsefieldlines', $this->get_default_value('responsefieldlines', 10));
         $mform->hideIf('responsefieldlines', 'responseformat', 'eq', 'noinline');
 
@@ -61,8 +61,8 @@ class qtype_essaynew_edit_form extends question_edit_form {
         $mform->setType('minwordlimit', PARAM_INT);
         $mingrp[] = $mform->createElement('checkbox', 'minwordenabled', '', get_string('enable'));
         $mform->setDefault('minwordenabled', 0);
-        $mform->addGroup($mingrp, 'mingroup', get_string('minwordlimit', 'qtype_essaynew'), ' ', false);
-        $mform->addHelpButton('mingroup', 'minwordlimit', 'qtype_essaynew');
+        $mform->addGroup($mingrp, 'mingroup', get_string('minwordlimit', 'qtype_essayannotate'), ' ', false);
+        $mform->addHelpButton('mingroup', 'minwordlimit', 'qtype_essayannotate');
         $mform->disabledIf('minwordlimit', 'minwordenabled', 'notchecked');
         $mform->hideIf('mingroup', 'responserequired', 'eq', '0');
         $mform->hideIf('mingroup', 'responseformat', 'eq', 'noinline');
@@ -71,38 +71,38 @@ class qtype_essaynew_edit_form extends question_edit_form {
         $mform->setType('maxwordlimit', PARAM_INT);
         $maxgrp[] = $mform->createElement('checkbox', 'maxwordenabled', '', get_string('enable'));
         $mform->setDefault('maxwordenabled', 0);
-        $mform->addGroup($maxgrp, 'maxgroup', get_string('maxwordlimit', 'qtype_essaynew'), ' ', false);
-        $mform->addHelpButton('maxgroup', 'maxwordlimit', 'qtype_essaynew');
+        $mform->addGroup($maxgrp, 'maxgroup', get_string('maxwordlimit', 'qtype_essayannotate'), ' ', false);
+        $mform->addHelpButton('maxgroup', 'maxwordlimit', 'qtype_essayannotate');
         $mform->disabledIf('maxwordlimit', 'maxwordenabled', 'notchecked');
         $mform->hideIf('maxgroup', 'responserequired', 'eq', '0');
         $mform->hideIf('maxgroup', 'responseformat', 'eq', 'noinline');
 
         $mform->addElement('select', 'attachments',
-                get_string('allowattachments', 'qtype_essaynew'), $qtype->attachment_options());
+                get_string('allowattachments', 'qtype_essayannotate'), $qtype->attachment_options());
         $mform->setDefault('attachments', $this->get_default_value('attachments', 0));
 
         $mform->addElement('select', 'attachmentsrequired',
-                get_string('attachmentsrequired', 'qtype_essaynew'), $qtype->attachments_required_options());
+                get_string('attachmentsrequired', 'qtype_essayannotate'), $qtype->attachments_required_options());
         $mform->setDefault('attachmentsrequired', $this->get_default_value('attachmentsrequired', 0));
-        $mform->addHelpButton('attachmentsrequired', 'attachmentsrequired', 'qtype_essaynew');
+        $mform->addHelpButton('attachmentsrequired', 'attachmentsrequired', 'qtype_essayannotate');
         $mform->hideIf('attachmentsrequired', 'attachments', 'eq', 0);
 
-        $mform->addElement('filetypes', 'filetypeslist', get_string('acceptedfiletypes', 'qtype_essaynew'));
-        $mform->addHelpButton('filetypeslist', 'acceptedfiletypes', 'qtype_essaynew');
+        $mform->addElement('filetypes', 'filetypeslist', get_string('acceptedfiletypes', 'qtype_essayannotate'));
+        $mform->addHelpButton('filetypeslist', 'acceptedfiletypes', 'qtype_essayannotate');
         $mform->hideIf('filetypeslist', 'attachments', 'eq', 0);
 
-        $mform->addElement('select', 'maxbytes', get_string('maxbytes', 'qtype_essaynew'), $qtype->max_file_size_options());
+        $mform->addElement('select', 'maxbytes', get_string('maxbytes', 'qtype_essayannotate'), $qtype->max_file_size_options());
         $mform->setDefault('maxbytes', $this->get_default_value('maxbytes', 0));
         $mform->hideIf('maxbytes', 'attachments', 'eq', 0);
 
-        $mform->addElement('header', 'responsetemplateheader', get_string('responsetemplateheader', 'qtype_essaynew'));
-        $mform->addElement('editor', 'responsetemplate', get_string('responsetemplate', 'qtype_essaynew'),
+        $mform->addElement('header', 'responsetemplateheader', get_string('responsetemplateheader', 'qtype_essayannotate'));
+        $mform->addElement('editor', 'responsetemplate', get_string('responsetemplate', 'qtype_essayannotate'),
                 array('rows' => 10),  array_merge($this->editoroptions, array('maxfiles' => 0)));
-        $mform->addHelpButton('responsetemplate', 'responsetemplate', 'qtype_essaynew');
+        $mform->addHelpButton('responsetemplate', 'responsetemplate', 'qtype_essayannotate');
 
-        $mform->addElement('header', 'graderinfoheader', get_string('graderinfoheader', 'qtype_essaynew'));
+        $mform->addElement('header', 'graderinfoheader', get_string('graderinfoheader', 'qtype_essayannotate'));
         $mform->setExpanded('graderinfoheader');
-        $mform->addElement('editor', 'graderinfo', get_string('graderinfo', 'qtype_essaynew'),
+        $mform->addElement('editor', 'graderinfo', get_string('graderinfo', 'qtype_essayannotate'),
                 array('rows' => 10), $this->editoroptions);
     }
 
@@ -130,7 +130,7 @@ class qtype_essaynew_edit_form extends question_edit_form {
         $question->graderinfo['text'] = file_prepare_draft_area(
             $draftid,           // Draftid
             $this->context->id, // context
-            'qtype_essaynew',      // component
+            'qtype_essayannotate',      // component
             'graderinfo',       // filarea
             !empty($question->id) ? (int) $question->id : null, // itemid
             $this->fileoptions, // options
@@ -153,19 +153,19 @@ class qtype_essaynew_edit_form extends question_edit_form {
         // Don't allow both 'no inline response' and 'no attachments' to be selected,
         // as these options would result in there being no input requested from the user.
         if ($fromform['responseformat'] == 'noinline' && !$fromform['attachments']) {
-            $errors['attachments'] = get_string('mustattach', 'qtype_essaynew');
+            $errors['attachments'] = get_string('mustattach', 'qtype_essayannotate');
         }
 
         // If 'no inline response' is set, force the teacher to require attachments;
         // otherwise there will be nothing to grade.
         if ($fromform['responseformat'] == 'noinline' && !$fromform['attachmentsrequired']) {
-            $errors['attachmentsrequired'] = get_string('mustrequire', 'qtype_essaynew');
+            $errors['attachmentsrequired'] = get_string('mustrequire', 'qtype_essayannotate');
         }
 
         // Don't allow the teacher to require more attachments than they allow; as this would
         // create a condition that it's impossible for the student to meet.
         if ($fromform['attachments'] > 0 && $fromform['attachments'] < $fromform['attachmentsrequired'] ) {
-            $errors['attachmentsrequired']  = get_string('mustrequirefewer', 'qtype_essaynew');
+            $errors['attachmentsrequired']  = get_string('mustrequirefewer', 'qtype_essayannotate');
         }
 
         if ($fromform['responserequired']) {
@@ -174,10 +174,10 @@ class qtype_essaynew_edit_form extends question_edit_form {
                     $errors['mingroup'] = get_string('err_numeric', 'form');
                 }
                 if ($fromform['minwordlimit'] < 0) {
-                    $errors['mingroup'] = get_string('err_minwordlimitnegative', 'qtype_essaynew');
+                    $errors['mingroup'] = get_string('err_minwordlimitnegative', 'qtype_essayannotate');
                 }
                 if (!$fromform['minwordlimit']) {
-                    $errors['mingroup'] = get_string('err_minwordlimit', 'qtype_essaynew');
+                    $errors['mingroup'] = get_string('err_minwordlimit', 'qtype_essayannotate');
                 }
             }
             if (isset($fromform['maxwordenabled'])) {
@@ -185,16 +185,16 @@ class qtype_essaynew_edit_form extends question_edit_form {
                     $errors['maxgroup'] = get_string('err_numeric', 'form');
                 }
                 if ($fromform['maxwordlimit'] < 0) {
-                    $errors['maxgroup'] = get_string('err_maxwordlimitnegative', 'qtype_essaynew');
+                    $errors['maxgroup'] = get_string('err_maxwordlimitnegative', 'qtype_essayannotate');
                 }
                 if (!$fromform['maxwordlimit']) {
-                    $errors['maxgroup'] = get_string('err_maxwordlimit', 'qtype_essaynew');
+                    $errors['maxgroup'] = get_string('err_maxwordlimit', 'qtype_essayannotate');
                 }
             }
             if (isset($fromform['maxwordenabled']) && isset($fromform['minwordenabled'])) {
                 if ($fromform['maxwordlimit'] < $fromform['minwordlimit'] &&
                     $fromform['maxwordlimit'] > 0 && $fromform['minwordlimit'] > 0) {
-                    $errors['maxgroup'] = get_string('err_maxminmismatch', 'qtype_essaynew');
+                    $errors['maxgroup'] = get_string('err_maxminmismatch', 'qtype_essayannotate');
                 }
             }
         }
@@ -202,6 +202,6 @@ class qtype_essaynew_edit_form extends question_edit_form {
     }
 
     public function qtype() {
-        return 'essay';
+        return 'essayannotate';
     }
 }

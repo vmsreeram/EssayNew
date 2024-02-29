@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace qtype_essay;
+namespace qtype_essayannotate;
 
 use question_bank;
 use question_engine;
@@ -26,9 +26,9 @@ global $CFG;
 require_once($CFG->dirroot . '/question/engine/tests/helpers.php');
 
 /**
- * Unit tests for the essay question type.
+ * Unit tests for the essayannotate question type.
  *
- * @package   qtype_essay
+ * @package   qtype_essayannotate
  * @copyright 2013 The Open University
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -77,8 +77,8 @@ class walkthrough_test extends \qbehaviour_walkthrough_test_base {
         // Required to init a text editor.
         $PAGE->set_url('/');
 
-        // Create an essay question.
-        $q = \test_question_maker::make_question('essay', 'editor');
+        // Create an essayannotate question.
+        $q = \test_question_maker::make_question('essayannotate', 'editor');
         $this->start_attempt_at_question($q, 'deferredfeedback', 1);
 
         $prefix = $this->quba->get_field_prefix($this->slot);
@@ -129,8 +129,8 @@ class walkthrough_test extends \qbehaviour_walkthrough_test_base {
 
     public function test_deferred_feedback_plain_text() {
 
-        // Create an essay question.
-        $q = \test_question_maker::make_question('essay', 'plain');
+        // Create an essayannotate question.
+        $q = \test_question_maker::make_question('essayannotate', 'plain');
         $this->start_attempt_at_question($q, 'deferredfeedback', 1);
 
         $prefix = $this->quba->get_field_prefix($this->slot);
@@ -187,8 +187,8 @@ class walkthrough_test extends \qbehaviour_walkthrough_test_base {
         // Required to init a text editor.
         $PAGE->set_url('/');
 
-        // Create an essay question.
-        $q = \test_question_maker::make_question('essay', 'responsetemplate');
+        // Create an essayannotate question.
+        $q = \test_question_maker::make_question('essayannotate', 'responsetemplate');
         $this->start_attempt_at_question($q, 'deferredfeedback', 1);
 
         $prefix = $this->quba->get_field_prefix($this->slot);
@@ -247,10 +247,10 @@ class walkthrough_test extends \qbehaviour_walkthrough_test_base {
         $usercontextid = \context_user::instance($USER->id)->id;
         $fs = get_file_storage();
 
-        // Create an essay question in the DB.
+        // Create an essayannotate question in the DB.
         $generator = $this->getDataGenerator()->get_plugin_generator('core_question');
         $cat = $generator->create_question_category();
-        $question = $generator->create_question('essay', 'editorfilepicker', array('category' => $cat->id));
+        $question = $generator->create_question('essayannotate', 'editorfilepicker', array('category' => $cat->id));
 
         // Start attempt at the question.
         $q = question_bank::load_question($question->id);
@@ -371,10 +371,10 @@ class walkthrough_test extends \qbehaviour_walkthrough_test_base {
         $usercontextid = \context_user::instance($USER->id)->id;
         $fs = get_file_storage();
 
-        // Create an essay question in the DB.
+        // Create an essayannotate question in the DB.
         $generator = $this->getDataGenerator()->get_plugin_generator('core_question');
         $cat = $generator->create_question_category();
-        $question = $generator->create_question('essay', 'editorfilepicker', array('category' => $cat->id));
+        $question = $generator->create_question('essayannotate', 'editorfilepicker', array('category' => $cat->id));
 
         // Start attempt at the question.
         $q = question_bank::load_question($question->id);
@@ -443,10 +443,10 @@ class walkthrough_test extends \qbehaviour_walkthrough_test_base {
         $this->setAdminUser();
         $usercontextid = \context_user::instance($USER->id)->id;
 
-        // Create an essay question in the DB.
+        // Create an essayannotate question in the DB.
         $generator = $this->getDataGenerator()->get_plugin_generator('core_question');
         $cat = $generator->create_question_category();
-        $question = $generator->create_question('essay', 'plain', array('category' => $cat->id));
+        $question = $generator->create_question('essayannotate', 'plain', array('category' => $cat->id));
 
         // Start attempt at the question.
         $q = question_bank::load_question($question->id);
@@ -511,10 +511,10 @@ class walkthrough_test extends \qbehaviour_walkthrough_test_base {
         $usercontextid = \context_user::instance($USER->id)->id;
         $fs = get_file_storage();
 
-        // Create an essay question in the DB.
+        // Create an essayannotate question in the DB.
         $generator = $this->getDataGenerator()->get_plugin_generator('core_question');
         $cat = $generator->create_question_category();
-        $question = $generator->create_question('essay', 'editorfilepicker', array('category' => $cat->id));
+        $question = $generator->create_question('essayannotate', 'editorfilepicker', array('category' => $cat->id));
 
         // Start attempt at the question.
         $q = question_bank::load_question($question->id);
@@ -570,10 +570,10 @@ class walkthrough_test extends \qbehaviour_walkthrough_test_base {
         $usercontextid = \context_user::instance($USER->id)->id;
         $fs = get_file_storage();
 
-        // Create an essay question in the DB.
+        // Create an essayannotate question in the DB.
         $generator = $this->getDataGenerator()->get_plugin_generator('core_question');
         $cat = $generator->create_question_category();
-        $question = $generator->create_question('essay', 'editorfilepicker', array('category' => $cat->id));
+        $question = $generator->create_question('essayannotate', 'editorfilepicker', array('category' => $cat->id));
 
         // Start attempt at the question.
         $q = question_bank::load_question($question->id);
@@ -627,9 +627,9 @@ class walkthrough_test extends \qbehaviour_walkthrough_test_base {
         // Required to init a text editor.
         $PAGE->set_url('/');
 
-        // Create an essay question.
-        /** @var qtype_essay_question $q */
-        $q = \test_question_maker::make_question('essay', 'editor');
+        // Create an essayannotate question.
+        /** @var qtype_essayannotate_question $q */
+        $q = \test_question_maker::make_question('essayannotate', 'editor');
         $q->minwordlimit = 3;
         $q->maxwordlimit = 7;
         $this->start_attempt_at_question($q, 'deferredfeedback', 1);

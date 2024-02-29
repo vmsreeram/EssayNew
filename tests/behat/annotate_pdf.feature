@@ -1,7 +1,7 @@
-@qtype @qtype_essay@_file_upload
-Feature: The essay new question in a quiz can be annotated by teacher after submission of quiz by student 
+@qtype @qtype_essayannotate@_file_upload
+Feature: The essayannotate new question in a quiz can be annotated by teacher after submission of quiz by student 
     As a teacher 
-    I need to use the PDF editor to annotate the submitted file for the essay new question 
+    I need to use the PDF editor to annotate the submitted file for the essayannotate new question 
 
     
 Background:
@@ -25,7 +25,7 @@ Background:
 
     And the following "questions" exist:
       | questioncategory | qtype       | name  | questiontext    | defaultmark | template |
-      | Test questions   | essaynew       | TF1   | First question  | 20          | editorfilepicker |
+      | Test questions   | essayannotate       | TF1   | First question  | 20          | editorfilepicker |
 
     And the following "activities" exist:
       | activity   | name   | intro              | course | idnumber | grade |
@@ -39,9 +39,9 @@ Background:
       | private_files | System       | 1         | my-index        | side-post     |
     And the following "user private files" exist:
       | user    | filepath                                        | filename  |
-      | student | question/type/essaynew/tests/fixtures/blank.pdf | blank.pdf |
-      | student | question/type/essaynew/tests/fixtures/blank.png | blank.png |
-      | student | question/type/essaynew/tests/fixtures/blank.zip | blank.zip |
+      | student | question/type/essayannotate/tests/fixtures/blank.pdf | blank.pdf |
+      | student | question/type/essayannotate/tests/fixtures/blank.png | blank.png |
+      | student | question/type/essayannotate/tests/fixtures/blank.zip | blank.zip |
 
 @javascript
 Scenario: Student uploads a pdf file and teacher is able to annotate 

@@ -15,10 +15,10 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Upgrade library code for the essay question type.
+ * Upgrade library code for the essayannotate question type.
  *
  * @package    qtype
- * @subpackage essay
+ * @subpackage essayannotate
  * @copyright  2010 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -28,7 +28,7 @@ defined('MOODLE_INTERNAL') || die();
 
 
 /**
- * Class for converting attempt data for essay questions when upgrading
+ * Class for converting attempt data for essayannotate questions when upgrading
  * attempts to the new question engine.
  *
  * This class is used by the code in question/engine/upgrade/upgradelib.php.
@@ -36,7 +36,7 @@ defined('MOODLE_INTERNAL') || die();
  * @copyright  2010 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class qtype_essaynew_qe2_attempt_updater extends question_qtype_attempt_updater {
+class qtype_essayannotate_qe2_attempt_updater extends question_qtype_attempt_updater {
     public function right_answer() {
         return '';
     }

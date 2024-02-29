@@ -2,7 +2,7 @@
 require_once(__DIR__ . '/../../../../../lib/behat/behat_base.php');
 
 
-class behat_qtype_essaynew extends behat_base {
+class behat_qtype_essayannotate extends behat_base {
 
     /**
      * @When I annotate the pdf

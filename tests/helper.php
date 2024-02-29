@@ -15,9 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Test helpers for the essay question type.
+ * Test helpers for the essayannotate question type.
  *
- * @package    qtype_essay
+ * @package    qtype_essayannotate
  * @copyright  2013 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -27,25 +27,25 @@ defined('MOODLE_INTERNAL') || die();
 
 
 /**
- * Test helper class for the essay question type.
+ * Test helper class for the essayannotate question type.
  *
  * @copyright  2013 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class qtype_essaynew_test_helper extends question_test_helper {
+class qtype_essayannotate_test_helper extends question_test_helper {
     public function get_test_questions() {
         return array('editor', 'editorfilepicker', 'plain', 'monospaced', 'responsetemplate', 'noinline');
     }
 
     /**
      * Helper method to reduce duplication.
-     * @return qtype_essaynew_question
+     * @return qtype_essayannotate_question
      */
-    protected function initialise_essaynew_question() {
-        question_bank::load_question_definition_classes('essaynew');
-        $q = new qtype_essaynew_question();
+    protected function initialise_essayannotate_question() {
+        question_bank::load_question_definition_classes('essayannotate');
+        $q = new qtype_essayannotate_question();
         test_question_maker::initialise_a_question($q);
-        $q->name = 'Essay new question (HTML editor)';
+        $q->name = 'essayannotate new question (HTML editor)';
         $q->questiontext = 'Please write a story about a frog.';
         $q->generalfeedback = 'I hope your story had a beginning, a middle and an end.';
         $q->responseformat = 'editor';
@@ -59,30 +59,30 @@ class qtype_essaynew_test_helper extends question_test_helper {
         $q->filetypeslist = null;
         $q->graderinfo = '';
         $q->graderinfoformat = FORMAT_HTML;
-        $q->qtype = question_bank::get_qtype('essaynew');
+        $q->qtype = question_bank::get_qtype('essayannotate');
 
         return $q;
     }
 
     /**
-     * Makes an essay question using the HTML editor as input.
-     * @return qtype_essaynew_question
+     * Makes an essayannotate question using the HTML editor as input.
+     * @return qtype_essayannotate_question
      */
-    public function make_essaynew_question_editor() {
-        return $this->initialise_essaynew_question();
+    public function make_essayannotate_question_editor() {
+        return $this->initialise_essayannotate_question();
     }
 
     /**
-     * Make the data what would be received from the editing form for an essay
+     * Make the data what would be received from the editing form for an essayannotate
      * question using the HTML editor allowing embedded files as input, and up
      * to three attachments.
      *
      * @return stdClass the data that would be returned by $form->get_gata();
      */
-    public function get_essaynew_question_form_data_editor() {
+    public function get_essayannotate_question_form_data_editor() {
         $fromform = new stdClass();
 
-        $fromform->name = 'Essay new question (HTML editor)';
+        $fromform->name = 'essayannotate new question (HTML editor)';
         $fromform->questiontext = array('text' => 'Please write a story about a frog.', 'format' => FORMAT_HTML);
         $fromform->defaultmark = 1.0;
         $fromform->generalfeedback = array('text' => 'I hope your story had a beginning, a middle and an end.', 'format' => FORMAT_HTML);
@@ -101,24 +101,24 @@ class qtype_essaynew_test_helper extends question_test_helper {
     }
 
     /**
-     * Makes an essay question using the HTML editor allowing embedded files as
+     * Makes an essayannotate question using the HTML editor allowing embedded files as
      * input, and up to three attachments.
-     * @return qtype_essaynew_question
+     * @return qtype_essayannotate_question
      */
-    public function make_essaynew_question_editorfilepicker() {
-        $q = $this->initialise_essaynew_question();
+    public function make_essayannotate_question_editorfilepicker() {
+        $q = $this->initialise_essayannotate_question();
         $q->responseformat = 'editorfilepicker';
         $q->attachments = 3;
         return $q;
     }
 
     /**
-     * Makes an essay question using the HTML editor allowing embedded files as
+     * Makes an essayannotate question using the HTML editor allowing embedded files as
      * input, and up to two attachments, two needed.
-     * @return qtype_essaynew_question
+     * @return qtype_essayannotate_question
      */
-    public function make_essaynew_question_editorfilepickertworequired() {
-        $q = $this->initialise_essaynew_question();
+    public function make_essayannotate_question_editorfilepickertworequired() {
+        $q = $this->initialise_essayannotate_question();
         $q->responseformat = 'editorfilepicker';
         $q->attachments = 2;
         $q->attachmentsrequired = 2;
@@ -126,16 +126,16 @@ class qtype_essaynew_test_helper extends question_test_helper {
     }
 
     /**
-     * Make the data what would be received from the editing form for an essay
+     * Make the data what would be received from the editing form for an essayannotate
      * question using the HTML editor allowing embedded files as input, and up
      * to three attachments.
      *
      * @return stdClass the data that would be returned by $form->get_gata();
      */
-    public function get_essaynew_question_form_data_editorfilepicker() {
+    public function get_essayannotate_question_form_data_editorfilepicker() {
         $fromform = new stdClass();
 
-        $fromform->name = 'Essay new question with filepicker and attachments';
+        $fromform->name = 'essayannotate new question with filepicker and attachments';
         $fromform->questiontext = array('text' => 'Please write a story about a frog.', 'format' => FORMAT_HTML);
         $fromform->defaultmark = 1.0;
         $fromform->generalfeedback = array('text' => 'I hope your story had a beginning, a middle and an end.', 'format' => FORMAT_HTML);
@@ -154,26 +154,26 @@ class qtype_essaynew_test_helper extends question_test_helper {
     }
 
     /**
-     * Makes an essay question using plain text input.
-     * @return qtype_essaynew_question
+     * Makes an essayannotate question using plain text input.
+     * @return qtype_essayannotate_question
      */
-    public function make_essaynew_question_plain() {
-        $q = $this->initialise_essaynew_question();
+    public function make_essayannotate_question_plain() {
+        $q = $this->initialise_essayannotate_question();
         $q->responseformat = 'plain';
         return $q;
     }
 
     /**
-     * Make the data what would be received from the editing form for an essay
+     * Make the data what would be received from the editing form for an essayannotate
      * question using the HTML editor allowing embedded files as input, and up
      * to three attachments.
      *
      * @return stdClass the data that would be returned by $form->get_gata();
      */
-    public function get_essaynew_question_form_data_plain() {
+    public function get_essayannotate_question_form_data_plain() {
         $fromform = new stdClass();
 
-        $fromform->name = 'Essay new question with filepicker and attachments';
+        $fromform->name = 'essayannotate new question with filepicker and attachments';
         $fromform->questiontext = array('text' => 'Please write a story about a frog.', 'format' => FORMAT_HTML);
         $fromform->defaultmark = 1.0;
         $fromform->generalfeedback = array('text' => 'I hope your story had a beginning, a middle and an end.', 'format' => FORMAT_HTML);
@@ -192,28 +192,28 @@ class qtype_essaynew_test_helper extends question_test_helper {
     }
 
     /**
-     * Makes an essay question using monospaced input.
-     * @return qtype_essaynew_question
+     * Makes an essayannotate question using monospaced input.
+     * @return qtype_essayannotate_question
      */
-    public function make_essaynew_question_monospaced() {
-        $q = $this->initialise_essaynew_question();
+    public function make_essayannotate_question_monospaced() {
+        $q = $this->initialise_essayannotate_question();
         $q->responseformat = 'monospaced';
         return $q;
     }
 
-    public function make_essaynew_question_responsetemplate() {
-        $q = $this->initialise_essaynew_question();
+    public function make_essayannotate_question_responsetemplate() {
+        $q = $this->initialise_essayannotate_question();
         $q->responsetemplate = 'Once upon a time';
         $q->responsetemplateformat = FORMAT_HTML;
         return $q;
     }
 
     /**
-     * Makes an essay question without an online text editor.
-     * @return qtype_essaynew_question
+     * Makes an essayannotate question without an online text editor.
+     * @return qtype_essayannotate_question
      */
-    public function make_essaynew_question_noinline() {
-        $q = $this->initialise_essaynew_question();
+    public function make_essayannotate_question_noinline() {
+        $q = $this->initialise_essayannotate_question();
         $q->responseformat = 'noinline';
         $q->attachments = 3;
         $q->attachmentsrequired = 1;

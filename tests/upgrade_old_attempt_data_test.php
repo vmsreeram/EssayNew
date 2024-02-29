@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace qtype_essay;
+namespace qtype_essayannotate;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -23,15 +23,15 @@ require_once($CFG->dirroot . '/question/engine/upgrade/tests/helper.php');
 
 
 /**
- * Testing the upgrade of essay question attempts.
+ * Testing the upgrade of essayannotate question attempts.
  *
- * @package    qtype_essay
+ * @package    qtype_essayannotate
  * @copyright  2009 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class upgrade_old_attempt_data_test extends \question_attempt_upgrader_test_base {
 
-    public function test_essay_deferredfeedback_history98220() {
+    public function test_essayannotate_deferredfeedback_history98220() {
         $quiz = (object) array(
             'id' => '4140',
             'course' => '5012',
@@ -91,7 +91,7 @@ class upgrade_old_attempt_data_test extends \question_attempt_upgrader_test_base
             'questiontextformat' => '1',
             'defaultmark' => '2',
             'penalty' => '0',
-            'qtype' => 'essay',
+            'qtype' => 'essayannotate',
             'length' => '1',
             'stamp' => 'learn.open.ac.uk+100205101651+5eB30s',
             'version' => 'learn.open.ac.uk+100209161823+oZCX9n',
@@ -264,7 +264,7 @@ class upgrade_old_attempt_data_test extends \question_attempt_upgrader_test_base
         $this->compare_qas($expectedqa, $qa);
     }
 
-    public function test_essay_deferredfeedback_history820() {
+    public function test_essayannotate_deferredfeedback_history820() {
         $quiz = (object) array(
             'id' => '142',
             'course' => '187',
@@ -319,7 +319,7 @@ class upgrade_old_attempt_data_test extends \question_attempt_upgrader_test_base
             'questiontextformat' => '1',
             'defaultmark' => '0',
             'penalty' => '0',
-            'qtype' => 'essay',
+            'qtype' => 'essayannotate',
             'length' => '1',
             'stamp' => 'learn.open.ac.uk+070312094434+k2HaUF',
             'version' => 'learn.open.ac.uk+070501173219+spx2IM',
@@ -443,7 +443,7 @@ class upgrade_old_attempt_data_test extends \question_attempt_upgrader_test_base
         $this->compare_qas($expectedqa, $qa);
     }
 
-    public function test_essay_deferredfeedback_missing() {
+    public function test_essayannotate_deferredfeedback_missing() {
         $quiz = (object) array(
             'id' => '142',
             'course' => '187',
@@ -498,7 +498,7 @@ class upgrade_old_attempt_data_test extends \question_attempt_upgrader_test_base
             'questiontextformat' => '1',
             'defaultmark' => '0',
             'penalty' => '0',
-            'qtype' => 'essay',
+            'qtype' => 'essayannotate',
             'length' => '1',
             'stamp' => 'learn.open.ac.uk+070312094434+k2HaUF',
             'version' => 'learn.open.ac.uk+070501173219+spx2IM',

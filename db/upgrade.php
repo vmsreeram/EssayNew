@@ -15,10 +15,10 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Essay question type upgrade code.
+ * essayannotate question type upgrade code.
  *
  * @package    qtype
- * @subpackage essay
+ * @subpackage essayannotate
  * @copyright  2011 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -26,10 +26,10 @@
 defined('MOODLE_INTERNAL') || die();
 
 /**
- * Upgrade code for the essay question type.
+ * Upgrade code for the essayannotate question type.
  * @param int $oldversion the version we are upgrading from.
  */
-function xmldb_qtype_essaynew_upgrade($oldversion) {
+function xmldb_qtype_essayannotate_upgrade($oldversion) {
     global $CFG, $DB;
 
     $dbman = $DB->get_manager();
@@ -39,8 +39,8 @@ function xmldb_qtype_essaynew_upgrade($oldversion) {
 
     if ($oldversion < 2021052501) {
 
-        // Define field maxbytes to be added to qtype_essaynew_options.
-        $table = new xmldb_table('qtype_essaynew_options');
+        // Define field maxbytes to be added to qtype_essayannotate_options.
+        $table = new xmldb_table('qtype_essayannotate_options');
         $field = new xmldb_field('maxbytes', XMLDB_TYPE_INTEGER, '10', null,
             XMLDB_NOTNULL, null, '0', 'responsetemplateformat');
 
@@ -49,14 +49,14 @@ function xmldb_qtype_essaynew_upgrade($oldversion) {
             $dbman->add_field($table, $field);
         }
 
-        // Essay savepoint reached.
-        upgrade_plugin_savepoint(true, 2021052501, 'qtype', 'essay');
+        // essayannotate savepoint reached.
+        upgrade_plugin_savepoint(true, 2021052501, 'qtype', 'essayannotate');
     }
 
     if ($oldversion < 2021052502) {
 
-        // Define field minwordlimit to be added to qtype_essaynew_options.
-        $table = new xmldb_table('qtype_essaynew_options');
+        // Define field minwordlimit to be added to qtype_essayannotate_options.
+        $table = new xmldb_table('qtype_essayannotate_options');
         $field = new xmldb_field('minwordlimit', XMLDB_TYPE_INTEGER, '10', null, null, null, null, 'responsefieldlines');
 
         // Conditionally launch add field minwordlimit.
@@ -64,8 +64,8 @@ function xmldb_qtype_essaynew_upgrade($oldversion) {
             $dbman->add_field($table, $field);
         }
 
-        // Define field maxwordlimit to be added to qtype_essaynew_options.
-        $table = new xmldb_table('qtype_essaynew_options');
+        // Define field maxwordlimit to be added to qtype_essayannotate_options.
+        $table = new xmldb_table('qtype_essayannotate_options');
         $field = new xmldb_field('maxwordlimit', XMLDB_TYPE_INTEGER, '10', null, null, null, null, 'minwordlimit');
 
         // Conditionally launch add field maxwordlimit.
@@ -73,8 +73,8 @@ function xmldb_qtype_essaynew_upgrade($oldversion) {
             $dbman->add_field($table, $field);
         }
 
-        // Essay savepoint reached.
-        upgrade_plugin_savepoint(true, 2021052502, 'qtype', 'essay');
+        // essayannotate savepoint reached.
+        upgrade_plugin_savepoint(true, 2021052502, 'qtype', 'essayannotate');
     }
 
     // Automatically generated Moodle v4.0.0 release upgrade line.

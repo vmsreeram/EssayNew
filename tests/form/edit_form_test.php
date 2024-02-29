@@ -14,19 +14,19 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace qtype_essay\form;
+namespace qtype_essayannotate\form;
 
 defined('MOODLE_INTERNAL') || die();
 global $CFG;
 
 require_once($CFG->dirroot . '/question/engine/tests/helpers.php');
 require_once($CFG->dirroot . '/question/type/edit_question_form.php');
-require_once($CFG->dirroot . '/question/type/essay/edit_essay_form.php');
+require_once($CFG->dirroot . '/question/type/essayannotate/edit_essayannotate_form.php');
 
 /**
- * Unit tests for the essay edit form.
+ * Unit tests for the essayannotate edit form.
  *
- * @package   qtype_essay
+ * @package   qtype_essayannotate
  * @copyright  2021 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -48,7 +48,7 @@ class edit_form_test extends \advanced_testcase {
         $syscontext = \context_system::instance();
         $category = question_make_default_categories(array($syscontext));
         $fakequestion = new \stdClass();
-        $fakequestion->qtype = 'essay';
+        $fakequestion->qtype = 'essayannotate';
         $fakequestion->contextid = $syscontext->id;
         $fakequestion->createdby = $USER->id;
         $fakequestion->category = $category->id;
@@ -79,7 +79,7 @@ class edit_form_test extends \advanced_testcase {
      * @param array $expected
      */
     public function test_attachments_validation(int $allowed, int $required, array $expected): void {
-        list($form, $category) = $this->get_form('qtype_essay_edit_form');
+        list($form, $category) = $this->get_form('qtype_essayannotate_edit_form');
         $submitteddata = [
             'category' => $category->id,
             'questiontext' => [
@@ -104,7 +104,7 @@ class edit_form_test extends \advanced_testcase {
      */
     public function user_preference_provider(): array {
         $valid = [];
-        $invalid = ['attachmentsrequired' => get_string('mustrequirefewer', 'qtype_essay')];
+        $invalid = ['attachmentsrequired' => get_string('mustrequirefewer', 'qtype_essayannotate')];
         return [
             'Attachments allowed=0, required=0, valid' => [0, 0, $valid],
             'Attachments allowed=0, required=1, invalid, so required is set to 0 when saving' => [0, 1, $valid],

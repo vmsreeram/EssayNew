@@ -9,12 +9,12 @@
   </question>
 
 <!-- question: 114000  -->
-  <question type="essay">
+  <question type="essayannotate">
     <name>
-      <text>essay-001</text>
+      <text>essayannotate-001</text>
     </name>
     <questiontext format="html">
-      <text>Write an essay with 500 words.</text>
+      <text>Write an essayannotate with 500 words.</text>
     </questiontext>
     <generalfeedback format="html">
       <text>This is general feedback</text>

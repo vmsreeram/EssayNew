@@ -15,10 +15,10 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Strings for component 'qtype_essaynew', language 'en', branch 'MOODLE_20_STABLE'
+ * Strings for component 'qtype_essayannotate', language 'en', branch 'MOODLE_20_STABLE'
  *
  * @package    qtype
- * @subpackage essay
+ * @subpackage essayannotate
  * @copyright  1999 onwards Martin Dougiamas  {@link http://moodle.com}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -57,13 +57,13 @@ $string['mustrequire'] = 'When "No online text" is selected, or responses are op
 $string['mustrequirefewer'] = 'You cannot require more attachments than you allow.';
 $string['nlines'] = '{$a} lines';
 $string['nonexistentfiletypes'] = 'The following file types were not recognised: {$a}';
-$string['pluginname'] = 'Essay new';
+$string['pluginname'] = 'essayannotate';
 $string['pluginname_help'] = 'In response to a question, the respondent may upload one or more files and/or enter text online. A response template may be provided. Responses must be graded manually.';
-$string['pluginname_link'] = 'question/type/essay';
-$string['pluginnameadding'] = 'Adding an Essay new question';
-$string['pluginnameediting'] = 'Editing an Essay new question';
+$string['pluginname_link'] = 'question/type/essayannotate';
+$string['pluginnameadding'] = 'Adding an essayannotate new question';
+$string['pluginnameediting'] = 'Editing an essayannotate new question';
 $string['pluginnamesummary'] = 'Allows a response of a file upload and/or online text. This must then be graded manually.';
-$string['privacy:metadata'] = 'Essay question type plugin allows question authors to set default options as user preferences.';
+$string['privacy:metadata'] = 'essayannotate question type plugin allows question authors to set default options as user preferences.';
 $string['privacy:preference:defaultmark'] = 'The default mark set for a given question.';
 $string['privacy:preference:responseformat'] = 'What is the response format (HTML editor, plain text, etc.)?';
 $string['privacy:preference:responserequired'] = 'Whether the student is required to enter text or the text input is optional.';

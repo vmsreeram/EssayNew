@@ -7,7 +7,7 @@ function annotate(attemptid, slot, fileno) {
     // Create a new form element dynamically
     var form = document.createElement("form");
     form.method = "post";
-    form.action = "../../question/type/essaynew/annotator/annotator.php";
+    form.action = "../../question/type/essayannotate/annotator/annotator.php";
 
     // Append form data as hidden input fields
     for (var pair of formData.entries()) {

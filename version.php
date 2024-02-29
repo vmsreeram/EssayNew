@@ -15,17 +15,17 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Version information for the essay question type.
+ * Version information for the essayannotate question type.
  *
  * @package    qtype
- * @subpackage essaynew
+ * @subpackage essayannotate
  * @copyright  2005 Mark Nielsen
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->component = 'qtype_essaynew';
+$plugin->component = 'qtype_essayannotate';
 $plugin->version   = 2022112800;
 
 $plugin->requires  = 2022111800;

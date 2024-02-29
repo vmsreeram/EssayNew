@@ -1,7 +1,7 @@
-@qtype @qtype_essay
-Feature: Test exporting Essay questions
+@qtype @qtype_essayannotate
+Feature: Test exporting essayannotate questions
   As a teacher
-  In order to be able to reuse my Essay questions
+  In order to be able to reuse my essayannotate questions
   I need to export them
 
   Background:
@@ -19,11 +19,11 @@ Feature: Test exporting Essay questions
       | Course       | C1        | Test questions |
     And the following "questions" exist:
       | questioncategory | qtype | name      | template         |
-      | Test questions   | essay | essay-001 | editor           |
-      | Test questions   | essay | essay-002 | editorfilepicker |
-      | Test questions   | essay | essay-003 | plain            |
+      | Test questions   | essayannotate | essayannotate-001 | editor           |
+      | Test questions   | essayannotate | essayannotate-002 | editorfilepicker |
+      | Test questions   | essayannotate | essayannotate-003 | plain            |
 
-  Scenario: Export 3 Essay questions
+  Scenario: Export 3 essayannotate questions
     When I am on the "Course 1" "core_question > course question export" page logged in as teacher
     And I set the field "id_format_xml" to "1"
     And I press "Export questions to file"

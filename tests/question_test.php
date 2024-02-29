@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace qtype_essay;
+namespace qtype_essayannotate;
 
 use question_attempt_step;
 use question_display_options;
@@ -28,15 +28,15 @@ require_once($CFG->dirroot . '/question/engine/tests/helpers.php');
 /**
  * Unit tests for the matching question definition class.
  *
- * @package qtype_essay
+ * @package qtype_essayannotate
  * @copyright  2009 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class question_test extends \advanced_testcase {
     public function test_get_question_summary() {
-        $essay = \test_question_maker::make_an_essay_question();
-        $essay->questiontext = 'Hello <img src="http://example.com/globe.png" alt="world" />';
-        $this->assertEquals('Hello [world]', $essay->get_question_summary());
+        $essayannotate = \test_question_maker::make_an_essayannotate_question();
+        $essayannotate->questiontext = 'Hello <img src="http://example.com/globe.png" alt="world" />';
+        $this->assertEquals('Hello [world]', $essayannotate->get_question_summary());
     }
 
     /**
@@ -60,18 +60,18 @@ class question_test extends \advanced_testcase {
         // Create sample attachments.
         $attachments = $this->create_user_and_sample_attachments($numberofattachments);
 
-        // Create the essay question under test.
-        $essay = \test_question_maker::make_an_essay_question();
-        $essay->start_attempt(new question_attempt_step(), 1);
+        // Create the essayannotate question under test.
+        $essayannotate = \test_question_maker::make_an_essayannotate_question();
+        $essayannotate->start_attempt(new question_attempt_step(), 1);
 
-        $essay->responseformat = 'editor';
-        $essay->responserequired = $responserequired;
-        $essay->attachmentsrequired = $attachmentsrequired;
+        $essayannotate->responseformat = 'editor';
+        $essayannotate->responserequired = $responserequired;
+        $essayannotate->attachmentsrequired = $attachmentsrequired;
 
         // The space before the number of bytes from display_size is actually a non-breaking space.
         $expected = str_replace(' bytes', "\xc2\xa0bytes", $expected);
 
-        $this->assertEquals($expected, $essay->summarise_response(
+        $this->assertEquals($expected, $essayannotate->summarise_response(
             ['answer' => $answertext, 'answerformat' => FORMAT_HTML,  'attachments' => $attachments[$attachmentuploaded]]));
     }
 
@@ -83,9 +83,9 @@ class question_test extends \advanced_testcase {
     public function summarise_response_provider(): array {
         return [
             'text input required, not attachments required'  =>
-                [1, 0, 'This is the text input for this essay.', 0, 'This is the text input for this essay.'],
+                [1, 0, 'This is the text input for this essayannotate.', 0, 'This is the text input for this essayannotate.'],
             'Text input required, one attachments required, one uploaded'  =>
-                [1, 1, 'This is the text input for this essay.', 1, 'This is the text input for this essay.Attachments: 0 (1 bytes)'],
+                [1, 1, 'This is the text input for this essayannotate.', 1, 'This is the text input for this essayannotate.Attachments: 0 (1 bytes)'],
             'Text input is optional, four attachments required, one uploaded'  => [0, 4, '', 1, 'Attachments: 0 (1 bytes)'],
             'Text input is optional, four attachments required, two uploaded'  => [0, 4, '', 2, 'Attachments: 0 (1 bytes), 1 (1 bytes)'],
             'Text input is optional, four attachments required, three uploaded'  => [0, 4, '', 3, 'Attachments: 0 (1 bytes), 1 (1 bytes), 2 (1 bytes)'],
@@ -101,89 +101,89 @@ class question_test extends \advanced_testcase {
     }
 
     public function test_is_same_response() {
-        $essay = \test_question_maker::make_an_essay_question();
+        $essayannotate = \test_question_maker::make_an_essayannotate_question();
 
-        $essay->responsetemplate = '';
+        $essayannotate->responsetemplate = '';
 
-        $essay->start_attempt(new question_attempt_step(), 1);
+        $essayannotate->start_attempt(new question_attempt_step(), 1);
 
-        $this->assertTrue($essay->is_same_response(
+        $this->assertTrue($essayannotate->is_same_response(
                 array(),
                 array('answer' => '')));
 
-        $this->assertTrue($essay->is_same_response(
+        $this->assertTrue($essayannotate->is_same_response(
                 array('answer' => ''),
                 array('answer' => '')));
 
-        $this->assertTrue($essay->is_same_response(
+        $this->assertTrue($essayannotate->is_same_response(
                 array('answer' => ''),
                 array()));
 
-        $this->assertFalse($essay->is_same_response(
+        $this->assertFalse($essayannotate->is_same_response(
                 array('answer' => 'Hello'),
                 array()));
 
-        $this->assertFalse($essay->is_same_response(
+        $this->assertFalse($essayannotate->is_same_response(
                 array('answer' => 'Hello'),
                 array('answer' => '')));
 
-        $this->assertFalse($essay->is_same_response(
+        $this->assertFalse($essayannotate->is_same_response(
                 array('answer' => 0),
                 array('answer' => '')));
 
-        $this->assertFalse($essay->is_same_response(
+        $this->assertFalse($essayannotate->is_same_response(
                 array('answer' => ''),
                 array('answer' => 0)));
 
-        $this->assertFalse($essay->is_same_response(
+        $this->assertFalse($essayannotate->is_same_response(
                 array('answer' => '0'),
                 array('answer' => '')));
 
-        $this->assertFalse($essay->is_same_response(
+        $this->assertFalse($essayannotate->is_same_response(
                 array('answer' => ''),
                 array('answer' => '0')));
     }
 
     public function test_is_same_response_with_template() {
-        $essay = \test_question_maker::make_an_essay_question();
+        $essayannotate = \test_question_maker::make_an_essayannotate_question();
 
-        $essay->responsetemplate = 'Once upon a time';
+        $essayannotate->responsetemplate = 'Once upon a time';
 
-        $essay->start_attempt(new question_attempt_step(), 1);
+        $essayannotate->start_attempt(new question_attempt_step(), 1);
 
-        $this->assertTrue($essay->is_same_response(
+        $this->assertTrue($essayannotate->is_same_response(
                 array(),
                 array('answer' => 'Once upon a time')));
 
-        $this->assertTrue($essay->is_same_response(
+        $this->assertTrue($essayannotate->is_same_response(
                 array('answer' => ''),
                 array('answer' => 'Once upon a time')));
 
-        $this->assertTrue($essay->is_same_response(
+        $this->assertTrue($essayannotate->is_same_response(
                 array('answer' => 'Once upon a time'),
                 array('answer' => '')));
 
-        $this->assertTrue($essay->is_same_response(
+        $this->assertTrue($essayannotate->is_same_response(
                 array('answer' => ''),
                 array()));
 
-        $this->assertTrue($essay->is_same_response(
+        $this->assertTrue($essayannotate->is_same_response(
                 array('answer' => 'Once upon a time'),
                 array()));
 
-        $this->assertFalse($essay->is_same_response(
+        $this->assertFalse($essayannotate->is_same_response(
                 array('answer' => 0),
                 array('answer' => '')));
 
-        $this->assertFalse($essay->is_same_response(
+        $this->assertFalse($essayannotate->is_same_response(
                 array('answer' => ''),
                 array('answer' => 0)));
 
-        $this->assertFalse($essay->is_same_response(
+        $this->assertFalse($essayannotate->is_same_response(
                 array('answer' => '0'),
                 array('answer' => '')));
 
-        $this->assertFalse($essay->is_same_response(
+        $this->assertFalse($essayannotate->is_same_response(
                 array('answer' => ''),
                 array('answer' => '0')));
     }
@@ -194,108 +194,108 @@ class question_test extends \advanced_testcase {
         // Create sample attachments.
         $attachments = $this->create_user_and_sample_attachments();
 
-        // Create the essay question under test.
-        $essay = \test_question_maker::make_an_essay_question();
-        $essay->start_attempt(new question_attempt_step(), 1);
+        // Create the essayannotate question under test.
+        $essayannotate = \test_question_maker::make_an_essayannotate_question();
+        $essayannotate->start_attempt(new question_attempt_step(), 1);
 
         // Test the "traditional" case, where we must receive a response from the user.
-        $essay->responserequired = 1;
-        $essay->attachmentsrequired = 0;
-        $essay->responseformat = 'editor';
+        $essayannotate->responserequired = 1;
+        $essayannotate->attachmentsrequired = 0;
+        $essayannotate->responseformat = 'editor';
 
         // The empty string should be considered an incomplete response, as should a lack of a response.
-        $this->assertFalse($essay->is_complete_response(array('answer' => '')));
-        $this->assertFalse($essay->is_complete_response(array()));
+        $this->assertFalse($essayannotate->is_complete_response(array('answer' => '')));
+        $this->assertFalse($essayannotate->is_complete_response(array()));
 
         // Any nonempty string should be considered a complete response.
-        $this->assertTrue($essay->is_complete_response(array('answer' => 'A student response.')));
-        $this->assertTrue($essay->is_complete_response(array('answer' => '0 times.')));
-        $this->assertTrue($essay->is_complete_response(array('answer' => '0')));
+        $this->assertTrue($essayannotate->is_complete_response(array('answer' => 'A student response.')));
+        $this->assertTrue($essayannotate->is_complete_response(array('answer' => '0 times.')));
+        $this->assertTrue($essayannotate->is_complete_response(array('answer' => '0')));
 
         // Test case for minimum and/or maximum word limit.
         $response = [];
-        $response['answer'] = 'In this essay, I will be testing a function called check_input_word_count().';
+        $response['answer'] = 'In this essayannotate, I will be testing a function called check_input_word_count().';
 
-        $essay->minwordlimit = 50; // The answer is shorter than the required minimum word limit.
-        $this->assertFalse($essay->is_complete_response($response));
+        $essayannotate->minwordlimit = 50; // The answer is shorter than the required minimum word limit.
+        $this->assertFalse($essayannotate->is_complete_response($response));
 
-        $essay->minwordlimit = 10; // The  word count  meets the required minimum word limit.
-        $this->assertTrue($essay->is_complete_response($response));
+        $essayannotate->minwordlimit = 10; // The  word count  meets the required minimum word limit.
+        $this->assertTrue($essayannotate->is_complete_response($response));
 
         // The word count meets the required minimum  and maximum word limit.
-        $essay->minwordlimit = 10;
-        $essay->maxwordlimit = 15;
-        $this->assertTrue($essay->is_complete_response($response));
+        $essayannotate->minwordlimit = 10;
+        $essayannotate->maxwordlimit = 15;
+        $this->assertTrue($essayannotate->is_complete_response($response));
 
         // Unset the minwordlimit/maxwordlimit variables to avoid the extra check in is_complete_response() for further tests.
-        $essay->minwordlimit = null;
-        $essay->maxwordlimit = null;
+        $essayannotate->minwordlimit = null;
+        $essayannotate->maxwordlimit = null;
 
         // Test the case where two files are required.
-        $essay->attachmentsrequired = 2;
+        $essayannotate->attachmentsrequired = 2;
 
         // Attaching less than two files should result in an incomplete response.
-        $this->assertFalse($essay->is_complete_response(array('answer' => 'A')));
-        $this->assertFalse($essay->is_complete_response(
+        $this->assertFalse($essayannotate->is_complete_response(array('answer' => 'A')));
+        $this->assertFalse($essayannotate->is_complete_response(
                 array('answer' => 'A', 'attachments' => $attachments[0])));
-        $this->assertFalse($essay->is_complete_response(
+        $this->assertFalse($essayannotate->is_complete_response(
                 array('answer' => 'A', 'attachments' => $attachments[1])));
 
         // Anything without response text should result in an incomplete response.
-        $this->assertFalse($essay->is_complete_response(
+        $this->assertFalse($essayannotate->is_complete_response(
                 array('answer' => '', 'attachments' => $attachments[2])));
 
         // Attaching two or more files should result in a complete response.
-        $this->assertTrue($essay->is_complete_response(
+        $this->assertTrue($essayannotate->is_complete_response(
                 array('answer' => 'A', 'attachments' => $attachments[2])));
-        $this->assertTrue($essay->is_complete_response(
+        $this->assertTrue($essayannotate->is_complete_response(
                 array('answer' => 'A', 'attachments' => $attachments[3])));
 
         // Test the case in which two files are required, but the inline
         // response is optional.
-        $essay->responserequired = 0;
+        $essayannotate->responserequired = 0;
 
-        $this->assertFalse($essay->is_complete_response(
+        $this->assertFalse($essayannotate->is_complete_response(
                 array('answer' => '', 'attachments' => $attachments[1])));
 
-        $this->assertTrue($essay->is_complete_response(
+        $this->assertTrue($essayannotate->is_complete_response(
                 array('answer' => '', 'attachments' => $attachments[2])));
 
         // Test the case in which both the response and online text are optional.
-        $essay->attachmentsrequired = 0;
+        $essayannotate->attachmentsrequired = 0;
 
         // Providing no answer and no attachment should result in an incomplete
         // response.
-        $this->assertFalse($essay->is_complete_response(
+        $this->assertFalse($essayannotate->is_complete_response(
                 array('answer' => '')));
-        $this->assertFalse($essay->is_complete_response(
+        $this->assertFalse($essayannotate->is_complete_response(
                 array('answer' => '', 'attachments' => $attachments[0])));
 
         // Providing an answer _or_ an attachment should result in a complete
         // response.
-        $this->assertTrue($essay->is_complete_response(
+        $this->assertTrue($essayannotate->is_complete_response(
                 array('answer' => '', 'attachments' => $attachments[1])));
-        $this->assertTrue($essay->is_complete_response(
+        $this->assertTrue($essayannotate->is_complete_response(
                 array('answer' => 'Answer text.', 'attachments' => $attachments[0])));
 
         // Test the case in which we're in "no inline response" mode,
         // in which the response is not required (as it's not provided).
-        $essay->reponserequired = 0;
-        $essay->responseformat = 'noinline';
-        $essay->attachmensrequired = 1;
+        $essayannotate->reponserequired = 0;
+        $essayannotate->responseformat = 'noinline';
+        $essayannotate->attachmensrequired = 1;
 
-        $this->assertFalse($essay->is_complete_response(
+        $this->assertFalse($essayannotate->is_complete_response(
                 array()));
-        $this->assertFalse($essay->is_complete_response(
+        $this->assertFalse($essayannotate->is_complete_response(
                 array('attachments' => $attachments[0])));
 
         // Providing an attachment should result in a complete response.
-        $this->assertTrue($essay->is_complete_response(
+        $this->assertTrue($essayannotate->is_complete_response(
                 array('attachments' => $attachments[1])));
 
         // Ensure that responserequired is ignored when we're in inline response mode.
-        $essay->reponserequired = 1;
-        $this->assertTrue($essay->is_complete_response(
+        $essayannotate->reponserequired = 1;
+        $this->assertTrue($essayannotate->is_complete_response(
                 array('attachments' => $attachments[1])));
     }
 
@@ -305,13 +305,13 @@ class question_test extends \advanced_testcase {
     public function test_get_question_definition_for_external_rendering() {
         $this->resetAfterTest();
 
-        $essay = \test_question_maker::make_an_essay_question();
-        $essay->minwordlimit = 15;
-        $essay->start_attempt(new question_attempt_step(), 1);
-        $qa = \test_question_maker::get_a_qa($essay);
+        $essayannotate = \test_question_maker::make_an_essayannotate_question();
+        $essayannotate->minwordlimit = 15;
+        $essayannotate->start_attempt(new question_attempt_step(), 1);
+        $qa = \test_question_maker::get_a_qa($essayannotate);
         $displayoptions = new question_display_options();
 
-        $options = $essay->get_question_definition_for_external_rendering($qa, $displayoptions);
+        $options = $essayannotate->get_question_definition_for_external_rendering($qa, $displayoptions);
         $this->assertNotEmpty($options);
         $this->assertEquals('editor', $options['responseformat']);
         $this->assertEquals(1, $options['responserequired']);
@@ -322,7 +322,7 @@ class question_test extends \advanced_testcase {
         $this->assertNull($options['filetypeslist']);
         $this->assertEquals('', $options['responsetemplate']);
         $this->assertEquals(FORMAT_MOODLE, $options['responsetemplateformat']);
-        $this->assertEquals($essay->minwordlimit, $options['minwordlimit']);
+        $this->assertEquals($essayannotate->minwordlimit, $options['minwordlimit']);
         $this->assertNull($options['maxwordlimit']);
     }
 
@@ -339,7 +339,7 @@ class question_test extends \advanced_testcase {
      */
     public function test_get_validation_error(int $responserequired,
                                               int $minwordlimit, int $maxwordlimit, string $expected): void {
-        $question = \test_question_maker::make_an_essay_question();
+        $question = \test_question_maker::make_an_essayannotate_question();
         $response = ['answer' => 'One two three four five six seven eight nine ten eleven twelve thirteen fourteen.'];
         $question->responserequired = $responserequired;
         $question->minwordlimit = $minwordlimit;
@@ -358,9 +358,9 @@ class question_test extends \advanced_testcase {
             'text input required, min/max word limit not set'  => [1, 0, 0, ''],
             'text input required, min/max word limit valid (within the boundaries)'  => [1, 10, 25, ''],
             'text input required, min word limit not reached'  => [1, 15, 25,
-                get_string('minwordlimitboundary', 'qtype_essay', ['count' => 14, 'limit' => 15])],
+                get_string('minwordlimitboundary', 'qtype_essayannotate', ['count' => 14, 'limit' => 15])],
             'text input required, max word limit is exceeded'  => [1, 5, 12,
-                get_string('maxwordlimitboundary', 'qtype_essay', ['count' => 14, 'limit' => 12])],
+                get_string('maxwordlimitboundary', 'qtype_essayannotate', ['count' => 14, 'limit' => 12])],
             'text input not required, min/max word limit not set'  => [0, 5, 12, ''],
         ];
     }
@@ -376,7 +376,7 @@ class question_test extends \advanced_testcase {
      * @param string $expected error message | null
      */
     public function test_get_word_count_message_for_review(?int $minwordlimit, ?int $maxwordlimit, string $expected): void {
-        $question = \test_question_maker::make_an_essay_question();
+        $question = \test_question_maker::make_an_essayannotate_question();
         $question->minwordlimit = $minwordlimit;
         $question->maxwordlimit = $maxwordlimit;
 
@@ -394,19 +394,19 @@ class question_test extends \advanced_testcase {
             'No limit' =>
                     [null, null, ''],
             'min and max, answer within range' =>
-                    [10, 25, get_string('wordcount', 'qtype_essay', 14)],
+                    [10, 25, get_string('wordcount', 'qtype_essayannotate', 14)],
             'min and max, answer too short' =>
-                    [15, 25, get_string('wordcounttoofew', 'qtype_essay', ['count' => 14, 'limit' => 15])],
+                    [15, 25, get_string('wordcounttoofew', 'qtype_essayannotate', ['count' => 14, 'limit' => 15])],
             'min and max, answer too long' =>
-                    [5, 12, get_string('wordcounttoomuch', 'qtype_essay', ['count' => 14, 'limit' => 12])],
+                    [5, 12, get_string('wordcounttoomuch', 'qtype_essayannotate', ['count' => 14, 'limit' => 12])],
             'min only, answer within range' =>
-                    [14, null, get_string('wordcount', 'qtype_essay', 14)],
+                    [14, null, get_string('wordcount', 'qtype_essayannotate', 14)],
             'min only, answer too short' =>
-                    [15, null, get_string('wordcounttoofew', 'qtype_essay', ['count' => 14, 'limit' => 15])],
+                    [15, null, get_string('wordcounttoofew', 'qtype_essayannotate', ['count' => 14, 'limit' => 15])],
             'max only, answer within range' =>
-                    [null, 14, get_string('wordcount', 'qtype_essay', 14)],
+                    [null, 14, get_string('wordcount', 'qtype_essayannotate', 14)],
             'max only, answer too short' =>
-                    [null, 13, get_string('wordcounttoomuch', 'qtype_essay', ['count' => 14, 'limit' => 13])],
+                    [null, 13, get_string('wordcounttoomuch', 'qtype_essayannotate', ['count' => 14, 'limit' => 13])],
         ];
     }
 
@@ -421,7 +421,7 @@ class question_test extends \advanced_testcase {
         $this->setUser($user);
 
         // Create sample attachments to use in testing.
-        $helper = \test_question_maker::get_test_helper('essay');
+        $helper = \test_question_maker::get_test_helper('essayannotate');
         $attachments = [];
         for ($i = 0; $i < ($numberofattachments + 1); ++$i) {
             $attachments[$i] = $helper->make_attachments_saver($i);

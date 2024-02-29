@@ -15,14 +15,14 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Privacy Subsystem implementation for qtype_essaynew.
+ * Privacy Subsystem implementation for qtype_essayannotate.
  *
- * @package    qtype_essaynew
+ * @package    qtype_essayannotate
  * @copyright  2018 Andrew Nicols <andrew@nicols.co.uk>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace qtype_essaynew\privacy;
+namespace qtype_essayannotate\privacy;
 
 use \core_privacy\local\metadata\collection;
 use \core_privacy\local\request\user_preference_provider;
@@ -31,7 +31,7 @@ use \core_privacy\local\request\writer;
 defined('MOODLE_INTERNAL') || die();
 
 /**
- * Privacy Subsystem for qtype_essaynew implementing user_preference_provider.
+ * Privacy Subsystem for qtype_essayannotate implementing user_preference_provider.
  *
  * @copyright  2018 Andrew Nicols <andrew@nicols.co.uk>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -50,13 +50,13 @@ class provider implements
      * @return  collection     A listing of user data stored through this system.
      */
     public static function get_metadata(collection $collection) : collection {
-        $collection->add_user_preference('qtype_essaynew_defaultmark', 'privacy:preference:defaultmark');
-        $collection->add_user_preference('qtype_essaynew_responseformat', 'privacy:preference:responseformat');
-        $collection->add_user_preference('qtype_essaynew_responserequired', 'privacy:preference:responserequired');
-        $collection->add_user_preference('qtype_essaynew_responsefieldlines', 'privacy:preference:responsefieldlines');
-        $collection->add_user_preference('qtype_essaynew_attachments', 'privacy:preference:attachments');
-        $collection->add_user_preference('qtype_essaynew_attachmentsrequired', 'privacy:preference:attachmentsrequired');
-        $collection->add_user_preference('qtype_essaynew_maxbytes', 'privacy:preference:maxbytes');
+        $collection->add_user_preference('qtype_essayannotate_defaultmark', 'privacy:preference:defaultmark');
+        $collection->add_user_preference('qtype_essayannotate_responseformat', 'privacy:preference:responseformat');
+        $collection->add_user_preference('qtype_essayannotate_responserequired', 'privacy:preference:responserequired');
+        $collection->add_user_preference('qtype_essayannotate_responsefieldlines', 'privacy:preference:responsefieldlines');
+        $collection->add_user_preference('qtype_essayannotate_attachments', 'privacy:preference:attachments');
+        $collection->add_user_preference('qtype_essayannotate_attachmentsrequired', 'privacy:preference:attachmentsrequired');
+        $collection->add_user_preference('qtype_essayannotate_maxbytes', 'privacy:preference:maxbytes');
         return $collection;
     }
 
@@ -66,56 +66,56 @@ class provider implements
      * @param int $userid The userid of the user whose data is to be exported.
      */
     public static function export_user_preferences(int $userid) {
-        $preference = get_user_preferences('qtype_essaynew_defaultmark', null, $userid);
+        $preference = get_user_preferences('qtype_essayannotate_defaultmark', null, $userid);
         if (null !== $preference) {
-            $desc = get_string('privacy:preference:defaultmark', 'qtype_essaynew');
-            writer::export_user_preference('qtype_essaynew', 'defaultmark', $preference, $desc);
+            $desc = get_string('privacy:preference:defaultmark', 'qtype_essayannotate');
+            writer::export_user_preference('qtype_essayannotate', 'defaultmark', $preference, $desc);
         }
 
-        $preference = get_user_preferences('qtype_essaynew_responseformat', null, $userid);
+        $preference = get_user_preferences('qtype_essayannotate_responseformat', null, $userid);
         if (null !== $preference) {
             switch($preference) {
                 case 'editor':
-                    $stringvalue = get_string('formateditor', 'qtype_essaynew');
+                    $stringvalue = get_string('formateditor', 'qtype_essayannotate');
                     break;
                 case 'editorfilepicker':
-                    $stringvalue = get_string('formateditorfilepicker', 'qtype_essaynew');
+                    $stringvalue = get_string('formateditorfilepicker', 'qtype_essayannotate');
                     break;
                 case 'plain':
-                    $stringvalue = get_string('formatplain', 'qtype_essaynew');
+                    $stringvalue = get_string('formatplain', 'qtype_essayannotate');
                     break;
                 case 'monospaced':
-                    $stringvalue = get_string('formatmonospaced', 'qtype_essaynew');
+                    $stringvalue = get_string('formatmonospaced', 'qtype_essayannotate');
                     break;
                 case 'noinline':
-                    $stringvalue = get_string('formatnoinline', 'qtype_essaynew');
+                    $stringvalue = get_string('formatnoinline', 'qtype_essayannotate');
                     break;
                 default:
-                    $stringvalue = get_string('formateditor', 'qtype_essaynew');
+                    $stringvalue = get_string('formateditor', 'qtype_essayannotate');
                     break;
             }
-            $desc = get_string('privacy:preference:responseformat', 'qtype_essaynew');
-            writer::export_user_preference('qtype_essaynew', 'responseformat', $stringvalue, $desc);
+            $desc = get_string('privacy:preference:responseformat', 'qtype_essayannotate');
+            writer::export_user_preference('qtype_essayannotate', 'responseformat', $stringvalue, $desc);
         }
 
-        $preference = get_user_preferences('qtype_essaynew_responserequired', null, $userid);
+        $preference = get_user_preferences('qtype_essayannotate_responserequired', null, $userid);
         if (null !== $preference) {
             if ($preference) {
-                $stringvalue = get_string('responseisrequired', 'qtype_essaynew');
+                $stringvalue = get_string('responseisrequired', 'qtype_essayannotate');
             } else {
-                $stringvalue = get_string('responsenotrequired', 'qtype_essaynew');
+                $stringvalue = get_string('responsenotrequired', 'qtype_essayannotate');
             }
-            $desc = get_string('privacy:preference:responserequired', 'qtype_essaynew');
-            writer::export_user_preference('qtype_essaynew', 'responserequired', $stringvalue, $desc);
+            $desc = get_string('privacy:preference:responserequired', 'qtype_essayannotate');
+            writer::export_user_preference('qtype_essayannotate', 'responserequired', $stringvalue, $desc);
         }
 
-        $preference = get_user_preferences('qtype_essaynew_responsefieldlines', null, $userid);
+        $preference = get_user_preferences('qtype_essayannotate_responsefieldlines', null, $userid);
         if (null !== $preference) {
-            $desc = get_string('privacy:preference:responsefieldlines', 'qtype_essaynew');
-            writer::export_user_preference('qtype_essaynew', 'responsefieldlines',
-                    get_string('nlines', 'qtype_essaynew', $preference), $desc);
+            $desc = get_string('privacy:preference:responsefieldlines', 'qtype_essayannotate');
+            writer::export_user_preference('qtype_essayannotate', 'responsefieldlines',
+                    get_string('nlines', 'qtype_essayannotate', $preference), $desc);
         }
-        $preference = get_user_preferences('qtype_essaynew_attachments', null, $userid);
+        $preference = get_user_preferences('qtype_essayannotate_attachments', null, $userid);
         if (null !== $preference) {
             if ($preference == 0) {
                 $stringvalue = get_string('no');
@@ -124,22 +124,22 @@ class provider implements
             } else {
                 $stringvalue = $preference;
             }
-            $desc = get_string('privacy:preference:attachments', 'qtype_essaynew');
-            writer::export_user_preference('qtype_essaynew', 'attachments', $stringvalue, $desc);
+            $desc = get_string('privacy:preference:attachments', 'qtype_essayannotate');
+            writer::export_user_preference('qtype_essayannotate', 'attachments', $stringvalue, $desc);
         }
 
-        $preference = get_user_preferences('qtype_essaynew_attachmentsrequired', null, $userid);
+        $preference = get_user_preferences('qtype_essayannotate_attachmentsrequired', null, $userid);
         if (null !== $preference) {
             if ($preference == 0) {
-                $stringvalue = get_string('attachmentsoptional', 'qtype_essaynew');
+                $stringvalue = get_string('attachmentsoptional', 'qtype_essayannotate');
             } else {
                 $stringvalue = $preference;
             }
-            $desc = get_string('privacy:preference:attachmentsrequired', 'qtype_essaynew');
-            writer::export_user_preference('qtype_essaynew', 'attachmentsrequired', $stringvalue, $desc);
+            $desc = get_string('privacy:preference:attachmentsrequired', 'qtype_essayannotate');
+            writer::export_user_preference('qtype_essayannotate', 'attachmentsrequired', $stringvalue, $desc);
         }
 
-        $preference = get_user_preferences('qtype_essaynew_maxbytes', null, $userid);
+        $preference = get_user_preferences('qtype_essayannotate_maxbytes', null, $userid);
         if (null !== $preference) {
             switch ($preference) {
                 case 52428800:
@@ -176,8 +176,8 @@ class provider implements
                     $stringvalue = '50MB';
                     break;
             }
-            $desc = get_string('privacy:preference:maxbytes', 'qtype_essaynew');
-            writer::export_user_preference('qtype_essaynew', 'maxbytes', $stringvalue, $desc);
+            $desc = get_string('privacy:preference:maxbytes', 'qtype_essayannotate');
+            writer::export_user_preference('qtype_essayannotate', 'maxbytes', $stringvalue, $desc);
         }
     }
 }

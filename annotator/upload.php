@@ -43,7 +43,7 @@ function convert_pdf_version($file, $path)
             $srcfile_new = $path."/newdummy.pdf";
             $srcfile = $file;
             //Using GhostScript convert the pdf version to 1.4
-            $gsPath = get_config('qtype_essaynew', 'ghostscriptpath');
+            $gsPath = get_config('qtype_essayannotate', 'ghostscriptpath');
 
             // $gsPath = '/usr/bin/gs';
             // $gsPath = '/opt/homebrew/bin/gs';
@@ -126,7 +126,7 @@ $fileinfo = array(
 $json = json_decode($value,true);
 
 //Referencing the file from the temp directory 
-$path = $CFG->tempdir . '/EssayPDF';
+$path = $CFG->tempdir . '/essayannotatePDF';
 $file = $path . '/dummy.pdf'; 
 $tempfile = $path . '/outputmoodle.pdf';
 

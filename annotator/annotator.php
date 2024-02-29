@@ -28,8 +28,8 @@ require_once('../../../../config.php');
 require_once('../../../../mod/quiz/locallib.php');
 require_login();        // added just now
 
-//The $tempPath is the path to the subdirectory EssayPDF created in moodle's temp directory 
-$tempPath = $CFG->tempdir ."/EssayPDF";
+//The $tempPath is the path to the subdirectory essayannotatePDF created in moodle's temp directory 
+$tempPath = $CFG->tempdir ."/essayannotatePDF";
 $dummyFile= $tempPath ."/dummy.pdf";
 
 $attemptid = required_param('attempt', PARAM_INT);
@@ -63,7 +63,7 @@ if($cmid == null){
 
 
 // $PAGE->set_url('/mod/quiz/annotator.php', array('attempt' => $attemptid, 'slot' => $slot, 'fileno' => $fileno));
-$PAGE->set_url('/question/type/essaynew/annotator/annotator.php', array('attempt' => $attemptid, 'slot' => $slot, 'fileno' => $fileno));
+$PAGE->set_url('/question/type/essayannotate/annotator/annotator.php', array('attempt' => $attemptid, 'slot' => $slot, 'fileno' => $fileno));
 
 if (!empty($cmid)) {
     $cm = get_coursemodule_from_id('quiz', $cmid);
@@ -175,7 +175,7 @@ if($doesExists === true)   // if exists then update $fileurl to the url of this 
 
     // convert that file into PDF, based on mime type (NOTE: this will be created in the cwd)
     
-    $convert = get_config('qtype_essaynew', 'imagemagickpath');
+    $convert = get_config('qtype_essayannotate', 'imagemagickpath');
     // $convert = '/usr/bin/convert';
     // $imagick = new Imagick();
     // $convert = "/opt/homebrew/bin/convert";

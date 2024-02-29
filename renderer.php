@@ -15,10 +15,10 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Essay question renderer class.
+ * essayannotate question renderer class.
  *
  * @package    qtype
- * @subpackage essay
+ * @subpackage essayannotate
  * @copyright  2009 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -28,18 +28,18 @@ defined('MOODLE_INTERNAL') || die();
 
 
 /**
- * Generates the output for essay questions.
+ * Generates the output for essayannotate questions.
  *
  * @copyright  2009 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class qtype_essaynew_renderer extends qtype_renderer {
+class qtype_essayannotate_renderer extends qtype_renderer {
     public function formulation_and_controls(question_attempt $qa,
             question_display_options $options) {
         global $CFG, $PAGE;
         $question = $qa->get_question();
 
-        /** @var qtype_essaynew_format_renderer_base $responseoutput */
+        /** @var qtype_essayannotate_format_renderer_base $responseoutput */
         $responseoutput = $question->get_format_renderer($this->page);
         $responseoutput->set_displayoptions($options);
 
@@ -223,7 +223,7 @@ class qtype_essaynew_renderer extends qtype_renderer {
                 $attemptid = optional_param('attempt', null, PARAM_INT);
                 $slot = optional_param('slot', null, PARAM_INT);
                 
-                // $out .= '<form action="../../question/type/essaynew/annotator/annotator.php" method="post" style="display: inline-block;">
+                // $out .= '<form action="../../question/type/essayannotate/annotator/annotator.php" method="post" style="display: inline-block;">
                 //             <input type="hidden" value="' . $attemptid . '" name="attempt">
                 //             <input type="hidden" value="' . $slot . '" name="slot">
                 //             <input type="hidden" value="' . $fileNum . '" name="fileno">
@@ -232,7 +232,7 @@ class qtype_essaynew_renderer extends qtype_renderer {
                 $mime = explode(' ',get_mimetype_description($file))[0];
                 $onclick = ' ';
                 $tooltipMessage = '';
-                $annotate = get_string('annotate_button_label', 'qtype_essaynew');
+                $annotate = get_string('annotate_button_label', 'qtype_essayannotate');
                 if ($mime === 'Image' || $mime === 'Text' || $mime === "PDF") {
                     $onclick = "annotate($attemptid,$slot,$fileNum)";
                 } else {
@@ -258,7 +258,7 @@ class qtype_essaynew_renderer extends qtype_renderer {
 
         $labelbyid = $qa->get_qt_field_name('attachments') . '_label';
 
-        $fileslabel = $options->add_question_identifier_to_label(get_string('answerfiles', 'qtype_essaynew'));
+        $fileslabel = $options->add_question_identifier_to_label(get_string('answerfiles', 'qtype_essayannotate'));
         $output = html_writer::tag('h4', $fileslabel, ['id' => $labelbyid, 'class' => 'sr-only']);
         $output .= html_writer::tag('ul', implode($filelist), [
             'aria-labelledby' => $labelbyid,
@@ -266,7 +266,7 @@ class qtype_essaynew_renderer extends qtype_renderer {
         ]);
         $baseurl = new moodle_url('/');
         $baseurl = $baseurl->out(false);
-        $output .= '<script type="text/javascript" src="'. $baseurl .'/question/type/essaynew/js/annotatebutton.js"></script>';    
+        $output .= '<script type="text/javascript" src="'. $baseurl .'/question/type/essayannotate/js/annotatebutton.js"></script>';    
         return $output;
     }
 
@@ -305,7 +305,7 @@ class qtype_essaynew_renderer extends qtype_renderer {
 
         $text = '';
         if (!empty($qa->get_question()->filetypeslist)) {
-            $text = html_writer::tag('p', get_string('acceptedfiletypes', 'qtype_essaynew'));
+            $text = html_writer::tag('p', get_string('acceptedfiletypes', 'qtype_essayannotate'));
             $filetypesutil = new \core_form\filetypes_util();
             $filetypes = $qa->get_question()->filetypeslist;
             $filetypedescriptions = $filetypesutil->describe_file_types($filetypes);
@@ -313,7 +313,7 @@ class qtype_essaynew_renderer extends qtype_renderer {
         }
 
         $output = html_writer::start_tag('fieldset');
-        $fileslabel = $options->add_question_identifier_to_label(get_string('answerfiles', 'qtype_essaynew'));
+        $fileslabel = $options->add_question_identifier_to_label(get_string('answerfiles', 'qtype_essayannotate'));
         $output .= html_writer::tag('legend', $fileslabel, ['class' => 'sr-only']);
         $output .= $filesrenderer->render($fm);
         $output .= html_writer::empty_tag('input', [
@@ -334,7 +334,7 @@ class qtype_essaynew_renderer extends qtype_renderer {
 
         $question = $qa->get_question();
         return html_writer::nonempty_tag('div', $question->format_text(
-                $question->graderinfo, $question->graderinfoformat, $qa, 'qtype_essaynew',
+                $question->graderinfo, $question->graderinfoformat, $qa, 'qtype_essayannotate',
                 'graderinfo', $question->id), array('class' => 'graderinfo'));
     }
 }
@@ -347,7 +347,7 @@ class qtype_essaynew_renderer extends qtype_renderer {
  * @copyright  2011 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-abstract class qtype_essaynew_format_renderer_base extends plugin_renderer_base {
+abstract class qtype_essayannotate_format_renderer_base extends plugin_renderer_base {
 
     /** @var question_display_options Question display options instance for any necessary information for rendering the question. */
     protected $displayoptions;
@@ -392,16 +392,16 @@ abstract class qtype_essaynew_format_renderer_base extends plugin_renderer_base 
 }
 
 /**
- * An essay format renderer for essays where the student should not enter
+ * An essayannotate format renderer for essayannotates where the student should not enter
  * any inline response.
  *
  * @copyright  2013 Binghamton University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class qtype_essaynew_format_noinline_renderer extends qtype_essaynew_format_renderer_base {
+class qtype_essayannotate_format_noinline_renderer extends qtype_essayannotate_format_renderer_base {
 
     protected function class_name() {
-        return 'qtype_essaynew_noinline';
+        return 'qtype_essayannotate_noinline';
     }
 
     public function response_area_read_only($name, $qa, $step, $lines, $context) {
@@ -415,27 +415,27 @@ class qtype_essaynew_format_noinline_renderer extends qtype_essaynew_format_rend
 }
 
 /**
- * An essay format renderer for essays where the student should use the HTML
+ * An essayannotate format renderer for essayannotates where the student should use the HTML
  * editor without the file picker.
  *
  * @copyright  2011 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class qtype_essaynew_format_editor_renderer extends qtype_essaynew_format_renderer_base {
+class qtype_essayannotate_format_editor_renderer extends qtype_essayannotate_format_renderer_base {
     protected function class_name() {
-        return 'qtype_essaynew_editor';
+        return 'qtype_essayannotate_editor';
     }
 
     public function response_area_read_only($name, $qa, $step, $lines, $context) {
         $labelbyid = $qa->get_qt_field_name($name) . '_label';
 
-        $responselabel = $this->displayoptions->add_question_identifier_to_label(get_string('answertext', 'qtype_essaynew'));
+        $responselabel = $this->displayoptions->add_question_identifier_to_label(get_string('answertext', 'qtype_essayannotate'));
         $output = html_writer::tag('h4', $responselabel, ['id' => $labelbyid, 'class' => 'sr-only']);
         $output .= html_writer::tag('div', $this->prepare_response($name, $qa, $step, $context), [
             'role' => 'textbox',
             'aria-readonly' => 'true',
             'aria-labelledby' => $labelbyid,
-            'class' => $this->class_name() . ' qtype_essaynew_response readonly',
+            'class' => $this->class_name() . ' qtype_essayannotate_response readonly',
             'style' => 'min-height: ' . ($lines * 1.5) . 'em;',
         ]);
         // Height $lines * 1.5 because that is a typical line-height on web pages.
@@ -466,13 +466,13 @@ class qtype_essaynew_format_editor_renderer extends qtype_essaynew_format_render
         $editor->use_editor($id, $this->get_editor_options($context),
                 $this->get_filepicker_options($context, $draftitemid));
 
-        $responselabel = $this->displayoptions->add_question_identifier_to_label(get_string('answertext', 'qtype_essaynew'));
+        $responselabel = $this->displayoptions->add_question_identifier_to_label(get_string('answertext', 'qtype_essayannotate'));
         $output = html_writer::tag('label', $responselabel, [
             'class' => 'sr-only',
             'for' => $id,
         ]);
         $output .= html_writer::start_tag('div', array('class' =>
-                $this->class_name() . ' qtype_essaynew_response'));
+                $this->class_name() . ' qtype_essayannotate_response'));
 
         $output .= html_writer::tag('div', html_writer::tag('textarea', s($response),
                 array('id' => $id, 'name' => $inputname, 'rows' => $lines, 'cols' => 60, 'class' => 'form-control')));
@@ -558,15 +558,15 @@ class qtype_essaynew_format_editor_renderer extends qtype_essaynew_format_render
 
 
 /**
- * An essay format renderer for essays where the student should use the HTML
+ * An essayannotate format renderer for essayannotates where the student should use the HTML
  * editor with the file picker.
  *
  * @copyright  2011 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class qtype_essaynew_format_editorfilepicker_renderer extends qtype_essaynew_format_editor_renderer {
+class qtype_essayannotate_format_editorfilepicker_renderer extends qtype_essayannotate_format_editor_renderer {
     protected function class_name() {
-        return 'qtype_essaynew_editorfilepicker';
+        return 'qtype_essayannotate_editorfilepicker';
     }
 
     protected function prepare_response($name, question_attempt $qa,
@@ -607,7 +607,7 @@ class qtype_essaynew_format_editorfilepicker_renderer extends qtype_essaynew_for
      * @return object the required options.
      */
     protected function specific_filepicker_options($acceptedtypes, $draftitemid, $context) {
-        debugging('qtype_essaynew_format_editorfilepicker_renderer::specific_filepicker_options() is deprecated, ' .
+        debugging('qtype_essayannotate_format_editorfilepicker_renderer::specific_filepicker_options() is deprecated, ' .
             'use question_utils::specific_filepicker_options() instead.', DEBUG_DEVELOPER);
 
         $filepickeroptions = new stdClass();
@@ -655,31 +655,31 @@ class qtype_essaynew_format_editorfilepicker_renderer extends qtype_essaynew_for
 
 
 /**
- * An essay format renderer for essays where the student should use a plain
+ * An essayannotate format renderer for essayannotates where the student should use a plain
  * input box, but with a normal, proportional font.
  *
  * @copyright  2011 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class qtype_essaynew_format_plain_renderer extends qtype_essaynew_format_renderer_base {
+class qtype_essayannotate_format_plain_renderer extends qtype_essayannotate_format_renderer_base {
     /**
      * @return string the HTML for the textarea.
      */
     protected function textarea($response, $lines, $attributes) {
-        $attributes['class'] = $this->class_name() . ' qtype_essaynew_response form-control';
+        $attributes['class'] = $this->class_name() . ' qtype_essayannotate_response form-control';
         $attributes['rows'] = $lines;
         $attributes['cols'] = 60;
         return html_writer::tag('textarea', s($response), $attributes);
     }
 
     protected function class_name() {
-        return 'qtype_essaynew_plain';
+        return 'qtype_essayannotate_plain';
     }
 
     public function response_area_read_only($name, $qa, $step, $lines, $context) {
         $id = $qa->get_qt_field_name($name) . '_id';
 
-        $responselabel = $this->displayoptions->add_question_identifier_to_label(get_string('answertext', 'qtype_essaynew'));
+        $responselabel = $this->displayoptions->add_question_identifier_to_label(get_string('answertext', 'qtype_essayannotate'));
         $output = html_writer::tag('label', $responselabel, ['class' => 'sr-only', 'for' => $id]);
         $output .= $this->textarea($step->get_qt_var($name), $lines, ['id' => $id, 'readonly' => 'readonly']);
         return $output;
@@ -689,7 +689,7 @@ class qtype_essaynew_format_plain_renderer extends qtype_essaynew_format_rendere
         $inputname = $qa->get_qt_field_name($name);
         $id = $inputname . '_id';
 
-        $responselabel = $this->displayoptions->add_question_identifier_to_label(get_string('answertext', 'qtype_essaynew'));
+        $responselabel = $this->displayoptions->add_question_identifier_to_label(get_string('answertext', 'qtype_essayannotate'));
         $output = html_writer::tag('label', $responselabel, ['class' => 'sr-only', 'for' => $id]);
         $output .= $this->textarea($step->get_qt_var($name), $lines, ['name' => $inputname, 'id' => $id]);
         $output .= html_writer::empty_tag('input', ['type' => 'hidden', 'name' => $inputname . 'format', 'value' => FORMAT_PLAIN]);
@@ -700,15 +700,15 @@ class qtype_essaynew_format_plain_renderer extends qtype_essaynew_format_rendere
 
 
 /**
- * An essay format renderer for essays where the student should use a plain
+ * An essayannotate format renderer for essayannotates where the student should use a plain
  * input box with a monospaced font. You might use this, for example, for a
  * question where the students should type computer code.
  *
  * @copyright  2011 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class qtype_essaynew_format_monospaced_renderer extends qtype_essaynew_format_plain_renderer {
+class qtype_essayannotate_format_monospaced_renderer extends qtype_essayannotate_format_plain_renderer {
     protected function class_name() {
-        return 'qtype_essaynew_monospaced';
+        return 'qtype_essayannotate_monospaced';
     }
 }

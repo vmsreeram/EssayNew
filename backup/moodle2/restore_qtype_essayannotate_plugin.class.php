@@ -27,26 +27,26 @@ defined('MOODLE_INTERNAL') || die();
 
 /**
  * restore plugin class that provides the necessary information
- * needed to restore one essay qtype plugin
+ * needed to restore one essayannotate qtype plugin
  *
  * @copyright  2010 onwards Eloy Lafuente (stronk7) {@link http://stronk7.com}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class restore_qtype_essaynew_plugin extends restore_qtype_plugin {
+class restore_qtype_essayannotate_plugin extends restore_qtype_plugin {
 
     /**
      * Returns the paths to be handled by the plugin at question level
      */
     protected function define_question_plugin_structure() {
         return array(
-            new restore_path_element('essay', $this->get_pathfor('/essay'))
+            new restore_path_element('essayannotate', $this->get_pathfor('/essayannotate'))
         );
     }
 
     /**
-     * Process the qtype/essay element
+     * Process the qtype/essayannotate element
      */
-    public function process_essay($data) {
+    public function process_essayannotate($data) {
         global $DB;
 
         $data = (object)$data;
@@ -76,11 +76,11 @@ class restore_qtype_essaynew_plugin extends restore_qtype_plugin {
                 $this->get_old_parentid('question')) ? true : false;
 
         // If the question has been created by restore, we need to create its
-        // qtype_essaynew too.
+        // qtype_essayannotate too.
         if ($questioncreated) {
             $data->questionid = $this->get_new_parentid('question');
-            $newitemid = $DB->insert_record('qtype_essaynew_options', $data);
-            $this->set_mapping('qtype_essaynew', $oldid, $newitemid);
+            $newitemid = $DB->insert_record('qtype_essayannotate_options', $data);
+            $this->set_mapping('qtype_essayannotate', $oldid, $newitemid);
         }
     }
 
@@ -89,29 +89,29 @@ class restore_qtype_essaynew_plugin extends restore_qtype_plugin {
      */
     public static function define_decode_contents() {
         return array(
-            new restore_decode_content('qtype_essaynew_options', 'graderinfo', 'qtype_essaynew'),
+            new restore_decode_content('qtype_essayannotate_options', 'graderinfo', 'qtype_essayannotate'),
         );
     }
 
     /**
-     * When restoring old data, that does not have the essay options information
+     * When restoring old data, that does not have the essayannotate options information
      * in the XML, supply defaults.
      */
     protected function after_execute_question() {
         global $DB;
 
-        $essayswithoutoptions = $DB->get_records_sql("
+        $essayannotateswithoutoptions = $DB->get_records_sql("
                     SELECT q.*
                       FROM {question} q
                       JOIN {backup_ids_temp} bi ON bi.newitemid = q.id
-                 LEFT JOIN {qtype_essaynew_options} qeo ON qeo.questionid = q.id
+                 LEFT JOIN {qtype_essayannotate_options} qeo ON qeo.questionid = q.id
                      WHERE q.qtype = ?
                        AND qeo.id IS NULL
                        AND bi.backupid = ?
                        AND bi.itemname = ?
-                ", array('essay', $this->get_restoreid(), 'question_created'));
+                ", array('essayannotate', $this->get_restoreid(), 'question_created'));
 
-        foreach ($essayswithoutoptions as $q) {
+        foreach ($essayannotateswithoutoptions as $q) {
             $defaultoptions = new stdClass();
             $defaultoptions->questionid = $q->id;
             $defaultoptions->responseformat = 'editor';
@@ -125,7 +125,7 @@ class restore_qtype_essaynew_plugin extends restore_qtype_plugin {
             $defaultoptions->graderinfoformat = FORMAT_HTML;
             $defaultoptions->responsetemplate = '';
             $defaultoptions->responsetemplateformat = FORMAT_HTML;
-            $DB->insert_record('qtype_essaynew_options', $defaultoptions);
+            $DB->insert_record('qtype_essayannotate_options', $defaultoptions);
         }
     }
 }
