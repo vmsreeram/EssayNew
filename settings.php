@@ -43,6 +43,12 @@ $settings->add(new admin_setting_configtext(
     'gs',
     PARAM_TEXT
 ));
+
+$settings->add(new admin_setting_heading(
+    'qtype_essayannotate/settingsnote',
+    get_string('settingsnote', 'qtype_essayannotate'),
+    ''
+));
 }
 // Add more settings as needed...
 

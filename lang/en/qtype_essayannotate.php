@@ -87,3 +87,8 @@ $string['imagemagickpath'] = 'ImageMagick Path';
 $string['imagemagickpath_desc'] = 'Enter the path to your ImageMagick installation.';
 $string['ghostscriptpath'] = 'GhostScript Path';
 $string['ghostscriptpath_desc'] = 'Enter the path to your GhostScript installation.';
+$string['settingsnote'] = '<p><u>NOTE:</u> Alter policy.xml file of imagemagick, change <br>'.
+                          '    &lt;policy domain="coder" rights="none" pattern="PDF" /&gt; <br>' .
+                          '    to <br>' .
+                          '    &lt;policy domain="coder" rights="read|write" pattern="PDF" /&gt;' .
+                          '</p>';
