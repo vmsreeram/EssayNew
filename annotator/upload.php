@@ -188,7 +188,17 @@ if(file_exists($tempfile))
             $storedfile->delete();
         }
         // finally save the file (creating a new file)
-        $fs->create_file_from_pathname($fileinfo, $tempfile);           
+        $fs->create_file_from_pathname($fileinfo, $tempfile); 
+        
+        ///////// so that a new step gets added
+        $quba = question_engine::load_questions_usage_by_activity($usageid);
+        $feedbackdata = null;  // todo
+        $quba->process_action($slot, $feedbackdata, null);
+
+        $transaction = $DB->start_delegated_transaction();
+        question_engine::save_questions_usage_by_activity($quba);
+        $transaction->allow_commit();
+        /////////         
     }
     else
     {
