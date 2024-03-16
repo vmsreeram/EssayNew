@@ -120,8 +120,9 @@ $filename = urldecode($filename);
 $component = 'question';
 $filearea = 'response_attachments';
 $filepath = '/';
-$itemid = $attemptobj->get_attemptid();
+// $itemid = $attemptobj->get_attemptid();
 $usageid = $qa->get_usage_id();
+$itemid = $qa->get_last_step_with_qt_var("-finish")->get_id() + 1;
 
 $canProceed=true;
 // checking if file is not pdf
