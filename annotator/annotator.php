@@ -62,7 +62,7 @@ if($cmid == null){
 
 function get_last_step_with_qt_var_and_value($qa,$name) {
     foreach ($qa->get_reverse_step_iterator() as $step) {
-        if ($step->has_qt_var($name) && $step->get_qt_var($name) == 'Annotated file') {
+        if ($step->has_qt_var($name) && is_int(strpos($step->get_qt_var($name),"Annotated file. "))) {
             return $step;
         }
     }

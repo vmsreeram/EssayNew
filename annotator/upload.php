@@ -32,7 +32,7 @@ require __DIR__ . '/alphapdf.php';
 
 function get_last_step_with_qt_var_and_value($qa,$name) {
     foreach ($qa->get_reverse_step_iterator() as $step) {
-        if ($step->has_qt_var($name) && $step->get_qt_var($name) == 'Annotated file') {
+        if ($step->has_qt_var($name) && is_int(strpos($step->get_qt_var($name),"Annotated file. "))) {
             return $step;
         }
     }
@@ -85,7 +85,6 @@ $slot = required_param('slot', PARAM_INT);
 $component = 'question';
 $filearea = 'response_attachments';
 $filepath = '/';
-$itemid = $attemptid;
 
 // creating context
 global $DB;
@@ -168,8 +167,22 @@ if(file_exists($tempfile))
         $qa = $quba->get_question_attempt($slot);
         if(!get_last_step_with_qt_var_and_value($qa,"-comment")){
             ///////// so that a new step gets added
+            $submitteddata = array("-comment"=>"Annotated file");
+            $markstep = $qa->get_last_step_with_qt_var("-mark");
+
+            if ($markstep->get_state() != question_state::$unprocessed) {
+                $submitteddata["-maxmark"] = $markstep->get_qt_var("-maxmark");
+                $submitteddata["-mark"] = $markstep->get_qt_var("-mark");
+                $submitteddata["-commentformat"] = $markstep->get_qt_var("-commentformat");
+                $submitteddata["-comment"] = "Annotated file. " . $markstep->get_qt_var("-comment");
+            }
+
+
+
+
+            
             $quba = question_engine::load_questions_usage_by_activity($usageid);
-            $submitteddata = array("-comment"=>"Annotated file");  // todo
+            
             $quba->process_action($slot, $submitteddata, null);
             
                     
