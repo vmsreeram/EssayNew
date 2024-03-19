@@ -29,7 +29,7 @@ require __DIR__ . '/alphapdf.php';
  * @param string $path the path where the file exists
  * @return $file the pdf file after conversion is done if necessary
  */
-function convert_pdf_version($file, $path)
+function convert_pdf_version($file, $path, $attemptid, $slot)
 {
     $filepdf = fopen($file,"r");
     if ($filepdf) 
@@ -40,7 +40,7 @@ function convert_pdf_version($file, $path)
         $pdfversion = implode('.', $matches[0]);
         if($pdfversion > "1.4")
         {
-            $srcfile_new = $path."/newdummy.pdf";
+            $srcfile_new = $path."/newdummy".$attemptid."$".$slot.".pdf";;
             $srcfile = $file;
             //Using GhostScript convert the pdf version to 1.4
             $gsPath = get_config('qtype_essayannotate', 'ghostscriptpath');
@@ -115,13 +115,13 @@ $json = json_decode($value,true);
 
 //Referencing the file from the temp directory 
 $path = $CFG->tempdir . '/essayPDF';
-$file = $path . '/dummy.pdf'; 
-$tempfile = $path . '/outputmoodle.pdf';
+$file = $path . '/dummy'.$attemptid."$".$slot.".pdf"; 
+$tempfile = $path . '/outputmoodle'.$attemptid."$".$slot.".pdf";
 
 if(file_exists($file))
 {
     //Calling function to convert the PDF version above 1.4 to 1.4 for compatibility with fpdf
-    $file=convert_pdf_version($file, $path);
+    $file=convert_pdf_version($file, $path, $attemptid, $slot);
 
     //Using FPDF and FPDI to annotate
     if(file_exists($file))

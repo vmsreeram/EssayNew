@@ -30,12 +30,12 @@ require_login();        // added just now
 
 //The $tempPath is the path to the subdirectory essayPDF created in moodle's temp directory 
 $tempPath = $CFG->tempdir ."/essayPDF";
-$dummyFile= $tempPath ."/dummy.pdf";
 
 $attemptid = required_param('attempt', PARAM_INT);
 $slot = required_param('slot', PARAM_INT); // The question number in the attempt.
 $fileno = required_param('fileno', PARAM_INT);
 $cmid = optional_param('cmid', null, PARAM_INT);
+$dummyFile= $tempPath ."/dummy".$attemptid."$".$slot.".pdf";
 if($cmid == null){
     global $DB;
 
