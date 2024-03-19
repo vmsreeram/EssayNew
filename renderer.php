@@ -114,7 +114,14 @@ class qtype_essayannotate_renderer extends qtype_renderer {
 
         return $result;
     }
-
+    public function get_last_step_with_qt_var_and_value($qa,$name) {
+        foreach ($qa->get_reverse_step_iterator() as $step) {
+            if ($step->has_qt_var($name) && $step->get_qt_var($name) == 'Annotated file') {
+                return $step;
+            }
+        }
+        return new question_attempt_step_read_only();
+    }
 
     /**
      * @author Tausif Iqbal, Vishal Rao
@@ -130,7 +137,7 @@ class qtype_essayannotate_renderer extends qtype_renderer {
         $component = 'question';
         $filearea = 'response_attachments';
         $filepath = '/';
-        $itemid = $qa->get_last_step_with_qt_var("-comment")->get_id();
+        $itemid = $this->get_last_step_with_qt_var_and_value($qa,"-comment")->get_id();
         $filenames = $this->get_filenames($qa, $options);
 
         $annotatedfiles = "";

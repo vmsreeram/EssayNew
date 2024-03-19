@@ -60,7 +60,14 @@ if($cmid == null){
     }
 }
 
-
+function get_last_step_with_qt_var_and_value($qa,$name) {
+    foreach ($qa->get_reverse_step_iterator() as $step) {
+        if ($step->has_qt_var($name) && $step->get_qt_var($name) == 'Annotated file') {
+            return $step;
+        }
+    }
+    return new question_attempt_step_read_only();
+}
 
 // $PAGE->set_url('/mod/quiz/annotator.php', array('attempt' => $attemptid, 'slot' => $slot, 'fileno' => $fileno));
 $PAGE->set_url('/question/type/essayannotate/annotator/annotator.php', array('attempt' => $attemptid, 'slot' => $slot, 'fileno' => $fileno));
@@ -122,7 +129,7 @@ $filearea = 'response_attachments';
 $filepath = '/';
 // $itemid = $attemptobj->get_attemptid();
 $usageid = $qa->get_usage_id();
-$itemid = $qa->get_last_step_with_qt_var("-finish")->get_id() + 1;
+$itemid = get_last_step_with_qt_var_and_value($qa,"-comment")->get_id();
 
 $canProceed=true;
 // checking if file is not pdf

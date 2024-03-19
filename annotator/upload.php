@@ -29,6 +29,15 @@ require __DIR__ . '/alphapdf.php';
  * @param string $path the path where the file exists
  * @return $file the pdf file after conversion is done if necessary
  */
+
+function get_last_step_with_qt_var_and_value($qa,$name) {
+    foreach ($qa->get_reverse_step_iterator() as $step) {
+        if ($step->has_qt_var($name) && $step->get_qt_var($name) == 'Annotated file') {
+            return $step;
+        }
+    }
+    return new question_attempt_step_read_only();
+}
 function convert_pdf_version($file, $path, $attemptid, $slot)
 {
     $filepdf = fopen($file,"r");
@@ -178,7 +187,7 @@ if(file_exists($tempfile))
                 
         $quba = question_engine::load_questions_usage_by_activity($usageid);       
         $qa = $quba->get_question_attempt($slot);
-        $itemid =  $qa->get_last_step_with_qt_var("-comment")->get_id();
+        $itemid = get_last_step_with_qt_var_and_value($qa,"-comment")->get_id();
         /////////   
 
         $fs = get_file_storage();
