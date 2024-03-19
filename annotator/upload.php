@@ -36,7 +36,7 @@ function get_last_step_with_qt_var_and_value($qa,$name) {
             return $step;
         }
     }
-    return new question_attempt_step_read_only();
+    return null;
 }
 function convert_pdf_version($file, $path, $attemptid, $slot)
 {
@@ -164,55 +164,58 @@ if(file_exists($tempfile))
     }
     if(($fsize > 0) && ($maxbytes > 0) && ($fsize < $maxbytes))
     {
-
-        ///////// so that a new step gets added
-        $quba = question_engine::load_questions_usage_by_activity($usageid);
-        // $oldstate = $qa->get_last_step()->get_state();
-        // $qa->get_last_step()->set_state(question_state::$todo);
-        $submitteddata = array("-comment"=>"Annotated file");  // todo
-        $quba->process_action($slot, $submitteddata, null);
-        // $i=0;
-        // foreach ($qa->get_reverse_step_iterator() as $step) {
-            //     if($i == 0){
-                //         $i++;
-                //         continue;
-                //     }
-                //     $step->set_state($oldstate);
-                //     break;
-                // }
-                
-        $transaction = $DB->start_delegated_transaction();
-        question_engine::save_questions_usage_by_activity($quba);
-        $transaction->allow_commit();
-                
         $quba = question_engine::load_questions_usage_by_activity($usageid);       
         $qa = $quba->get_question_attempt($slot);
-        $itemid = get_last_step_with_qt_var_and_value($qa,"-comment")->get_id();
-        /////////   
+        if(!get_last_step_with_qt_var_and_value($qa,"-comment")){
+            ///////// so that a new step gets added
+            $quba = question_engine::load_questions_usage_by_activity($usageid);
+            $submitteddata = array("-comment"=>"Annotated file");  // todo
+            $quba->process_action($slot, $submitteddata, null);
+            
+                    
+            $transaction = $DB->start_delegated_transaction();
+            question_engine::save_questions_usage_by_activity($quba);
+            $transaction->allow_commit();
+                    
+            $quba = question_engine::load_questions_usage_by_activity($usageid);       
+            $qa = $quba->get_question_attempt($slot);
+            $itemid = get_last_step_with_qt_var_and_value($qa,"-comment")->get_id();
+            /////////   
 
-        $fs = get_file_storage();
-        // Prepare file record object
-        $fileinfo = array(
-            'contextid' => $contextid,
-            'component' => $component,
-            'filearea' => $filearea,
-            // add usage and slot param
-            'usage' => $usageid,
-            'slot' => $slot,
-            'itemid' => $itemid,
-            'filepath' => $filepath,
-            'filename' => $filename);
+            $fs = get_file_storage();
+            // Prepare file record object
+            $fileinfo = array(
+                'contextid' => $contextid,
+                'component' => $component,
+                'filearea' => $filearea,
+                // add usage and slot param
+                'usage' => $usageid,
+                'slot' => $slot,
+                'itemid' => $itemid,
+                'filepath' => $filepath,
+                'filename' => $filename);
 
-        //check if file already exists, then first delete it.
-        $doesExists = $fs->file_exists($contextid, $component, $filearea, $itemid, $filepath, $filename);
-        if($doesExists === true)
-        {
+            $fs->create_file_from_pathname($fileinfo, $tempfile); 
+        }
+        else{
+            $itemid = get_last_step_with_qt_var_and_value($qa,"-comment")->get_id();
+            $fs = get_file_storage();
+            $fileinfo = array(
+                'contextid' => $contextid,
+                'component' => $component,
+                'filearea' => $filearea,
+                // add usage and slot param
+                'usage' => $usageid,
+                'slot' => $slot,
+                'itemid' => $itemid,
+                'filepath' => $filepath,
+                'filename' => $filename);
+
             $storedfile = $fs->get_file($contextid, $component, $filearea, $itemid, $filepath, $filename);
             $storedfile->delete();
+            $fs->create_file_from_pathname($fileinfo, $tempfile); 
         }
-        // finally save the file (creating a new file)
-        $fs->create_file_from_pathname($fileinfo, $tempfile); 
-        
+       
              
     }
     else
