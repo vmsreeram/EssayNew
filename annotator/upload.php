@@ -176,9 +176,9 @@ if(file_exists($tempfile))
         question_engine::save_questions_usage_by_activity($quba);
         $transaction->allow_commit();
                 
-                
+        $quba = question_engine::load_questions_usage_by_activity($usageid);       
         $qa = $quba->get_question_attempt($slot);
-        $itemid = $qa->get_last_step_with_qt_var("-finish")->get_id() + 1;
+        $itemid =  $qa->get_last_step_with_qt_var("-comment")->get_id();
         /////////   
 
         $fs = get_file_storage();

@@ -130,7 +130,7 @@ class qtype_essayannotate_renderer extends qtype_renderer {
         $component = 'question';
         $filearea = 'response_attachments';
         $filepath = '/';
-        $itemid = $qa->get_last_step_with_qt_var("-finish")->get_id() + 1;  // attempt_id
+        $itemid = $qa->get_last_step_with_qt_var("-comment")->get_id();
         $filenames = $this->get_filenames($qa, $options);
 
         $annotatedfiles = "";
