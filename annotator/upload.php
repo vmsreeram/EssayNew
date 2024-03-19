@@ -167,7 +167,7 @@ if(file_exists($tempfile))
         $qa = $quba->get_question_attempt($slot);
         if(!get_last_step_with_qt_var_and_value($qa,"-comment")){
             ///////// so that a new step gets added
-            $submitteddata = array("-comment"=>"Annotated file");
+            $submitteddata = array("-comment"=>"Annotated file. ");
             $markstep = $qa->get_last_step_with_qt_var("-mark");
 
             if ($markstep->get_state() != question_state::$unprocessed) {
