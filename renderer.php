@@ -82,7 +82,7 @@ class qtype_essayannotate_renderer extends qtype_renderer {
 
             } else {
                 $files = $this->files_read_only($qa, $options);
-                if($qa->get_state()->is_graded() || has_capability('mod/quiz:manage',$PAGE->context))
+                if($qa->get_state()->is_graded() || has_capability('mod/quiz:grade',$PAGE->context))
                 {
                     // HTML script corressponding to annotated pdf files
                     $annotatedfiles = $this->feedback_files_read_only($qa,$options);  // changes made
@@ -224,7 +224,7 @@ class qtype_essayannotate_renderer extends qtype_renderer {
             $out = html_writer::link($qa->get_response_file_url($file),
                 $this->output->pix_icon(file_file_icon($file), get_mimetype_description($file),
                     'moodle', array('class' => 'icon')) . ' ' . s($file->get_filename()));
-            if(has_capability('mod/quiz:manage',$PAGE->context) &&
+            if(has_capability('mod/quiz:grade',$PAGE->context) &&
                 $options->manualcomment == question_display_options::EDITABLE)
             {
                 $attemptid = optional_param('attempt', null, PARAM_INT);
