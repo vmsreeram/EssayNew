@@ -84,11 +84,15 @@ $string['wordcount'] = 'Word count: {$a}';
 $string['wordcounttoofew'] = 'Word count: {$a->count}, less than the required {$a->limit} words.';
 $string['wordcounttoomuch'] = 'Word count: {$a->count}, more than the limit of {$a->limit} words.';
 $string['imagemagickpath'] = 'ImageMagick Path';
-$string['imagemagickpath_desc'] = 'Enter the path to your ImageMagick installation.';
+$string['imagemagickpath_desc'] = 'Enter the path to your ImageMagick installation.' . '<br><br><u><b>Note:</b></u> Alter policy.xml file of imagemagick, change <br>'.
+                                    '    &lt;policy domain="coder" rights="none" pattern="PDF" /&gt; <br>' .
+                                    '    to <br>' .
+                                    '    &lt;policy domain="coder" rights="read|write" pattern="PDF" /&gt;' .
+                                    '<br><br>';
 $string['ghostscriptpath'] = 'GhostScript Path';
 $string['ghostscriptpath_desc'] = 'Enter the path to your GhostScript installation.';
-$string['settingsnote'] = '</h3><u>NOTE:</u> Alter policy.xml file of imagemagick, change <br>'.
-                          '    &lt;policy domain="coder" rights="none" pattern="PDF" /&gt; <br>' .
-                          '    to <br>' .
-                          '    &lt;policy domain="coder" rights="read|write" pattern="PDF" /&gt;' .
-                          '<h3>';
+// $string['settingsnote'] = '<u>NOTE:</u> Alter policy.xml file of imagemagick, change <br>'.
+//                           '    &lt;policy domain="coder" rights="none" pattern="PDF" /&gt; <br>' .
+//                           '    to <br>' .
+//                           '    &lt;policy domain="coder" rights="read|write" pattern="PDF" /&gt;' .
+//                           '';
