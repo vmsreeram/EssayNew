@@ -19,15 +19,14 @@ require __DIR__ . '/parser.php';
 require __DIR__ . '/alphapdf.php';
 // putenv('PATH=/bin:/usr/bin:/opt/homebrew/bin/gs');
 
-function get_last_step_with_qt_var_and_value($qa,$name) {
-    foreach ($qa->get_reverse_step_iterator() as $step) {
-        if ($step->has_qt_var($name) && is_int(strpos($step->get_qt_var($name),"Annotated file. "))) {
+function get_first_annotation_comment_step($qa,$attemptid,$slotid) {
+    foreach ($qa->get_step_iterator() as $step) {
+        if ($step->has_qt_var("-comment") && is_int(strpos($step->get_qt_var("-comment"),"Annotated file [" . md5($attemptid . $slotid) . "] "))) {
             return $step;
         }
     }
     return null;
 }
-
 /**
  * To convert PDF versions to 1.4 if the version is above it
  * since FPDI parser will only work for PDF versions upto 1.4.
@@ -89,7 +88,7 @@ $filearea = 'response_attachments';
 $filepath = '/';
 
 // creating context
-global $DB;
+global $DB,$USER;
 
     // SQL query
 $sql = "SELECT cm.id AS cmid
@@ -167,6 +166,58 @@ if(file_exists($tempfile))
     {
         $quba = question_engine::load_questions_usage_by_activity($usageid);       
         $qa = $quba->get_question_attempt($slot);
+        $annotationStepExists = (get_first_annotation_comment_step($qa,$attemptid,$slot) != null);
+        $submitteddata = array("-comment"=>"Annotated file [" . md5($attemptid . $slot) . "] filename:`". $filename . "`, user:`" . $USER->id . "`, time:`" . date("'Y-m-d H:i:s'",time()) . "`.");
+        $quba->process_action($slot, $submitteddata, null);
+
+        // saving step
+        $transaction = $DB->start_delegated_transaction();
+        question_engine::save_questions_usage_by_activity($quba);
+        $transaction->allow_commit();
+
+        // saving file
+        $quba2 = question_engine::load_questions_usage_by_activity($usageid);       
+        $qa = $quba2->get_question_attempt($slot);
+        $itemid = get_first_annotation_comment_step($qa,$attemptid,$slot)->get_id();
+        $fs = get_file_storage();
+        $fileinfo = array(
+            'contextid' => $contextid,
+            'component' => $component,
+            'filearea' => $filearea,
+            'usage' => $usageid,
+            'slot' => $slot,
+            'itemid' => $itemid,
+            'filepath' => $filepath,
+            'filename' => $filename);
+        
+        if($annotationStepExists) 
+        {
+            $storedfile = $fs->get_file($contextid, $component, $filearea, $itemid, $filepath, $filename);
+            $storedfile->delete();
+        }
+        $fs->create_file_from_pathname($fileinfo, $tempfile); 
+
+        // if already feedback comment step exist, we insert latest again
+        $feedbackCommentStep = $qa->get_last_step_with_qt_var("-mark");
+        if ($feedbackCommentStep->get_state() != question_state::$unprocessed)  // already feedback comment step exist
+        {
+            $markstep = $qa->get_last_step_with_qt_var("-mark");
+            $submitteddata = array();
+            if ($markstep->get_state() != question_state::$unprocessed) {
+                $submitteddata["-maxmark"] = $markstep->get_qt_var("-maxmark");
+                $submitteddata["-mark"] = $markstep->get_qt_var("-mark");
+                $submitteddata["-commentformat"] = $markstep->get_qt_var("-commentformat");
+                $submitteddata["-comment"] = $markstep->get_qt_var("-comment");
+            }
+            $quba3 = question_engine::load_questions_usage_by_activity($usageid);
+            $quba3->process_action($slot, $submitteddata, null);
+
+            $transaction = $DB->start_delegated_transaction();
+            question_engine::save_questions_usage_by_activity($quba3);
+            $transaction->allow_commit();
+        }
+        
+        /*
         if(!get_last_step_with_qt_var_and_value($qa,"-comment")){
             ///////// so that a new step gets added
             $submitteddata = array("-comment"=>"Annotated file. ");
@@ -231,7 +282,7 @@ if(file_exists($tempfile))
             $fs->create_file_from_pathname($fileinfo, $tempfile); 
         }
        
-             
+        */
     }
     else
     {

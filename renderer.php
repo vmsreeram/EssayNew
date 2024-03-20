@@ -114,9 +114,9 @@ class qtype_essayannotate_renderer extends qtype_renderer {
 
         return $result;
     }
-    public function get_last_step_with_qt_var_and_value($qa,$name) {
-        foreach ($qa->get_reverse_step_iterator() as $step) {
-            if ($step->has_qt_var($name) && is_int(strpos($step->get_qt_var($name),"Annotated file. "))) {
+    public function get_first_annotation_comment_step($qa,$attemptid,$slotid) {
+        foreach ($qa->get_step_iterator() as $step) {
+            if ($step->has_qt_var("-comment") && is_int(strpos($step->get_qt_var("-comment"),"Annotated file [" . md5($attemptid . $slotid) . "] "))) {
                 return $step;
             }
         }
@@ -132,12 +132,13 @@ class qtype_essayannotate_renderer extends qtype_renderer {
      */
     public function feedback_files_read_only(question_attempt $qa, question_display_options $options) {
         global $CFG;
+        $attemptid = required_param('attempt', PARAM_INT);
         $qnum = $qa->get_slot();
         $contextID = $options->context->id;
         $component = 'question';
         $filearea = 'response_attachments';
         $filepath = '/';
-        $itemid = $this->get_last_step_with_qt_var_and_value($qa,"-comment")->get_id();
+        $itemid = $this->get_first_annotation_comment_step($qa,$attemptid,$qnum)->get_id();
         $filenames = $this->get_filenames($qa, $options);
 
         $annotatedfiles = "";

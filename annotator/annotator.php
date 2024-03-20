@@ -60,9 +60,9 @@ if($cmid == null){
     }
 }
 
-function get_last_step_with_qt_var_and_value($qa,$name) {
-    foreach ($qa->get_reverse_step_iterator() as $step) {
-        if ($step->has_qt_var($name) && is_int(strpos($step->get_qt_var($name),"Annotated file. "))) {
+function get_first_annotation_comment_step($qa,$attemptid,$slotid) {
+    foreach ($qa->get_step_iterator() as $step) {
+        if ($step->has_qt_var("-comment") && is_int(strpos($step->get_qt_var("-comment"),"Annotated file [" . md5($attemptid . $slotid) . "] "))) {
             return $step;
         }
     }
@@ -129,7 +129,9 @@ $filearea = 'response_attachments';
 $filepath = '/';
 // $itemid = $attemptobj->get_attemptid();
 $usageid = $qa->get_usage_id();
-$itemid = get_last_step_with_qt_var_and_value($qa,"-comment")->get_id();
+$itemid = get_first_annotation_comment_step($qa,$attemptid,$slot)->get_id();
+if ($itemid == null)
+    $itemid = $attemptid;
 
 $canProceed=true;
 // checking if file is not pdf
