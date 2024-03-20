@@ -19,16 +19,7 @@ require __DIR__ . '/parser.php';
 require __DIR__ . '/alphapdf.php';
 // putenv('PATH=/bin:/usr/bin:/opt/homebrew/bin/gs');
 
-/**
- * To convert PDF versions to 1.4 if the version is above it
- * since FPDI parser will only work for PDF versions upto 1.4.
- * Given a file and its path, the file converted to version 1.4 is returned,
- * if version is above it else, the original file is retured.
- *
- * @param string $file the pdf file
- * @param string $path the path where the file exists
- * @return $file the pdf file after conversion is done if necessary
- */
+
 
 function get_last_step_with_qt_var_and_value($qa,$name) {
     foreach ($qa->get_reverse_step_iterator() as $step) {
@@ -38,6 +29,19 @@ function get_last_step_with_qt_var_and_value($qa,$name) {
     }
     return null;
 }
+
+/**
+ * To convert PDF versions to 1.4 if the version is above it
+ * since FPDI parser will only work for PDF versions upto 1.4.
+ * Given a file and its path, the file converted to version 1.4 is returned,
+ * if version is above it else, the original file is retured.
+ *
+ * @param string $file the pdf file
+ * @param string $path the path where the file exists
+ * @param int $attemptid
+ * @param int $slot
+ * @return $file the pdf file after conversion is done if necessary
+ */
 function convert_pdf_version($file, $path, $attemptid, $slot)
 {
     $filepdf = fopen($file,"r");
