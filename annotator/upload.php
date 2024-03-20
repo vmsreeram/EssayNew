@@ -19,8 +19,6 @@ require __DIR__ . '/parser.php';
 require __DIR__ . '/alphapdf.php';
 // putenv('PATH=/bin:/usr/bin:/opt/homebrew/bin/gs');
 
-
-
 function get_last_step_with_qt_var_and_value($qa,$name) {
     foreach ($qa->get_reverse_step_iterator() as $step) {
         if ($step->has_qt_var($name) && is_int(strpos($step->get_qt_var($name),"Annotated file. "))) {
@@ -38,8 +36,8 @@ function get_last_step_with_qt_var_and_value($qa,$name) {
  *
  * @param string $file the pdf file
  * @param string $path the path where the file exists
- * @param int $attemptid
- * @param int $slot
+ * @param int $attemptid the attempt id
+ * @param int $slot the slot id
  * @return $file the pdf file after conversion is done if necessary
  */
 function convert_pdf_version($file, $path, $attemptid, $slot)
