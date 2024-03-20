@@ -50,7 +50,7 @@ function convert_pdf_version($file, $path, $attemptid, $slot)
         $pdfversion = implode('.', $matches[0]);
         if($pdfversion > "1.4")
         {
-            $srcfile_new = $path."/newdummy".$attemptid."$".$slot.".pdf";;
+            $srcfile_new = $path."/newdummy".$attemptid."$".$slot.$USER->id.".pdf";;
             $srcfile = $file;
             //Using GhostScript convert the pdf version to 1.4
             $gsPath = get_config('qtype_essayannotate', 'ghostscriptpath');
@@ -124,8 +124,8 @@ $json = json_decode($value,true);
 
 //Referencing the file from the temp directory 
 $path = $CFG->tempdir . '/essayPDF';
-$file = $path . '/dummy'.$attemptid."$".$slot.".pdf"; 
-$tempfile = $path . '/outputmoodle'.$attemptid."$".$slot.".pdf";
+$file = $path . '/dummy'.$attemptid."$".$slot.$USER->id.".pdf"; 
+$tempfile = $path . '/outputmoodle'.$attemptid."$".$slot.$USER->id.".pdf";
 
 if(file_exists($file))
 {
