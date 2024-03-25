@@ -262,7 +262,7 @@ PDFAnnotate.prototype.deleteSelectedObject = function () {
 					document.body.removeChild(messageBox);
 					window.close();
 				}, 500); // Fade-out transition time
-			}, 3000); // Display time
+			}, 1000); // Display time
 		}
 		
 
