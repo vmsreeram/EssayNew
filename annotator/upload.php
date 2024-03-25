@@ -166,8 +166,21 @@ if(file_exists($tempfile))
     {
         $quba = question_engine::load_questions_usage_by_activity($usageid);       
         $qa = $quba->get_question_attempt($slot);
+        $feedbackCommentStep = $qa->get_last_step_with_qt_var("-mark");
+
+        if ($feedbackCommentStep->get_state() == question_state::$unprocessed){
+            $submitteddata = array("-comment"=>"Teacher has begun grading","-mark"=>'');
+            $quba->process_action($slot, $submitteddata, null);
+
+            $transaction = $DB->start_delegated_transaction();
+            question_engine::save_questions_usage_by_activity($quba);
+            $transaction->allow_commit();
+        }
+
+        $quba = question_engine::load_questions_usage_by_activity($usageid);       
+        $qa = $quba->get_question_attempt($slot);
         $annotationStepExists = (get_first_annotation_comment_step($qa,$attemptid,$slot) != null);
-        $submitteddata = array("-comment"=>"Annotated file [" . md5($attemptid . $slot) . "] filename:`". $filename . "`, user:`" . $USER->id . "`, time:`" . date("'Y-m-d H:i:s'",time()) . "`.");
+        $submitteddata = array("-comment"=>"Annotated file [" . md5($attemptid . $slot) . "] filename:`". $filename . "`, user:`" . $USER->firstname ." " . $USER->lastname. "`, time:`" . date("'Y-m-d H:i:s'",time()) . "`.");
         $quba->process_action($slot, $submitteddata, null);
 
         // saving step
@@ -176,8 +189,8 @@ if(file_exists($tempfile))
         $transaction->allow_commit();
 
         // saving file
-        $quba2 = question_engine::load_questions_usage_by_activity($usageid);       
-        $qa = $quba2->get_question_attempt($slot);
+        $quba = question_engine::load_questions_usage_by_activity($usageid);       
+        $qa = $quba->get_question_attempt($slot);
         $itemid = get_first_annotation_comment_step($qa,$attemptid,$slot)->get_id();
         $fs = get_file_storage();
         $fileinfo = array(
@@ -197,25 +210,23 @@ if(file_exists($tempfile))
         }
         $fs->create_file_from_pathname($fileinfo, $tempfile); 
 
-        // if already feedback comment step exist, we insert latest again
-        $feedbackCommentStep = $qa->get_last_step_with_qt_var("-mark");
-        if ($feedbackCommentStep->get_state() != question_state::$unprocessed)  // already feedback comment step exist
-        {
-            $markstep = $qa->get_last_step_with_qt_var("-mark");
-            $submitteddata = array();
-            if ($markstep->get_state() != question_state::$unprocessed) {
-                $submitteddata["-maxmark"] = $markstep->get_qt_var("-maxmark");
-                $submitteddata["-mark"] = $markstep->get_qt_var("-mark");
-                $submitteddata["-commentformat"] = $markstep->get_qt_var("-commentformat");
-                $submitteddata["-comment"] = $markstep->get_qt_var("-comment");
-            }
-            $quba3 = question_engine::load_questions_usage_by_activity($usageid);
-            $quba3->process_action($slot, $submitteddata, null);
-
-            $transaction = $DB->start_delegated_transaction();
-            question_engine::save_questions_usage_by_activity($quba3);
-            $transaction->allow_commit();
+       
+        $markstep = $qa->get_last_step_with_qt_var("-mark");
+        $submitteddata = array();
+        if ($markstep->get_state() != question_state::$unprocessed) {
+            $submitteddata["-maxmark"] = $markstep->get_qt_var("-maxmark");
+            $submitteddata["-mark"] = $markstep->get_qt_var("-mark");
+            $submitteddata["-commentformat"] = $markstep->get_qt_var("-commentformat");
+            $submitteddata["-comment"] = $markstep->get_qt_var("-comment");
         }
+        $quba = question_engine::load_questions_usage_by_activity($usageid);
+        $quba->process_action($slot, $submitteddata, null);
+
+        $transaction = $DB->start_delegated_transaction();
+        question_engine::save_questions_usage_by_activity($quba);
+        $transaction->allow_commit();
+        
+        
         
         /*
         if(!get_last_step_with_qt_var_and_value($qa,"-comment")){
