@@ -71,7 +71,10 @@ Scenario: Student uploads a pdf file and teacher is able to annotate
     And I press "Save"
     And I should see "file has been saved"
     And I wait "3" seconds
-    And I go back to previous page
+    And I switch to main window 
+    And I reload the page 
+    And I follow "Make comment or override mark"
+    Then The document should open in a new tab
     And I set the field "Mark" to "10"
     And I wait "3" seconds
     And I press "Save" 

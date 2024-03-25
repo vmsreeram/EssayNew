@@ -19,6 +19,7 @@ require __DIR__ . '/parser.php';
 require __DIR__ . '/alphapdf.php';
 // putenv('PATH=/bin:/usr/bin:/opt/homebrew/bin/gs');
 
+
 function get_first_annotation_comment_step($qa,$attemptid,$slotid) {
     foreach ($qa->get_step_iterator() as $step) {
         if ($step->has_qt_var("-comment") && is_int(strpos($step->get_qt_var("-comment"),"Annotated file [" . md5($attemptid . $slotid) . "] "))) {
@@ -41,6 +42,7 @@ function get_first_annotation_comment_step($qa,$attemptid,$slotid) {
  */
 function convert_pdf_version($file, $path, $attemptid, $slot)
 {
+    global $USER;
     $filepdf = fopen($file,"r");
     if ($filepdf) 
     {
@@ -179,7 +181,7 @@ if(file_exists($tempfile))
 
         $quba = question_engine::load_questions_usage_by_activity($usageid);       
         $qa = $quba->get_question_attempt($slot);
-        $annotationStepExists = (get_first_annotation_comment_step($qa,$attemptid,$slot) != null);
+        // $annotationStepExists = (get_first_annotation_comment_step($qa,$attemptid,$slot) != null);
         $submitteddata = array("-comment"=>"Annotated file [" . md5($attemptid . $slot) . "] filename:`". $filename . "`, user:`" . $USER->firstname ." " . $USER->lastname. "`, time:`" . date("'Y-m-d H:i:s'",time()) . "`.");
         $quba->process_action($slot, $submitteddata, null);
 
@@ -203,11 +205,14 @@ if(file_exists($tempfile))
             'filepath' => $filepath,
             'filename' => $filename);
         
-        if($annotationStepExists) 
-        {
-            $storedfile = $fs->get_file($contextid, $component, $filearea, $itemid, $filepath, $filename);
-            $storedfile->delete();
-        }
+        
+            $doesExists = $fs->file_exists($contextid, $component, $filearea, $itemid, $filepath, $filename);
+            if($doesExists === true)
+            {
+                $storedfile = $fs->get_file($contextid, $component, $filearea, $itemid, $filepath, $filename);
+                $storedfile->delete();
+            }
+        
         $fs->create_file_from_pathname($fileinfo, $tempfile); 
 
        
