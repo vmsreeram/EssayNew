@@ -261,6 +261,7 @@ PDFAnnotate.prototype.deleteSelectedObject = function () {
 				setTimeout(function () {
 					document.body.removeChild(messageBox);
 					window.close();
+					window.opener.location.reload();
 				}, 500); // Fade-out transition time
 			}, 1000); // Display time
 		}
