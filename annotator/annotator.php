@@ -329,7 +329,7 @@ if($canProceed == true)
         'jspdf_js_url' => 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.2.0/jspdf.umd.min.js',
         'prettify_js_url' => 'https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js',
         'pdfannotate_js_url' => './pdfannotate.js',
-        'clickhandlers_js_url' => './clickhandlers.js',
+        // 'clickhandlers_js_url' => './clickhandlers.js',
     );
     
     // Render the template with data
