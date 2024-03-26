@@ -274,7 +274,67 @@ if(!(file_exists($dummyFile)))
 if($canProceed == true) 
 {
     // include the html file; It has all the features of annotator
-    include "./index.html";
+    // include "./index.html";
+
+    $mustache = new Mustache_Engine;
+    $data = array(
+        'page_title' => 'PDF Annotation And Drawing Markup Plugin Example.',
+        'bootstrap_css_url' => 'https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css',
+        'font_awesome_css_url' => 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css',
+        'prettify_css_url' => 'https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.css',
+        'custom_css_url' => './styles.css',
+        'pdfannotate_css_url' => './pdfannotate.css',
+        'annotator_text' => 'Annotator',
+        'font_sizes' => array(
+            array('value' => '10'),
+            array('value' => '12'),
+            array('value' => '16', 'selected' => true),
+            array('value' => '18'),
+            array('value' => '24'),
+            array('value' => '32'),
+            array('value' => '48'),
+            array('value' => '64'),
+            array('value' => '72'),
+            array('value' => '108')
+        ),
+        'color_tools' => array(
+            array('color' => 'rgb(0, 0, 0)', 'active' => true),
+            array('color' => 'rgb(251, 17, 17)'),
+            array('color' => 'rgb(2, 2, 182)'),
+            array('color' => 'rgb(13, 93, 13)'),
+            array('color' => 'rgb(255, 255, 0)'),
+        ),
+        // 'select_button_icon' => 'fa fa-hand-pointer-o',
+        // 'select_active' => true, // Example, set to true if select button should be active
+        'other_tools' => array(
+            array('id_select'=>true, 'icon_class' => 'fa fa-hand-pointer-o', 'onclick_action' => 'enableSelector(event)', 'tooltip' => 'Select', 'selected' => true),
+            array('icon_class' => 'fa fa-pencil', 'onclick_action' => 'enablePencil(event)', 'tooltip' => 'Pen'),
+            array('icon_class' => 'fa fa-font', 'onclick_action' => 'enableAddText(event)', 'tooltip' => 'Add Text'),
+            array('icon_class' => 'fa fa-square-o', 'onclick_action' => 'enableRectangle(event)', 'tooltip' => 'Highlight Box'),
+        ),
+        'other_tools_extra' => array(
+            array('select_danger'=>true,'icon_class' => 'fa fa-trash', 'onclick_action' => 'deleteSelectedObject(event)'),
+            array('select_light'=>true,'icon_class' => 'fa fa-save', 'onclick_action' => 'savePDF(event)', 'select_savenexit' => true),
+        ),
+        'jquery_js_url' => 'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js',
+        'popper_js_url' => 'https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js',
+        'popper_integrity' => 'sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN',
+        'popper_crossorigin' => 'anonymous',
+        'bootstrap_js_url' => 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js',
+        'bootstrap_integrity' => 'sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV',
+        'bootstrap_crossorigin' => 'anonymous',
+        'pdf_js_url' => 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.347/pdf.min.js',
+        'pdf_worker_js_url' => 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.347/pdf.worker.min.js',
+        'fabric_js_url' => 'https://cdnjs.cloudflare.com/ajax/libs/fabric.js/4.3.0/fabric.min.js',
+        'jspdf_js_url' => 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.2.0/jspdf.umd.min.js',
+        'prettify_js_url' => 'https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js',
+        'pdfannotate_js_url' => './pdfannotate.js',
+        'clickhandlers_js_url' => './clickhandlers.js',
+    );
+    
+    // Render the template with data
+    $template = file_get_contents('../templates/indexhtml.mustache');
+    echo $mustache->render($template, $data);    
 }
 //Changes made by Asha & Parvathy ends
 
