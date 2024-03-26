@@ -67,9 +67,7 @@ Scenario: Backup and restore a course with quiz attempt containing essayannotate
     And I annotate the pdf 
     And I press "Save"
     And I should see "file has been saved"
-    And I wait "3" seconds
     And I switch to main window 
-    And I reload the page 
     And I follow "Make comment or override mark"
     Then The document should open in a new tab
     And I set the field "Mark" to "10"
@@ -89,4 +87,8 @@ Scenario: Backup and restore a course with quiz attempt containing essayannotate
     And I restore "test_backup.mbz" backup into a new course using this options:
       | Schema | Course name       | Course 2 |
       | Schema | Course short name | C2       |
-
+    And I wait "5" seconds
+    And I follow "Quiz 1"
+    And I follow "Attempts: 1"
+    And I follow "Review attempt"
+    And I should see "Corrected Documents"
