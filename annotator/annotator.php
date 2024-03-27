@@ -63,7 +63,7 @@ if($cmid == null){
 
 function get_first_annotation_comment_step($qa,$attemptid,$slotid) {
     foreach ($qa->get_step_iterator() as $step) {
-        if ($step->has_qt_var("-comment") && is_int(strpos($step->get_qt_var("-comment"),"Annotated file [" . md5($slotid) . "] "))) {
+        if ($step->has_qt_var("-comment") && is_int(strpos($step->get_qt_var("-comment"),"Annotated file: "))) {
             return $step;
         }
     }
