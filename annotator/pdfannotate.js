@@ -269,7 +269,7 @@ PDFAnnotate.prototype.deleteSelectedObject = function () {
 
 	  };
 	  //Sending data to upload.php
-	  xmlhttp.send("id=" + value + "&contextid=" + contextid + "&attemptid="+attemptid + "&filename=" + filename + "&furl=" + furl + "&usageid=" + usageid + "&slot=" + slot);
+	  xmlhttp.send("id=" + value + "&contextid=" + contextid + "&attemptid="+attemptid + "&filename=" + filename + "&usageid=" + usageid + "&slot=" + slot);
 	});
 };
 

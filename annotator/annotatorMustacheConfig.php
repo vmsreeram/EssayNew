@@ -50,11 +50,6 @@ class annotatorMustacheConfig {
     public $jspdf_js_url = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.2.0/jspdf.umd.min.js';
     public $prettify_js_url = 'https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js';
     public $pdfannotate_js_url = './pdfannotate.js';
-    // public $clickhandlers_js_url = './clickhandlers.js';
-
-    public function __construct() {
-        // Add constructor logic if needed
-    }
 }
 
 ?>

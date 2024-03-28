@@ -27,11 +27,11 @@
 require_once('annotatorMustacheConfig.php');
 require_once('../../../../config.php');
 require_once('../../../../mod/quiz/locallib.php');
-require_login();        // added just now
+require_login();
 
 global $USER;
-//The $tempPath is the path to the subdirectory essayPDF created in moodle's temp directory 
-$tempPath = $CFG->tempdir ."/essayPDF";
+
+$tempPath = $CFG->tempdir ."/essayPDF";     // The $tempPath is the path to the subdirectory essayPDF created in moodle's temp directory 
 
 $attemptid = required_param('attempt', PARAM_INT);
 $slot = required_param('slot', PARAM_INT); // The question number in the attempt.
@@ -39,25 +39,20 @@ $fileno = required_param('fileno', PARAM_INT);
 $cmid = optional_param('cmid', null, PARAM_INT);
 $dummyFile= $tempPath ."/dummy".$attemptid."$".$slot.$USER->id.".pdf";
 if($cmid == null){
+    // getting cmid
     global $DB;
 
-    // SQL query
     $sql = "SELECT cm.id AS cmid
             FROM {quiz_attempts} qa
             JOIN {course_modules} cm ON qa.quiz = cm.instance AND cm.module = (SELECT id FROM {modules} WHERE name = 'quiz')
             WHERE qa.id = :attemptid";
 
-    // Parameters for the query
     $params = ['attemptid' => $attemptid];
 
-    // Execute the query
     $result = $DB->get_record_sql($sql, $params);
-    // Check if a result is found
     if ($result) {
-        // Access the cmid from the result
         $cmid = $result->cmid;
     } else {
-        // If no result is found, throw a Moodle exception
         throw new moodle_exception('Some error occurred.');
     }
 }
@@ -71,7 +66,6 @@ function get_first_annotation_comment_step($qa,$attemptid,$slotid) {
     return new question_attempt_step_read_only();
 }
 
-// $PAGE->set_url('/mod/quiz/annotator.php', array('attempt' => $attemptid, 'slot' => $slot, 'fileno' => $fileno));
 $PAGE->set_url('/question/type/essayannotate/annotator/annotator.php', array('attempt' => $attemptid, 'slot' => $slot, 'fileno' => $fileno));
 
 if (!empty($cmid)) {
@@ -84,7 +78,9 @@ else
     throw new moodle_exception('Some error occurred.');
 }
 
-require_capability('mod/quiz:grade', $PAGE->context);  // added security feature
+require_capability('mod/quiz:grade', $PAGE->context);
+
+// we try to create the subdirectory if not exists
 if(!is_dir($tempPath) && !mkdir($tempPath,0777,true)){
     throw new moodle_exception("Cannot create directory");
 }
@@ -97,50 +93,45 @@ $que_for_commenting = $attemptobj->render_question_for_commenting($slot);
 $qa = $attemptobj->get_question_attempt($slot);
 $qnum = $qa->get_slot();
 $options = $attemptobj->get_display_options(true);
-
-// get all the files
 $files = $qa->get_last_qt_files('attachments', $options->context->id);
 
-// select the "$fileno" file
+// select the "$fileno" file, that is, the file about to be annotated
 $fileurl = "";
 $currfileno = 0;
 foreach ($files as $file) {
     $currfileno = $currfileno + 1;
-    if($currfileno == $fileno)              // this is the file we want
+    if($currfileno == $fileno)
     {
         $out = $qa->get_response_file_url($file);
-        $url = (explode("?", $out))[0];     // remove ?forcedownload=1 from the end of the url
+        $url = (explode("?", $out))[0];     // remove '?forcedownload=1' from the end of the url
         $fileurl = $url;
-        $originalFile = $file;             // storing it; in case the file is not PDF, we need the original file to create PDF from it
+        $originalFile = $file;              // storing it; in case the file is not PDF, we need the original file to create PDF from it
         break;
     }
 }
 
-// variable required to check if annotated file already exists 
-// if exists, then render this file only (i.e. update the $fileurl)
+
 $attemptid = $attemptobj->get_attemptid();
 $contextid = $options->context->id;
 $filename = explode("/", $fileurl);
-$filename = end($filename);     //Changed
+$filename = end($filename);
 $filename = urldecode($filename);
-// ////
-// $filename = "Q" . $qnum . "_" . $filename;
-// ////
 $component = 'question';
 $filearea = 'response_attachments';
 $filepath = '/';
-// $itemid = $attemptobj->get_attemptid();
 $usageid = $qa->get_usage_id();
 $itemid = get_first_annotation_comment_step($qa,$attemptid,$slot)->get_id();
-if ($itemid == null)
+
+if ($itemid == null)                    // if uploaded file is not pdf, the converted file will have to be saved in file area. An $itemid is required for it.
     $itemid = $attemptid;
 
 $canProceed=true;
-// checking if file is not pdf
 $format = explode(".", $filename);
-$format = end($format);     //Changed
+$format = end($format);
 $ispdf = true;
 $mime = explode(' ',get_mimetype_description($file))[0];
+
+// checking if file is not pdf
 if($mime !== "PDF" && $format !== "pdf")
 {
     $ispdf = false;
@@ -153,11 +144,10 @@ $fs = get_file_storage();
 $doesExists = $fs->file_exists($contextid, $component, $filearea, $itemid, $filepath, $filename);
 if($doesExists === true)   // if exists then update $fileurl to the url of this file
 {
-    // the file object
     $file = $fs->get_file($contextid, $component, $filearea, $itemid, $filepath, $filename);
-    // create url of this file
     $file->copy_content_to($dummyFile);
-
+    
+    // create url of this file
     $url = file_encode_url(new moodle_url('/pluginfile.php'), '/' . implode('/', array(
         $file->get_contextid(),
         $file->get_component(),
@@ -167,7 +157,7 @@ if($doesExists === true)   // if exists then update $fileurl to the url of this 
         $file->get_itemid())) .
         $file->get_filepath() . $file->get_filename(), true);
     
-    $url = (explode("?", $url))[0];     // remove '"forcedownload=1' from the end of the url
+    $url = (explode("?", $url))[0];     // remove '?forcedownload=1' from the end of the url
     $fileurl = $url;                    // now update $fileurl
 } else if($ispdf == false)
 {
@@ -177,7 +167,6 @@ if($doesExists === true)   // if exists then update $fileurl to the url of this 
     //Changes made by Asha & Parvathy begins
     // copy non-pdf file to the temp directory of moodledata
     $fileToConvert=$tempPath . "/" . $originalFile->get_filename();
-    // escapeshellcmd here
     $fileToConvert = escapeshellcmd($fileToConvert);
     $originalFile->copy_content_to($fileToConvert);
     
@@ -189,7 +178,6 @@ if($doesExists === true)   // if exists then update $fileurl to the url of this 
     
     $convert = get_config('qtype_essayannotate', 'imagemagickpath');
     // $convert = '/usr/bin/convert';
-    // $imagick = new Imagick();
     // $convert = "/opt/homebrew/bin/convert";
     if($mime === "image")
         $command = $convert." '" . $fileToConvert ."'  -page a4 " .$dummyFile;
@@ -207,14 +195,12 @@ if($doesExists === true)   // if exists then update $fileurl to the url of this 
 
     if($canProceed == true)
     {
-        //Execute the commands of imagemagick(Convert texts and images to PDF)
+        // execute the commands of imagemagick(Convert texts and images to PDF)
         $safecommand = escapeshellcmd($command);
-        // $safecommand = $command;
         $shellOutput = shell_exec($safecommand.'  2>&1');
    
         $command = "rm '" . $fileToConvert . "'";
         $safecommand = escapeshellcmd($command);
-        // $safecommand = $command;
         $shellOutput = shell_exec($safecommand.'  2>&1');
 
         // create a PDF file in moodle database from the above created PDF file
@@ -223,14 +209,13 @@ if($doesExists === true)   // if exists then update $fileurl to the url of this 
             'contextid' => $contextid,
             'component' => $component,
             'filearea' => $filearea,
-            // add usage and slot param
             'usage' => $usageid,
             'slot' => $slot,
             'itemid' => $itemid,
             'filepath' => $filepath,
             'filename' => $filename);
 
-        $fs->create_file_from_pathname($fileinfo, $temppath);   // create file
+        $fs->create_file_from_pathname($fileinfo, $temppath);
 
         // now update fileurl to this newly created PDF file
         $file = $fs->get_file($contextid, $component, $filearea, $itemid, $filepath, $filename);
@@ -243,7 +228,7 @@ if($doesExists === true)   // if exists then update $fileurl to the url of this 
             $qa->get_slot(),
             $file->get_itemid())) .
             $file->get_filepath() . $file->get_filename(), true);
-        $url = (explode("?", $url))[0];     // remove '"forcedownload=1' from the end of the url
+        $url = (explode("?", $url))[0];     // remove '?forcedownload=1' from the end of the url
         $fileurl = $url;                    // now update $fileurl
     }
 }
@@ -252,7 +237,7 @@ else
     $originalFile->copy_content_to($dummyFile);
 } 
 
-//Checking if dummyfile was successfully created
+// checking if dummyfile was successfully created
 if(!(file_exists($dummyFile)))
 {
     $canProceed=false;
@@ -264,7 +249,7 @@ if($canProceed == true)
     // render the annotator ui
     $mustache = new Mustache_Engine;
     $data = new annotatorMustacheConfig();
-    $template = file_get_contents('../templates/indexhtml.mustache');
+    $template = file_get_contents('../templates/annotator.mustache');
     echo $mustache->render($template, $data);    
 }
 //Changes made by Asha & Parvathy ends
@@ -275,7 +260,6 @@ if($canProceed == true)
  -->
 <script type="text/javascript">
     var fileurl = "<?= $fileurl ?>"
-    var furl = "<?= $fileurl ?>"
     var contextid = "<?= $contextid ?>";
     var attemptid = "<?= $attemptid ?>";
     var filename = "<?= $filename ?>"; 

@@ -2,7 +2,7 @@
  * Originally taken from Ravisha Hesh : https://github.com/RavishaHesh/PDFJsAnnotations/tree/master
  * @updatedby Tausif Iqbal and Vishal Rao
  * Changes were made by Asha Jose and Parvathy S Kumar
- * OnClick handlers in index.html are defined here
+ * OnClick handlers are defined here
  * These functions will call functions in pdfannotate.js
  */
 
@@ -61,7 +61,7 @@ function savePDF(event) {
     pdf.savePdf();        //Changes made by Asha and Parvathy: Removed a parameter of the function
 }
 
-//Change the color and font size to currently selected color and font size respectively in the index.html UI
+//Change the color and font size to currently selected color and font size respectively in the UI
 $(function () {
     $('.color-tool').click(function () {
         $('.color-tool.active').removeClass('active');

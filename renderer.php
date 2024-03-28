@@ -75,7 +75,7 @@ class qtype_essayannotate_renderer extends qtype_renderer {
 
         $files = '';
         // It will contain the HTML script corressponding to annotated pdf files
-        $annotatedfiles = "";  // changes made
+        $annotatedfiles = "";
         if ($question->attachments) {
             if (empty($options->readonly)) {
                 $files = $this->files_input($qa, $question->attachments, $options);
@@ -84,8 +84,7 @@ class qtype_essayannotate_renderer extends qtype_renderer {
                 $files = $this->files_read_only($qa, $options);
                 if($qa->get_state()->is_graded() || has_capability('mod/quiz:grade',$PAGE->context))
                 {
-                    // HTML script corressponding to annotated pdf files
-                    $annotatedfiles = $this->feedback_files_read_only($qa,$options);  // changes made
+                    $annotatedfiles = $this->feedback_files_read_only($qa,$options);
                 }
             }
         }
@@ -103,7 +102,6 @@ class qtype_essayannotate_renderer extends qtype_renderer {
                 $question->get_validation_error($step->get_qt_data()), ['class' => 'validationerror']);
         }
         $result .= html_writer::tag('div', $files, array('class' => 'attachments'));
-        // changes made
         if(!empty($annotatedfiles))
         {
             $result .= '<hr style="height:1px;border:none;color:#333;background-color:#333;">';
@@ -131,7 +129,6 @@ class qtype_essayannotate_renderer extends qtype_renderer {
      *      not be displayed. Used to get the context.
      */
     public function feedback_files_read_only(question_attempt $qa, question_display_options $options) {
-        global $CFG;
         $attemptid = required_param('attempt', PARAM_INT);
         $qnum = $qa->get_slot();
         $contextID = $options->context->id;
@@ -146,9 +143,6 @@ class qtype_essayannotate_renderer extends qtype_renderer {
         {
             $fileurl = "";
             $fs = get_file_storage();
-            // ////
-            // $filename = "Q" . $qnum . "_" . $filename;
-            // ////
             $doesExists = $fs->file_exists($contextID, $component, $filearea, $itemid, $filepath, $filename);
             if($doesExists === true)
             {
@@ -165,11 +159,8 @@ class qtype_essayannotate_renderer extends qtype_renderer {
             }
             if(!empty($fileurl) && !empty($filename))
             {
-                // $baseurl = new moodle_url('/');
-                // $baseurl = $baseurl->out(false);
                 $icon = $this->output->pix_icon('f/pdf', "PDF document", 'core', ['class' => 'icon']);
                 $annotatedfiles .= '<p><a href="' . $fileurl . '">' . $icon . $filename  . '</a></p>';
-                // $annotatedfiles .= '<p><a href="' . $fileurl . '"><img class="icon icon" alt="PDF document" title="PDF document" src="'.$baseurl.'/theme/image.php/boost/core/1644642657/f/pdf" />' . 'Feedback_' . $filename  . '</a></p>';
             }
         }
         return $annotatedfiles;
@@ -184,7 +175,6 @@ class qtype_essayannotate_renderer extends qtype_renderer {
      */
     public function get_filenames(question_attempt $qa, question_display_options $options) {
         $files = $qa->get_last_qt_files('attachments', $options->context->id);
-        $url1 = '';
         $names = array();
         foreach ($files as $file) {
             $temp = $qa->get_response_file_url($file);

@@ -17,8 +17,6 @@ require_once('../../../../mod/quiz/locallib.php');
 require __DIR__ . '/annotatedfilebuilder.php';
 require __DIR__ . '/parser.php';
 require __DIR__ . '/alphapdf.php';
-// putenv('PATH=/bin:/usr/bin:/opt/homebrew/bin/gs');
-
 
 function get_first_annotation_comment_step($qa,$attemptid,$slotid) {
     foreach ($qa->get_step_iterator() as $step) {
@@ -76,9 +74,7 @@ function convert_pdf_version($file, $path, $attemptid, $slot)
     return $file;
 }
 
-//Getting all the data from mypdfannotate.js
 require_login();
-// add cap req : grade
 $value = required_param('id', PARAM_RAW);
 $contextid = required_param('contextid', PARAM_INT);
 $attemptid = required_param('attemptid', PARAM_INT);
@@ -89,27 +85,20 @@ $component = 'question';
 $filearea = 'response_attachments';
 $filepath = '/';
 
-// creating context
 global $DB,$USER;
 
-    // SQL query
 $sql = "SELECT cm.id AS cmid
         FROM {quiz_attempts} qa
         JOIN {course_modules} cm ON qa.quiz = cm.instance AND cm.module = (SELECT id FROM {modules} WHERE name = 'quiz')
         WHERE qa.id = :attemptid";
 
-// Parameters for the query
 $params = ['attemptid' => $attemptid];
 
-// Execute the query
 $result = $DB->get_record_sql($sql, $params);
-// Check if a result is found
 if ($result) {
-    // Access the cmid from the result
     $cmid = $result->cmid;
 } else {
-    // If no result is found, throw a Moodle exception
-    throw new moodle_exception('No result found for the given attemptid'. $attemptid);
+    throw new moodle_exception('Some error occurred.');
 }
 
 if (!empty($cmid)) {
@@ -151,13 +140,12 @@ else
 
 if(file_exists($tempfile))
 {
-    //Lines 111 - 149 are pulled from Tausif Iqbal and Vishal Rao version 3.6
-    $fsize = filesize($tempfile); //File size of annotated file
+    $fsize = filesize($tempfile);
     $max_upload = (int)(ini_get('upload_max_filesize'));
     $max_post = (int)(ini_get('post_max_size'));
     $memory_limit = (int)(ini_get('memory_limit'));
-    $max_mb = min($max_upload, $max_post, $memory_limit); // in mb
-    $maxbytes = $max_mb*1024*1024; // in bytes
+    $max_mb = min($max_upload, $max_post, $memory_limit);
+    $maxbytes = $max_mb*1024*1024;
 
     $mdl_maxbytes = $CFG->maxbytes;
     if($mdl_maxbytes > 0)
@@ -168,21 +156,20 @@ if(file_exists($tempfile))
     {
         $quba = question_engine::load_questions_usage_by_activity($usageid);       
         $qa = $quba->get_question_attempt($slot);
-       
-        $quba = question_engine::load_questions_usage_by_activity($usageid);       
-        $qa = $quba->get_question_attempt($slot);
-        // $annotationStepExists = (get_first_annotation_comment_step($qa,$attemptid,$slot) != null);
+
+        // adding the annotation step to keep track of annotations in Response History
         $submitteddata = array("-comment"=>"Annotated file: `". $filename . "`, user:`" . $USER->firstname ." " . $USER->lastname. "`, time:`" . date("'Y-m-d H:i:s'",time()) . "`.");
         $quba->process_action($slot, $submitteddata, null);
 
-        // saving step
+        // saving the step to database
         $transaction = $DB->start_delegated_transaction();
         question_engine::save_questions_usage_by_activity($quba);
         $transaction->allow_commit();
 
-        // saving file
         $quba = question_engine::load_questions_usage_by_activity($usageid);       
         $qa = $quba->get_question_attempt($slot);
+
+        // saving the annotated file with $itemid as stepid of annotation step so that it gets marked for backup
         $itemid = get_first_annotation_comment_step($qa,$attemptid,$slot)->get_id();
         $fs = get_file_storage();
         $fileinfo = array(
@@ -195,7 +182,6 @@ if(file_exists($tempfile))
             'filepath' => $filepath,
             'filename' => $filename);
         
-        
             $doesExists = $fs->file_exists($contextid, $component, $filearea, $itemid, $filepath, $filename);
             if($doesExists === true)
             {
@@ -205,10 +191,10 @@ if(file_exists($tempfile))
         
         $fs->create_file_from_pathname($fileinfo, $tempfile); 
 
-       
-        $markstep = $qa->get_last_step_with_qt_var("-mark");
         $submitteddata = array();
+        $markstep = $qa->get_last_step_with_qt_var("-mark");
         if ($markstep->get_state() != question_state::$unprocessed) {
+            // so that the teacher's last manual comment is shown to students
             $submitteddata["-maxmark"] = $markstep->get_qt_var("-maxmark");
             $submitteddata["-mark"] = $markstep->get_qt_var("-mark");
             $submitteddata["-commentformat"] = $markstep->get_qt_var("-commentformat");
@@ -216,6 +202,7 @@ if(file_exists($tempfile))
         }
         else
         {
+            // so that the annotated step comment does not get revealed to students
             $submitteddata["-comment"]="Teacher has started grading";
             $submitteddata["-mark"]='';
         }

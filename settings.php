@@ -25,31 +25,20 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-// $settings = new admin_settingpage('qtype_essayannotate', get_string('pluginname', 'qtype_essayannotate'));
-
 if ($ADMIN->fulltree) {
-$settings->add(new admin_setting_configtext(
-    'qtype_essayannotate/imagemagickpath',
-    get_string('imagemagickpath', 'qtype_essayannotate'),
-    get_string('imagemagickpath_desc', 'qtype_essayannotate'),
-    'convert',
-    PARAM_TEXT
-));
+    $settings->add(new admin_setting_configtext(
+        'qtype_essayannotate/imagemagickpath',
+        get_string('imagemagickpath', 'qtype_essayannotate'),
+        get_string('imagemagickpath_desc', 'qtype_essayannotate'),
+        'convert',
+        PARAM_TEXT
+    ));
 
-$settings->add(new admin_setting_configtext(
-    'qtype_essayannotate/ghostscriptpath',
-    get_string('ghostscriptpath', 'qtype_essayannotate'),
-    get_string('ghostscriptpath_desc', 'qtype_essayannotate'),
-    'gs',
-    PARAM_TEXT
-));
-
-// $settings->add(new admin_setting_heading(
-//     'qtype_essayannotate/settingsnote',
-//     get_string('settingsnote', 'qtype_essayannotate'),
-//     ''
-// ));
+    $settings->add(new admin_setting_configtext(
+        'qtype_essayannotate/ghostscriptpath',
+        get_string('ghostscriptpath', 'qtype_essayannotate'),
+        get_string('ghostscriptpath_desc', 'qtype_essayannotate'),
+        'gs',
+        PARAM_TEXT
+    ));
 }
-// Add more settings as needed...
-
-// $ADMIN->add('qtype_essayannotate', $settings);
