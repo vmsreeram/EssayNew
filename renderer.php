@@ -231,12 +231,6 @@ class qtype_essayannotate_renderer extends qtype_renderer {
                 $attemptid = optional_param('attempt', null, PARAM_INT);
                 $slot = optional_param('slot', null, PARAM_INT);
                 
-                // $out .= '<form action="../../question/type/essayannotate/annotator/annotator.php" method="post" style="display: inline-block;">
-                //             <input type="hidden" value="' . $attemptid . '" name="attempt">
-                //             <input type="hidden" value="' . $slot . '" name="slot">
-                //             <input type="hidden" value="' . $fileNum . '" name="fileno">
-                //             <input type="submit" class="btn btn-primary" value="Annotate" style="margin: 5px; padding: 4px;">                
-                //         </form>';
                 $mime = explode(' ',get_mimetype_description($file))[0];
                 $onclick = ' ';
                 $tooltipMessage = '';
