@@ -168,21 +168,21 @@ if(file_exists($tempfile))
     {
         $quba = question_engine::load_questions_usage_by_activity($usageid);       
         $qa = $quba->get_question_attempt($slot);
-        $feedbackCommentStep = $qa->get_last_step_with_qt_var("-mark");
+        // $feedbackCommentStep = $qa->get_last_step_with_qt_var("-mark");
 
-        if ($feedbackCommentStep->get_state() == question_state::$unprocessed){
-            $submitteddata = array("-comment"=>"Teacher has begun grading","-mark"=>'');
-            $quba->process_action($slot, $submitteddata, null);
+        // if ($feedbackCommentStep->get_state() == question_state::$unprocessed){
+        //     // $submitteddata = array("-comment"=>"Teacher has started grading","-mark"=>'');
+        //     // $quba->process_action($slot, $submitteddata, null);
 
-            $transaction = $DB->start_delegated_transaction();
-            question_engine::save_questions_usage_by_activity($quba);
-            $transaction->allow_commit();
-        }
+        //     // $transaction = $DB->start_delegated_transaction();
+        //     // question_engine::save_questions_usage_by_activity($quba);
+        //     // $transaction->allow_commit();
+        // }
 
         $quba = question_engine::load_questions_usage_by_activity($usageid);       
         $qa = $quba->get_question_attempt($slot);
         // $annotationStepExists = (get_first_annotation_comment_step($qa,$attemptid,$slot) != null);
-        $submitteddata = array("-comment"=>"Annotated file [" . md5($slot) . "] filename:`". $filename . "`, user:`" . $USER->firstname ." " . $USER->lastname. "`, time:`" . date("'Y-m-d H:i:s'",time()) . "`.");
+        $submitteddata = array("-comment"=>"Annotated file: `". $filename . "`, user:`" . $USER->firstname ." " . $USER->lastname. "`, time:`" . date("'Y-m-d H:i:s'",time()) . "`.");
         $quba->process_action($slot, $submitteddata, null);
 
         // saving step
@@ -223,6 +223,11 @@ if(file_exists($tempfile))
             $submitteddata["-mark"] = $markstep->get_qt_var("-mark");
             $submitteddata["-commentformat"] = $markstep->get_qt_var("-commentformat");
             $submitteddata["-comment"] = $markstep->get_qt_var("-comment");
+        }
+        else
+        {
+            $submitteddata["-comment"]="Teacher has started grading";
+            $submitteddata["-mark"]='';
         }
         $quba = question_engine::load_questions_usage_by_activity($usageid);
         $quba->process_action($slot, $submitteddata, null);
