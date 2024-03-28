@@ -19,7 +19,7 @@
  *
  * @package    qtype
  * @subpackage essayannotate
- * @copyright  2005 Mark Nielsen
+ * @copyright  2024 IIT Palakkad
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 

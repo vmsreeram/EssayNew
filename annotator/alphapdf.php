@@ -1,10 +1,27 @@
 <?php
+// This file is part of Moodle - http://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
 /**
- * @author: Martin Hall-May
- * License: FPDF
- * Description : This script gives transparency support. You can set the alpha channel from 0 (fully transparent) to 1 (fully opaque). It applies to all elements (text, drawings, images).
- * Link : http://www.fpdf.org/en/script/script74.php
- * Changes were made by Asha Jose and Parvathy S Kumar in lines 10-14
+ * This page serves as the library for AlphaPDF.
+ *
+ * @package    qtype
+ * @subpackage essayannotate
+ * @copyright  2024 IIT Palakkad
+ * @copyright  based on work done by Martin Hall-May, FPDF {@link http://www.fpdf.org/en/script/script74.php}
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 defined('MOODLE_INTERNAL') || die();
 

@@ -18,7 +18,8 @@
  * Privacy Subsystem implementation for qtype_essayannotate.
  *
  * @package    qtype_essayannotate
- * @copyright  2018 Andrew Nicols <andrew@nicols.co.uk>
+ * @copyright  2024 IIT Palakkad 
+ * @copyright  based on work done by 2018 Andrew Nicols <andrew@nicols.co.uk>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 

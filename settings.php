@@ -19,7 +19,7 @@
  *
  * @package    qtype
  * @subpackage essayannotate
- * @copyright  2009 The Open University
+ * @copyright  2024 IIT Palakkad
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 

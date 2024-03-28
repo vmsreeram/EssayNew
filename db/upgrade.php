@@ -19,7 +19,8 @@
  *
  * @package    qtype
  * @subpackage essayannotate
- * @copyright  2011 The Open University
+ * @copyright  2024 IIT Palakkad 
+ * @copyright  based on work done by 2011 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
