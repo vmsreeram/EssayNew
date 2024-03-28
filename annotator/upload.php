@@ -168,17 +168,7 @@ if(file_exists($tempfile))
     {
         $quba = question_engine::load_questions_usage_by_activity($usageid);       
         $qa = $quba->get_question_attempt($slot);
-        // $feedbackCommentStep = $qa->get_last_step_with_qt_var("-mark");
-
-        // if ($feedbackCommentStep->get_state() == question_state::$unprocessed){
-        //     // $submitteddata = array("-comment"=>"Teacher has started grading","-mark"=>'');
-        //     // $quba->process_action($slot, $submitteddata, null);
-
-        //     // $transaction = $DB->start_delegated_transaction();
-        //     // question_engine::save_questions_usage_by_activity($quba);
-        //     // $transaction->allow_commit();
-        // }
-
+       
         $quba = question_engine::load_questions_usage_by_activity($usageid);       
         $qa = $quba->get_question_attempt($slot);
         // $annotationStepExists = (get_first_annotation_comment_step($qa,$attemptid,$slot) != null);
@@ -236,74 +226,6 @@ if(file_exists($tempfile))
         question_engine::save_questions_usage_by_activity($quba);
         $transaction->allow_commit();
         
-        
-        
-        /*
-        if(!get_last_step_with_qt_var_and_value($qa,"-comment")){
-            ///////// so that a new step gets added
-            $submitteddata = array("-comment"=>"Annotated file. ");
-            $markstep = $qa->get_last_step_with_qt_var("-mark");
-
-            if ($markstep->get_state() != question_state::$unprocessed) {
-                $submitteddata["-maxmark"] = $markstep->get_qt_var("-maxmark");
-                $submitteddata["-mark"] = $markstep->get_qt_var("-mark");
-                $submitteddata["-commentformat"] = $markstep->get_qt_var("-commentformat");
-                $submitteddata["-comment"] = "Annotated file. " . $markstep->get_qt_var("-comment");
-            }
-
-
-
-
-            
-            $quba = question_engine::load_questions_usage_by_activity($usageid);
-            
-            $quba->process_action($slot, $submitteddata, null);
-            
-                    
-            $transaction = $DB->start_delegated_transaction();
-            question_engine::save_questions_usage_by_activity($quba);
-            $transaction->allow_commit();
-                    
-            $quba = question_engine::load_questions_usage_by_activity($usageid);       
-            $qa = $quba->get_question_attempt($slot);
-            $itemid = get_last_step_with_qt_var_and_value($qa,"-comment")->get_id();
-            /////////   
-
-            $fs = get_file_storage();
-            // Prepare file record object
-            $fileinfo = array(
-                'contextid' => $contextid,
-                'component' => $component,
-                'filearea' => $filearea,
-                // add usage and slot param
-                'usage' => $usageid,
-                'slot' => $slot,
-                'itemid' => $itemid,
-                'filepath' => $filepath,
-                'filename' => $filename);
-
-            $fs->create_file_from_pathname($fileinfo, $tempfile); 
-        }
-        else{
-            $itemid = get_last_step_with_qt_var_and_value($qa,"-comment")->get_id();
-            $fs = get_file_storage();
-            $fileinfo = array(
-                'contextid' => $contextid,
-                'component' => $component,
-                'filearea' => $filearea,
-                // add usage and slot param
-                'usage' => $usageid,
-                'slot' => $slot,
-                'itemid' => $itemid,
-                'filepath' => $filepath,
-                'filename' => $filename);
-
-            $storedfile = $fs->get_file($contextid, $component, $filearea, $itemid, $filepath, $filename);
-            $storedfile->delete();
-            $fs->create_file_from_pathname($fileinfo, $tempfile); 
-        }
-       
-        */
     }
     else
     {
