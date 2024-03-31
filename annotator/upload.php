@@ -180,9 +180,8 @@ if(file_exists($tempfile))
     {
         $quba = question_engine::load_questions_usage_by_activity($usageid);       
         $qa = $quba->get_question_attempt($slot);
-
         // adding the annotation step to keep track of annotations in Response History
-        $submitteddata = array("-comment"=>"Annotated file: `". $filename . "`, user:`" . $USER->firstname ." " . $USER->lastname. "`, time:`" . date("'Y-m-d H:i:s'",time()) . "`.");
+        $submitteddata = array("-comment"=>get_string('annotated_file','qtype_essayannotate'). $filename . get_string('user','qtype_essayannotate') . $USER->firstname ." " . $USER->lastname. get_string('time','qtype_essayannotate') . date("'Y-m-d H:i:s'",time()) . ".");
         $quba->process_action($slot, $submitteddata, null);
 
         // saving the step to database
@@ -227,7 +226,7 @@ if(file_exists($tempfile))
         else
         {
             // so that the annotated step comment does not get revealed to students
-            $submitteddata["-comment"]="Teacher has started grading";
+            $submitteddata["-comment"]=get_string('annotationstep_default_comment','qtype_essayannotate');
             $submitteddata["-mark"]='';
         }
         $quba = question_engine::load_questions_usage_by_activity($usageid);
