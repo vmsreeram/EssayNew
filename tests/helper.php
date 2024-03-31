@@ -291,5 +291,26 @@ class qtype_essayannotate_test_helper extends question_test_helper {
         return new question_file_saver($this->make_attachments($attachments), 'question', 'response_attachments');
     }
 
+    public static function make_an_essayannotate_question() {
+        question_bank::load_question_definition_classes('essayannotate');
+        $essay = new qtype_essayannotate_question();
+        test_question_maker::initialise_a_question($essay);
+        $essay->name = 'Essay annotate question';
+        $essay->questiontext = 'Write an essay annotate.';
+        $essay->generalfeedback = 'I hope you wrote an interesting essay annotate.';
+        $essay->penalty = 0;
+        $essay->qtype = question_bank::get_qtype('essayannotate');
 
+        $essay->responseformat = 'editor';
+        $essay->responserequired = 1;
+        $essay->responsefieldlines = 15;
+        $essay->attachments = 0;
+        $essay->attachmentsrequired = 0;
+        $essay->responsetemplate = '';
+        $essay->responsetemplateformat = FORMAT_MOODLE;
+        $essay->graderinfo = '';
+        $essay->graderinfoformat = FORMAT_MOODLE;
+
+        return $essay;
+    }
 }

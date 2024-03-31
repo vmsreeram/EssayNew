@@ -23,6 +23,7 @@ defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
 require_once($CFG->dirroot . '/question/engine/tests/helpers.php');
+require_once($CFG->dirroot . '/question/type/essayannotate/tests/helper.php');
 
 
 /**
@@ -34,7 +35,7 @@ require_once($CFG->dirroot . '/question/engine/tests/helpers.php');
  */
 class question_test extends \advanced_testcase {
     public function test_get_question_summary() {
-        $essayannotate = \test_question_maker::make_an_essayannotate_question();
+        $essayannotate = \qtype_essayannotate_test_helper::make_an_essayannotate_question();
         $essayannotate->questiontext = 'Hello <img src="http://example.com/globe.png" alt="world" />';
         $this->assertEquals('Hello [world]', $essayannotate->get_question_summary());
     }
@@ -61,7 +62,7 @@ class question_test extends \advanced_testcase {
         $attachments = $this->create_user_and_sample_attachments($numberofattachments);
 
         // Create the essayannotate question under test.
-        $essayannotate = \test_question_maker::make_an_essayannotate_question();
+        $essayannotate = \qtype_essayannotate_test_helper::make_an_essayannotate_question();
         $essayannotate->start_attempt(new question_attempt_step(), 1);
 
         $essayannotate->responseformat = 'editor';
@@ -101,7 +102,7 @@ class question_test extends \advanced_testcase {
     }
 
     public function test_is_same_response() {
-        $essayannotate = \test_question_maker::make_an_essayannotate_question();
+        $essayannotate = \qtype_essayannotate_test_helper::make_an_essayannotate_question();
 
         $essayannotate->responsetemplate = '';
 
@@ -145,7 +146,7 @@ class question_test extends \advanced_testcase {
     }
 
     public function test_is_same_response_with_template() {
-        $essayannotate = \test_question_maker::make_an_essayannotate_question();
+        $essayannotate = \qtype_essayannotate_test_helper::make_an_essayannotate_question();
 
         $essayannotate->responsetemplate = 'Once upon a time';
 
@@ -195,7 +196,7 @@ class question_test extends \advanced_testcase {
         $attachments = $this->create_user_and_sample_attachments();
 
         // Create the essayannotate question under test.
-        $essayannotate = \test_question_maker::make_an_essayannotate_question();
+        $essayannotate = \qtype_essayannotate_test_helper::make_an_essayannotate_question();
         $essayannotate->start_attempt(new question_attempt_step(), 1);
 
         // Test the "traditional" case, where we must receive a response from the user.
@@ -280,9 +281,9 @@ class question_test extends \advanced_testcase {
 
         // Test the case in which we're in "no inline response" mode,
         // in which the response is not required (as it's not provided).
-        $essayannotate->reponserequired = 0;
+        $essayannotate->responserequired = 0;
         $essayannotate->responseformat = 'noinline';
-        $essayannotate->attachmensrequired = 1;
+        $essayannotate->attachmentsrequired = 1;
 
         $this->assertFalse($essayannotate->is_complete_response(
                 array()));
@@ -294,7 +295,7 @@ class question_test extends \advanced_testcase {
                 array('attachments' => $attachments[1])));
 
         // Ensure that responserequired is ignored when we're in inline response mode.
-        $essayannotate->reponserequired = 1;
+        $essayannotate->responserequired = 1;
         $this->assertTrue($essayannotate->is_complete_response(
                 array('attachments' => $attachments[1])));
     }
@@ -305,7 +306,7 @@ class question_test extends \advanced_testcase {
     public function test_get_question_definition_for_external_rendering() {
         $this->resetAfterTest();
 
-        $essayannotate = \test_question_maker::make_an_essayannotate_question();
+        $essayannotate = \qtype_essayannotate_test_helper::make_an_essayannotate_question();
         $essayannotate->minwordlimit = 15;
         $essayannotate->start_attempt(new question_attempt_step(), 1);
         $qa = \test_question_maker::get_a_qa($essayannotate);
@@ -339,7 +340,7 @@ class question_test extends \advanced_testcase {
      */
     public function test_get_validation_error(int $responserequired,
                                               int $minwordlimit, int $maxwordlimit, string $expected): void {
-        $question = \test_question_maker::make_an_essayannotate_question();
+        $question = \qtype_essayannotate_test_helper::make_an_essayannotate_question();
         $response = ['answer' => 'One two three four five six seven eight nine ten eleven twelve thirteen fourteen.'];
         $question->responserequired = $responserequired;
         $question->minwordlimit = $minwordlimit;
@@ -376,7 +377,7 @@ class question_test extends \advanced_testcase {
      * @param string $expected error message | null
      */
     public function test_get_word_count_message_for_review(?int $minwordlimit, ?int $maxwordlimit, string $expected): void {
-        $question = \test_question_maker::make_an_essayannotate_question();
+        $question = \qtype_essayannotate_test_helper::make_an_essayannotate_question();
         $question->minwordlimit = $minwordlimit;
         $question->maxwordlimit = $maxwordlimit;
 
