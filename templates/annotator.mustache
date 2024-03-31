@@ -21,7 +21,7 @@
             <span>{{ annotator_text }}</span>
         </div>
         <div class="tool">
-            <label for="">Font size</label>
+            <label for=""> {{ font_size}} </label>
             <select id="font-size" class="form-control">
                 {{# font_sizes }}
                     <option value="{{ value }}" {{# selected }}selected{{/ selected }}>{{ value }}</option>
@@ -41,7 +41,7 @@
         {{/ other_tools }}
         {{# other_tools_extra }}
             <div class="tool">
-                    <button class="btn btn-{{# select_danger }}danger{{/ select_danger }}{{# select_light }}light{{/ select_light }} btn-sm" onclick="{{ onclick_action }}"><i class="{{ icon_class }}"></i>{{# select_savenexit }} Save and Exit{{/ select_savenexit }}</button>
+                    <button class="btn btn-{{# select_danger }}danger{{/ select_danger }}{{# select_light }}light{{/ select_light }} btn-sm" onclick="{{ onclick_action }}"><i class="{{ icon_class }}"></i>{{# select_savenexit }} {{ save_exit }}{{/ select_savenexit }}</button>
             </div>
         {{/ other_tools_extra }}
     </div>

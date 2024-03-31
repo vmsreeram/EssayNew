@@ -106,7 +106,7 @@ class qtype_essayannotate_renderer extends qtype_renderer {
         if(!empty($annotatedfiles))
         {
             $result .= '<hr style="height:1px;border:none;color:#333;background-color:#333;">';
-            $result .= '<p> <b> Corrected Documents </b> </p>';
+            $result .= '<p> <b>' . get_string('corrected_documents','qtype_essayannotate').'</b> </p>';
             $result .= html_writer::tag('div', $annotatedfiles, array('class' => 'attachments'));   // adding annotated file.
         }        
         $result .= html_writer::end_tag('div');
@@ -224,16 +224,14 @@ class qtype_essayannotate_renderer extends qtype_renderer {
                 
                 $mime = explode(' ',get_mimetype_description($file))[0];
                 $onclick = ' ';
-                $tooltipMessage = '';
                 $annotate = get_string('annotate_button_label', 'qtype_essayannotate');
                 if ($mime === 'Image' || $mime === 'Text' || $mime === "PDF") {
                     $onclick = "annotate($attemptid,$slot,$fileNum)";
                 } else {
-                    $annotate = 'Unsupported file';
-                    $tooltipMessage = 'Unsupported file';
+                    $annotate = get_string('unsupported_file','qtype_essayannotate');
                 }
                 
-                $out .= '<button type="button" name = "Annotate" class="btn btn-primary annotate-btn" style="margin: 5px; padding: 4px;" onclick="'. $onclick.'" title="'.$tooltipMessage.'">' . $annotate . '</button>';
+                $out .= '<button type="button" name = "Annotate" class="btn btn-primary annotate-btn" style="margin: 5px; padding: 4px;" onclick="'. $onclick.'">' . $annotate . '</button>';
             }
             if (!empty($CFG->enableplagiarism)) {
                 require_once($CFG->libdir . '/plagiarismlib.php');

@@ -22,7 +22,7 @@
  * @copyright  2024 IIT Palakkad
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
+require_once('../../../../config.php');
 class annotatorMustacheConfig {
     public $page_title = 'PDF Annotation And Drawing Markup Plugin Example.';
     public $bootstrap_css_url = 'https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css';
@@ -30,7 +30,8 @@ class annotatorMustacheConfig {
     public $prettify_css_url = 'https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.css';
     public $custom_css_url = './styles.css';
     public $pdfannotate_css_url = './pdfannotate.css';
-    public $annotator_text = 'Annotator';
+    public $annotator_text;
+    public $font_size;
     public $font_sizes = array(
         array('value' => '10'),
         array('value' => '12'),
@@ -56,10 +57,7 @@ class annotatorMustacheConfig {
         array('icon_class' => 'fa fa-font', 'onclick_action' => 'enableAddText(event)', 'tooltip' => 'Add Text'),
         array('icon_class' => 'fa fa-square-o', 'onclick_action' => 'enableRectangle(event)', 'tooltip' => 'Highlight Box'),
     );
-    public $other_tools_extra = array(
-        array('select_danger'=>true,'icon_class' => 'fa fa-trash', 'onclick_action' => 'deleteSelectedObject(event)'),
-        array('select_light'=>true,'icon_class' => 'fa fa-save', 'onclick_action' => 'savePDF(event)', 'select_savenexit' => true),
-    );
+    public $other_tools_extra ;
     public $jquery_js_url = 'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js';
     public $popper_js_url = 'https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js';
     public $popper_integrity = 'sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN';
@@ -73,6 +71,15 @@ class annotatorMustacheConfig {
     public $jspdf_js_url = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.2.0/jspdf.umd.min.js';
     public $prettify_js_url = 'https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js';
     public $pdfannotate_js_url = './pdfannotate.js';
+
+    public function __construct() {
+        $this->annotator_text = get_string('annotator', 'qtype_essayannotate');
+        $this->font_size = get_string('font_size','qtype_essayannotate');
+        $this->other_tools_extra = array(
+            array('select_danger'=>true,'icon_class' => 'fa fa-trash', 'onclick_action' => 'deleteSelectedObject(event)'),
+            array('select_light'=>true,'icon_class' => 'fa fa-save', 'onclick_action' => 'savePDF(event)', 'select_savenexit' => true,'save_exit' =>  get_string('save_exit','qtype_essayannotate')),
+        );
+    }
 }
 
 ?>
