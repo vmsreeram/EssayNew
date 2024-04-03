@@ -25,8 +25,17 @@
 
 /**
  * @author Tausif Iqbal, Vishal Rao
+ * @link {https://github.com/TausifIqbal/moodle_quiz_annotator}
+ * 
  * @updatedby Asha Jose, Parvathy S Kumar
+ * @link {https://github.com/Parvathy-S-Kumar/Moodle_Quiz_PDF_Annotator}
  * All parts of this file excluding preparing the file record object and adding file to the database is modified by us
+ *
+ * @updatedby Nideesh, Sreeram
+ * Followed security guidelines such as require_login, require_capability, required_param instead of $_POST, escaping shell cmds before execution.
+ * Added the logic to add steps to question_attempt_step after each annotation. 
+ * Modified the itemid of the file saved in the database to be the step_id of first annotation step we add.
+ * Updated fileinfo array to fix unexpected annotations to different files with same filename within a quiz bug.
  *
  * This page saves annotated pdf to database.
  * 
@@ -68,9 +77,11 @@ function convert_pdf_version($file, $path, $attemptid, $slot)
         $pdfversion = implode('.', $matches[0]);
         if($pdfversion > "1.4")
         {
+            // Filename contains attemptid, slot, userid so that multiple files can be annotated simultaneously
             $srcfile_new = $path."/newdummy".$attemptid."$".$slot.$USER->id.".pdf";;
             $srcfile = $file;
-            //Using GhostScript convert the pdf version to 1.4
+            // Using GhostScript convert the pdf version to 1.4
+            // Getting GhostScript path from settings page of plugin
             $gsPath = get_config('qtype_essayannotate', 'ghostscriptpath');
 
             // $gsPath = '/usr/bin/gs';
@@ -93,6 +104,8 @@ function convert_pdf_version($file, $path, $attemptid, $slot)
 }
 
 require_login();
+
+// Getting all the data from pdfannotate.js
 $value = required_param('id', PARAM_RAW);
 $contextid = required_param('contextid', PARAM_INT);
 $attemptid = required_param('attemptid', PARAM_INT);
@@ -105,6 +118,7 @@ $filepath = '/';
 
 global $USER,$DB;
 
+// Getting the cmid
 $result = helper::getCmid($attemptid);
 
 if ($result) {
@@ -122,26 +136,26 @@ if (!empty($cmid)) {
 require_capability('mod/quiz:grade', $PAGE->context); 
 
 
-//Get the serialisepdf value contents and convert into php arrays
+// Get the serialisepdf value contents and convert into php arrays
 $json = json_decode($value,true);
 
-//Referencing the file from the temp directory 
+// Referencing the file from the temp directory 
 $path = $CFG->tempdir . '/essayPDF';
 $file = $path . '/dummy'.$attemptid."$".$slot.$USER->id.".pdf"; 
 $tempfile = $path . '/outputmoodle'.$attemptid."$".$slot.$USER->id.".pdf";
 
 if(file_exists($file))
 {
-    //Calling function to convert the PDF version above 1.4 to 1.4 for compatibility with fpdf
+    // Calling function to convert the PDF version above 1.4 to 1.4 for compatibility with fpdf
     $file=convert_pdf_version($file, $path, $attemptid, $slot);
 
-    //Using FPDF and FPDI to annotate
+    // Using FPDF and FPDI to annotate
     if(file_exists($file))
     {
         $pdf = build_annotated_file($file, $json);
         // Deleting dummy.pdf
         unlink($file);
-        // creating output moodle file for loading into database
+        // Creating output moodle file for loading into database
         $pdf->Output('F', $tempfile);
     }
     else
@@ -168,11 +182,11 @@ if(file_exists($tempfile))
     {
         $quba = question_engine::load_questions_usage_by_activity($usageid);       
         $qa = $quba->get_question_attempt($slot);
-        // adding the annotation step to keep track of annotations in Response History
+        // Adding the annotation step to keep track of annotations in Response History
         $submitteddata = array("-comment"=>get_string('annotated_file','qtype_essayannotate'). $filename . get_string('user','qtype_essayannotate') . $USER->firstname ." " . $USER->lastname. get_string('time','qtype_essayannotate') . date("'Y-m-d H:i:s'",time()) . ".");
         $quba->process_action($slot, $submitteddata, null);
 
-        // saving the step to database
+        // Saving the step to database
         $transaction = $DB->start_delegated_transaction();
         question_engine::save_questions_usage_by_activity($quba);
         $transaction->allow_commit();
@@ -205,7 +219,7 @@ if(file_exists($tempfile))
         $submitteddata = array();
         $markstep = $qa->get_last_step_with_qt_var("-mark");
         if ($markstep->get_state() != question_state::$unprocessed) {
-            // so that the teacher's last manual comment is shown to students
+            // So that the teacher's last manual comment is shown to students
             $submitteddata["-maxmark"] = $markstep->get_qt_var("-maxmark");
             $submitteddata["-mark"] = $markstep->get_qt_var("-mark");
             $submitteddata["-commentformat"] = $markstep->get_qt_var("-commentformat");
@@ -213,7 +227,7 @@ if(file_exists($tempfile))
         }
         else
         {
-            // so that the annotated step comment does not get revealed to students
+            // So that the annotated step comment does not get revealed to students
             $submitteddata["-comment"]=get_string('annotationstep_default_comment','qtype_essayannotate');
             $submitteddata["-mark"]='';
         }
