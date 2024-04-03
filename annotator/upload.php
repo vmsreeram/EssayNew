@@ -116,7 +116,6 @@ $filepath = '/';
 
 global $USER,$DB;
 
-// Getting the cmid
 $result = helper::getCmid($attemptid);
 
 if ($result) {
