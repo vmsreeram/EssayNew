@@ -25,11 +25,11 @@
  */
 
 /**
- * @updatedby were made by Tausif Iqbal and Vishal Rao
+ * @updatedby Tausif Iqbal and Vishal Rao
  * @link {https://github.com/TausifIqbal/moodle_quiz_annotator}
  *  Added logic to get and display Corrected Documents
  *
- * Changes were made by Nideesh and Sreeram
+ * @updatedby Nideesh and Sreeram
  *  `Corrected Documents` shown to students if and only if qa is graded.
  *  Followed Moodle coding conventions by adding language strings.
  *  Updated itemid as the attemptid of the first annotation step.
