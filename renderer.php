@@ -137,8 +137,6 @@ class qtype_essayannotate_renderer extends qtype_renderer {
      *      not be displayed. Used to get the context.
      */
     public function feedback_files_read_only(question_attempt $qa, question_display_options $options) {
-        $attemptid = required_param('attempt', PARAM_INT);
-        $qnum = $qa->get_slot();
         $contextID = $options->context->id;
         $component = 'question';
         $filearea = 'response_attachments';
