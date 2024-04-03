@@ -26,7 +26,7 @@
 
 
 defined('MOODLE_INTERNAL') || die();
-
+require_once('classes/helper.php');
 
 /**
  * Generates the output for essayannotate questions.
@@ -113,14 +113,7 @@ class qtype_essayannotate_renderer extends qtype_renderer {
 
         return $result;
     }
-    public function get_first_annotation_comment_step($qa,$attemptid,$slotid) {
-        foreach ($qa->get_step_iterator() as $step) {
-            if ($step->has_qt_var("-comment") && !$step->has_qt_var("-mark")) {
-                return $step;
-            }
-        }
-        return new question_attempt_step_read_only();
-    }
+    
 
     /**
      * @author Tausif Iqbal, Vishal Rao
@@ -136,7 +129,7 @@ class qtype_essayannotate_renderer extends qtype_renderer {
         $component = 'question';
         $filearea = 'response_attachments';
         $filepath = '/';
-        $itemid = $this->get_first_annotation_comment_step($qa,$attemptid,$qnum)->get_id();
+        $itemid = helper::get_first_annotation_comment_step($qa)->get_id();
         $filenames = $this->get_filenames($qa, $options);
 
         $annotatedfiles = "";

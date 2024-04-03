@@ -25,6 +25,7 @@
 
 require_once('annotatorMustacheConfig.php');
 require_once('../../../../config.php');
+require_once('../classes/helper.php');
 require_once('../../../../mod/quiz/locallib.php');
 require_login();
 
@@ -39,16 +40,7 @@ $cmid = optional_param('cmid', null, PARAM_INT);
 $dummyFile= $tempPath ."/dummy".$attemptid."$".$slot.$USER->id.".pdf";
 if($cmid == null){
     // getting cmid
-    global $DB;
-
-    $sql = "SELECT cm.id AS cmid
-            FROM {quiz_attempts} qa
-            JOIN {course_modules} cm ON qa.quiz = cm.instance AND cm.module = (SELECT id FROM {modules} WHERE name = 'quiz')
-            WHERE qa.id = :attemptid";
-
-    $params = ['attemptid' => $attemptid];
-
-    $result = $DB->get_record_sql($sql, $params);
+    $result = helper::getCmid($attemptid) ;
     if ($result) {
         $cmid = $result->cmid;
     } else {
@@ -56,14 +48,6 @@ if($cmid == null){
     }
 }
 
-function get_first_annotation_comment_step($qa,$attemptid,$slotid) {
-    foreach ($qa->get_step_iterator() as $step) {
-        if ($step->has_qt_var("-comment") && !$step->has_qt_var("-mark")) {
-            return $step;
-        }
-    }
-    return new question_attempt_step_read_only();
-}
 
 $PAGE->set_url('/question/type/essayannotate/annotator/annotator.php', array('attempt' => $attemptid, 'slot' => $slot, 'fileno' => $fileno));
 
@@ -119,7 +103,7 @@ $component = 'question';
 $filearea = 'response_attachments';
 $filepath = '/';
 $usageid = $qa->get_usage_id();
-$itemid = get_first_annotation_comment_step($qa,$attemptid,$slot)->get_id();
+$itemid = helper::get_first_annotation_comment_step($qa)->get_id();
 
 if ($itemid == null)                    // if uploaded file is not pdf, the converted file will have to be saved in file area. An $itemid is required for it.
     $itemid = $attemptid;

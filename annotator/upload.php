@@ -38,18 +38,12 @@
 
 require_once('../../../../config.php');
 require_once('../../../../mod/quiz/locallib.php');
+require_once('../classes/helper.php');
 require __DIR__ . '/annotatedfilebuilder.php';
 require __DIR__ . '/parser.php';
 require __DIR__ . '/alphapdf.php';
 
-function get_first_annotation_comment_step($qa,$attemptid,$slotid) {
-    foreach ($qa->get_step_iterator() as $step) {
-        if ($step->has_qt_var("-comment") && !$step->has_qt_var("-mark")) {
-            return $step;
-        }
-    }
-    return null;
-}
+
 /**
  * To convert PDF versions to 1.4 if the version is above it
  * since FPDI parser will only work for PDF versions upto 1.4.
@@ -109,16 +103,10 @@ $component = 'question';
 $filearea = 'response_attachments';
 $filepath = '/';
 
-global $DB,$USER;
+global $USER,$DB;
 
-$sql = "SELECT cm.id AS cmid
-        FROM {quiz_attempts} qa
-        JOIN {course_modules} cm ON qa.quiz = cm.instance AND cm.module = (SELECT id FROM {modules} WHERE name = 'quiz')
-        WHERE qa.id = :attemptid";
+$result = helper::getCmid($attemptid);
 
-$params = ['attemptid' => $attemptid];
-
-$result = $DB->get_record_sql($sql, $params);
 if ($result) {
     $cmid = $result->cmid;
 } else {
@@ -193,7 +181,7 @@ if(file_exists($tempfile))
         $qa = $quba->get_question_attempt($slot);
 
         // saving the annotated file with $itemid as stepid of annotation step so that it gets marked for backup
-        $itemid = get_first_annotation_comment_step($qa,$attemptid,$slot)->get_id();
+        $itemid = helper::get_first_annotation_comment_step($qa)->get_id();
         $fs = get_file_storage();
         $fileinfo = array(
             'contextid' => $contextid,
