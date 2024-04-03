@@ -30,10 +30,10 @@
  *  Added logic to get and display Corrected Documents
  *
  * Changes were made by Nideesh and Sreeram
- *  Corrected Documents shown to students if and only if qa is graded.
+ *  `Corrected Documents` shown to students if and only if qa is graded.
  *  Followed Moodle coding conventions by adding language strings.
  *  Updated itemid as the attemptid of the first annotation step.
- *  Updated logic for checking filetype is PDF by using mimetype and extension [TODO].
+ *  Updated logic for checking filetype is PDF by using mimetype and extension.
  *  Show `Annotate` button to teachers adjacent to the file attachments.
  */
 
@@ -95,6 +95,8 @@ class qtype_essayannotate_renderer extends qtype_renderer {
 
             } else {
                 $files = $this->files_read_only($qa, $options);
+
+                // Display `Corrected Documents` to teachers always, but display to students only if the qa is graded.
                 if($qa->get_state()->is_graded() || has_capability('mod/quiz:grade',$PAGE->context))
                 {
                     $annotatedfiles = $this->feedback_files_read_only($qa,$options);
@@ -192,7 +194,7 @@ class qtype_essayannotate_renderer extends qtype_renderer {
             // then change the filename as originalFileName_topdf.pdf
             $temp_name = explode('.', $name);
             $mime = explode(' ',get_mimetype_description($file))[0];
-            if($mime != "PDF")
+            if($mime != "PDF" && $temp_name[1] != "pdf")
             {
                 $name = ($temp_name)[0] . "_topdf.pdf";
             }
@@ -200,6 +202,7 @@ class qtype_essayannotate_renderer extends qtype_renderer {
         }
         return $names;
     }
+
     /**
      * Displays any attached files when the question is in read-only mode.
      * @param question_attempt $qa the question attempt to display.
@@ -220,6 +223,8 @@ class qtype_essayannotate_renderer extends qtype_renderer {
             $out = html_writer::link($qa->get_response_file_url($file),
                 $this->output->pix_icon(file_file_icon($file), get_mimetype_description($file),
                     'moodle', array('class' => 'icon')) . ' ' . s($file->get_filename()));
+
+            // Display `Annotate` button to teachers only in comment.php and not in review.php
             if(has_capability('mod/quiz:grade',$PAGE->context) &&
                 $options->manualcomment == question_display_options::EDITABLE)
             {
@@ -259,6 +264,8 @@ class qtype_essayannotate_renderer extends qtype_renderer {
             'aria-labelledby' => $labelbyid,
             'class' => 'list-unstyled m-0',
         ]);
+
+        // Click handler for `Annotate` button [TODO]
         $baseurl = new moodle_url('/');
         $baseurl = $baseurl->out(false);
         $output .= '<script type="text/javascript" src="'. $baseurl .'/question/type/essayannotate/js/annotatebutton.js"></script>';    
