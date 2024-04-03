@@ -23,6 +23,21 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+/**
+ * @author Tausif Iqbal, Vishal Rao
+ * @link {https://github.com/TausifIqbal/moodle_quiz_annotator}
+ *
+ * @updatedby Asha Jose, Parvathy S Kumar
+ * @link {https://github.com/Parvathy-S-Kumar/Moodle_Quiz_PDF_Annotator}
+ *
+ * @updatedby Nideesh, Sreeram
+ * Followed security guidelines such as require_login, require_capability, escaping shell cmds before execution.
+ * Used Mustache template to render HTML output. 
+ * Updated logic for checking filetype is PDF by using mimetype and extension.
+ * Updated itemid as the attemptid of the first annotation step.
+ * Added logic to create `essayPDF` directory within temp directory of Moodle to store temporary files.
+ */
+
 require_once('annotatorMustacheConfig.php');
 require_once('../../../../config.php');
 require_once('../classes/helper.php');
@@ -70,11 +85,8 @@ if(!is_dir($tempPath) && !mkdir($tempPath,0777,true)){
 $attemptobj = quiz_create_attempt_handling_errors($attemptid, $cmid);
 $attemptobj->preload_all_attempt_step_users();
 
-$que_for_commenting = $attemptobj->render_question_for_commenting($slot);
-
 // we need $qa and $options to get all files submitted by student
 $qa = $attemptobj->get_question_attempt($slot);
-$qnum = $qa->get_slot();
 $options = $attemptobj->get_display_options(true);
 $files = $qa->get_last_qt_files('attachments', $options->context->id);
 
