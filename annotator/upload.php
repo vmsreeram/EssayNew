@@ -29,7 +29,7 @@
  * 
  * @updatedby Asha Jose, Parvathy S Kumar
  * @link {https://github.com/Parvathy-S-Kumar/Moodle_Quiz_PDF_Annotator}
- * All parts of this file excluding preparing the file record object and adding file to the database is modified by us
+ * All parts of this file excluding preparing the file record object and adding file to the database is modified
  *
  * @updatedby Nideesh, Sreeram
  * Followed security guidelines such as require_login, require_capability, required_param instead of $_POST, escaping shell cmds before execution.
