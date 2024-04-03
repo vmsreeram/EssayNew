@@ -23,7 +23,16 @@
  */
 
 defined('MOODLE_INTERNAL') || die();
+/**
+ * Class with helper functions for qtype_essayannotate plugin
+ */
 class helper {
+    /**
+     * Fetches course module id (cmid) associated with given attempt id from the database
+     *
+     * @param int $attemptid the attempt id whose cmid is to be found
+     * @return $result the record containing cmid
+     */
     public static function getCmid($attemptid) {
         global $DB;
 
@@ -39,8 +48,15 @@ class helper {
         return $result;
     }
 
+    /**
+     * Gets the step of first annotation made for the question attempt
+     *
+     * @param question_attempt $qa the question attempt whose first annotation step is to be found
+     * @return $step the question attempt step of first annotation made for the question attempt if exists, a readonly step is returned if not exists
+     */
     public static function get_first_annotation_comment_step($qa) {
         foreach ($qa->get_step_iterator() as $step) {
+            // The annotation step does not have qt_var "-mark"
             if ($step->has_qt_var("-comment") && !$step->has_qt_var("-mark")) {
                 return $step;
             }
