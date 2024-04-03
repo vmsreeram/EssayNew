@@ -84,8 +84,6 @@ function convert_pdf_version($file, $path, $attemptid, $slot)
             // Getting GhostScript path from settings page of plugin
             $gsPath = get_config('qtype_essayannotate', 'ghostscriptpath');
 
-            // $gsPath = '/usr/bin/gs';
-            // $gsPath = '/opt/homebrew/bin/gs';
             $command = $gsPath . ' -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dNOPAUSE -dBATCH -sOutputFile="' . $srcfile_new . '" "' . $srcfile . '"'.'  2>&1';
             $safecommand = escapeshellcmd($command);
             $shellOutput = shell_exec($safecommand);

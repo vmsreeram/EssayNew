@@ -10,6 +10,8 @@ Background:
       | teacher  |
       | student  |
 
+    And path to gs and covert is set 
+    
     And the following "courses" exist:
       | fullname | shortname | category |
       | Course 1 | C1        | 0        |
@@ -70,7 +72,6 @@ Scenario: Student uploads a pdf file and teacher is able to annotate
     And I annotate the pdf 
     And I press "Save"
     And I should see "file has been saved"
-    And I wait "3" seconds
     And I switch to main window 
     And I reload the page 
     And I follow "Make comment or override mark"
@@ -118,8 +119,10 @@ Scenario: Student uploads a png file and teacher is able to annotate
     And I annotate the pdf 
     And I press "Save"
     And I should see "file has been saved"
-    And I wait "3" seconds
-    And I go back to previous page
+    And I switch to main window 
+    And I reload the page 
+    And I follow "Make comment or override mark"
+    Then The document should open in a new tab
     And I set the field "Mark" to "10"
     And I wait "3" seconds
     And I press "Save" 
@@ -189,9 +192,6 @@ Scenario: Student can see the annotated file only after the question is graded
     And I annotate the pdf 
     And I press "Save"
     And I should see "file has been saved"
-    And I wait "3" seconds
-    And I go back to previous page
-    And I press "Save" 
     And I switch to main window 
     And I log out
 

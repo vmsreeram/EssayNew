@@ -9,6 +9,8 @@ Background:
       | teacher  |
       | student  |
 
+    And path to gs and covert is set 
+
     And the following "courses" exist:
       | fullname | shortname | category |
       | Course 1 | C1        | 0        |
