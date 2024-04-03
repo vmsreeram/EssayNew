@@ -51,6 +51,40 @@ class behat_qtype_essayannotate extends behat_base {
     }
 
     /**
+     * @When path to gs and covert is set 
+     */
+    public function path_to_gs_and_convert_is_set(){
+        // Define the plugin name
+        $plugin = 'qtype_essayannotate';
+
+        // Define the configurations
+        $configurations = [
+            'ghostscriptpath' => '/usr/bin/gs',
+            'imagemagickpath' => '/usr/bin/convert'
+        ];
+
+        // Update existing configurations in the database
+        foreach ($configurations as $name => $value) {
+            global $DB;
+            // Check if the configuration already exists
+            $existingRecord = $DB->get_record('config_plugins', ['plugin' => $plugin, 'name' => $name]);
+
+            if ($existingRecord) {
+                // Update the existing record with the new value
+                $existingRecord->value = $value;
+                $DB->update_record('config_plugins', $existingRecord);
+            } else {
+                // If the configuration does not exist, insert a new record
+                $record = new stdClass();
+                $record->plugin = $plugin;
+                $record->name = $name;
+                $record->value = $value;
+                $DB->insert_record('config_plugins', $record);
+            }
+        }
+    }
+
+    /**
     * @Then /^The document should open in a new tab$/
     */   
     public function document_should_open_in_new_tab()
