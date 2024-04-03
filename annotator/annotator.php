@@ -160,8 +160,7 @@ if($doesExists === true)   // if exists then update $fileurl to the url of this 
     // convert that file into PDF, based on mime type (NOTE: this will be created in the cwd)
     
     $convert = get_config('qtype_essayannotate', 'imagemagickpath');
-    // $convert = '/usr/bin/convert';
-    // $convert = "/opt/homebrew/bin/convert";
+    
     if($mime === "image")
         $command = $convert." '" . $fileToConvert ."'  -page a4 " .$dummyFile;
     else if($mime=="text")
