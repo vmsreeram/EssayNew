@@ -213,7 +213,6 @@ class qtype_essayannotate_renderer extends qtype_renderer {
 
         $step = $qa->get_last_step_with_qt_var('attachments');
         
-        // $filelist[] = html_writer::tag('li', '<form></form>', ['class' => 'mb-2']); // to fix bug that 1st form gets deleted
         $fileNum = 0;
         
         foreach ($files as $file) {
