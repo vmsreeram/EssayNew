@@ -24,6 +24,18 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+/**
+ * @updatedby were made by Tausif Iqbal and Vishal Rao
+ * @link {https://github.com/TausifIqbal/moodle_quiz_annotator}
+ *  Added logic to get and display Corrected Documents
+ *
+ * Changes were made by Nideesh and Sreeram
+ *  Corrected Documents shown to students if and only if qa is graded.
+ *  Followed Moodle coding conventions by adding language strings.
+ *  Updated itemid as the attemptid of the first annotation step.
+ *  Updated logic for checking filetype is PDF by using mimetype and extension [TODO].
+ *  Show `Annotate` button to teachers adjacent to the file attachments.
+ */
 
 defined('MOODLE_INTERNAL') || die();
 require_once('classes/helper.php');
