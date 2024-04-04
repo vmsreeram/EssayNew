@@ -83,6 +83,7 @@ if(!is_dir($tempPath) && !mkdir($tempPath,0777,true)){
 }
 $attemptobj = quiz_create_attempt_handling_errors($attemptid, $cmid);
 $attemptobj->preload_all_attempt_step_users();
+$que_for_commenting = $attemptobj->render_question_for_commenting($slot);
 
 // We need $qa and $options to get all files submitted by student
 $qa = $attemptobj->get_question_attempt($slot);
