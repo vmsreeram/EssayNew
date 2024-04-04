@@ -244,6 +244,8 @@ if($canProceed == true)
     $mustache = new Mustache_Engine;
     $data = new annotatorMustacheConfig();
     $template = file_get_contents('../templates/annotator.mustache');
+    $PAGE->requires->js_call_amd('qtype_essayannotate/clickhandlers','init',[$fileurl]);
+
     echo $mustache->render($template, $data);    
 }
 
@@ -262,4 +264,4 @@ if($canProceed == true)
     var usageid = "<?= $usageid ?>"; 
     var slot = "<?= $slot ?>"; 
 </script>
-<script type="text/javascript" src="./clickhandlers.js"></script>
+<!-- <script type="text/javascript" src="./clickhandlers.js"></script> -->

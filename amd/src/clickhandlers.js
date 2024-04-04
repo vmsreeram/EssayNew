@@ -27,14 +27,7 @@
 
 // This function calls PDFAnnotate function defined in pdfannotate.js
 // fileurl has been assigned its correct value in annotator.php file
-var pdf = new PDFAnnotate("pdf-container", fileurl, {
-    onPageUpdated(page, oldData, newData) {
-    },
-    ready() {
-    },
-    scale: 1.5,
-    pageImageCompression: "SLOW", // FAST, MEDIUM, SLOW(Helps to control the new PDF file size)
-});
+
 
 function changeActiveTool(event) {
     event.preventDefault();
@@ -80,17 +73,37 @@ function savePDF(event) {
 }
 
 //Change the color and font size to currently selected color and font size respectively in the UI
-$(function () {
-    $('.color-tool').click(function () {
-        $('.color-tool.active').removeClass('active');
-        $(this).addClass('active');
-        color = $(this).get(0).style.backgroundColor;
-        pdf.setColor(color);
-    });
 
-    $('#font-size').change(function () {
-        var font_size = $(this).val();
-        pdf.setFontSize(font_size);
+export const init =(fileurl) =>{
+
+    var pdf = new PDFAnnotate("pdf-container", fileurl, {
+        onPageUpdated(page, oldData, newData) {
+        },
+        ready() {
+        },
+        scale: 1.5,
+        pageImageCompression: "SLOW", // FAST, MEDIUM, SLOW(Helps to control the new PDF file size)
     });
-});
-  
+    $(function () {
+        $('.color-tool').click(function () {
+            $('.color-tool.active').removeClass('active');
+            $(this).addClass('active');
+            color = $(this).get(0).style.backgroundColor;
+            pdf.setColor(color);
+        });
+    
+        $('#font-size').change(function () {
+            var font_size = $(this).val();
+            pdf.setFontSize(font_size);
+        });
+    });
+      
+    // Find the button element by its class name
+    const pencilButton = document.getElementById('pencil');
+    // console.log("init called");
+    // Add an event listener to the button
+    pencilButton.addEventListener('click', (event) => {
+        // Call the annotate function
+        enablePencil(event);
+    });
+};
