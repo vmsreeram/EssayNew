@@ -237,8 +237,9 @@ class qtype_essayannotate_renderer extends qtype_renderer {
                 } else {
                     $annotate = get_string('unsupported_file','qtype_essayannotate');
                 }
-                
-                $out .= '<button type="button" name = "Annotate" class="btn btn-primary annotate-btn" style="margin: 5px; padding: 4px;" onclick="'. $onclick.'">' . $annotate . '</button>';
+                $PAGE->requires->js_call_amd('qtype_essayannotate/annotatebutton','init',[$attemptid,$slot,$fileNum]);
+
+                $out .= '<button type="button" name = "Annotate" class="btn btn-primary annotate-btn" style="margin: 5px; padding: 4px;">' . $annotate . '</button>';
             }
             if (!empty($CFG->enableplagiarism)) {
                 require_once($CFG->libdir . '/plagiarismlib.php');
@@ -262,11 +263,11 @@ class qtype_essayannotate_renderer extends qtype_renderer {
             'aria-labelledby' => $labelbyid,
             'class' => 'list-unstyled m-0',
         ]);
-
+        
         // Click handler for `Annotate` button [TODO]
-        $baseurl = new moodle_url('/');
-        $baseurl = $baseurl->out(false);
-        $output .= '<script type="text/javascript" src="'. $baseurl .'/question/type/essayannotate/js/annotatebutton.js"></script>';    
+        // $baseurl = new moodle_url('/');
+        // $baseurl = $baseurl->out(false);
+        // $output .= '<script type="text/javascript" src="'. $baseurl .'/question/type/essayannotate/js/annotatebutton.js"></script>';    
         return $output;
     }
 
