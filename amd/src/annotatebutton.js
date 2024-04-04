@@ -26,15 +26,15 @@ export const  annotate = (attemptid, slot, fileno) => {
 
     // Remove the form from the document body after submission
     form.remove();
-}
+};
 
 export const init =(attemptid,slot,fileno) =>{
     // Find the button element by its class name
     const annotateButton = document.querySelector('.annotate-btn');
-    console.log("init called");
+    // console.log("init called");
     // Add an event listener to the button
     annotateButton.addEventListener('click', () => {
         // Call the annotate function
         annotate(attemptid, slot, fileno);
     });
-}
+};
