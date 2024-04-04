@@ -52,10 +52,10 @@ class annotatorMustacheConfig {
         array('color' => 'rgb(255, 255, 0)'),
     );
     public $other_tools = array(
-        array('id_select'=>true, 'icon_class' => 'fa fa-hand-pointer-o', 'onclick_action' => 'enableSelector(event)', 'tooltip' => 'Select', 'selected' => true),
-        array('icon_class' => 'fa fa-pencil', 'onclick_action' => 'enablePencil(event)', 'tooltip' => 'Pen'),
-        array('icon_class' => 'fa fa-font', 'onclick_action' => 'enableAddText(event)', 'tooltip' => 'Add Text'),
-        array('icon_class' => 'fa fa-square-o', 'onclick_action' => 'enableRectangle(event)', 'tooltip' => 'Highlight Box'),
+        array('other_tools_id'=>'select', 'icon_class' => 'fa fa-hand-pointer-o', 'onclick_action' => 'enableSelector(event)', 'tooltip' => 'Select', 'selected' => true),
+        array('other_tools_id'=>'pencil','icon_class' => 'fa fa-pencil', 'onclick_action' => 'enablePencil(event)', 'tooltip' => 'Pen'),
+        array('other_tools_id'=>'text','icon_class' => 'fa fa-font', 'onclick_action' => 'enableAddText(event)', 'tooltip' => 'Add Text'),
+        array('other_tools_id'=>'rectangle','icon_class' => 'fa fa-square-o', 'onclick_action' => 'enableRectangle(event)', 'tooltip' => 'Highlight Box'),
     );
     public $other_tools_extra ;
     public $jquery_js_url = 'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js';
