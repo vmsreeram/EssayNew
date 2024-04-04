@@ -57,10 +57,12 @@ class behat_qtype_essayannotate extends behat_base {
         // Define the plugin name
         $plugin = 'qtype_essayannotate';
 
+        $gsPath = shell_exec(escapeshellcmd("which gs"));
+        $convertPath = shell_exec(escapeshellcmd("which convert"));
         // Define the configurations
         $configurations = [
-            'ghostscriptpath' => '/usr/bin/gs',
-            'imagemagickpath' => '/usr/bin/convert'
+            'ghostscriptpath' => $gsPath,
+            'imagemagickpath' => $convertPath
         ];
 
         // Update existing configurations in the database
