@@ -17,7 +17,6 @@
  * OnClick handlers are defined here
  * These functions will call functions in pdfannotate.js.
  *
- * @package    qtype
  * @subpackage essayannotate
  * @copyright  2024 IIT Palakkad
  * @copyright  based on work done by Ravisha Hesh {@link https://github.com/RavishaHesh/PDFJsAnnotations/tree/master}
@@ -34,7 +33,12 @@
  * SerializePDF and SavePDF functions are modified. 
  */
 
- var PDFAnnotate = function(container_id, url, options = {}) {
+import fabric from 'qtype_essayannotate/fabric';
+import pdfjsLib from 'qtype_essayannotate/pdf';
+import $ from 'jquery';
+
+var contextid,attemptid,filename,usageid,slot;
+export var PDFAnnotate = function(container_id, url, options = {}) {
 	this.number_of_pages = 0;
 	this.pages_rendered = 0;
 	this.active_tool = 1; // 1 - Free hand, 2 - Text, 3 - Arrow, 4 - Rectangle
@@ -51,8 +55,8 @@
     ? options.pageImageCompression.toUpperCase()
     : "NONE";
 	this.textBoxText = 'Edit Text';
-	this.format;
-	this.orientation;
+	// this.format;
+	// this.orientation;
 	this.highlightBoxWidth=400;
 	this.highlightBoxHeight=50;
 	this.highlightBoxOpacity=0.3;
@@ -84,7 +88,7 @@
 	            canvas.height = viewport.height;
 	            canvas.width = viewport.width;
 
-	            context = canvas.getContext('2d');
+	            var context = canvas.getContext('2d');
 	            var renderContext = {
 	                canvasContext: context,
 	                viewport: viewport
@@ -97,17 +101,19 @@
 	                });
 	                inst.pages_rendered++;
 	                if (inst.pages_rendered == inst.number_of_pages) //Calling initFabric() after rendering the entire pages
+					{
 						inst.initFabric();
+					}
 	            });
 	        });
 	    }
-	}, function (reason) {
-	    console.error(reason);
+	}, function (reason) { // eslint-disable-line no-unused-vars
+	    // console.error(reason);
 	});
 
 	this.initFabric = function () {
 		var inst = this;
-		let canvases = $('#' + inst.container_id + ' canvas')
+		let canvases = $('#' + inst.container_id + ' canvas');
 	    canvases.each(function (index, el) {
 	        var background = el.toDataURL("image/png");
 	        var fabricObj = new fabric.Canvas(el.id, {});
@@ -115,9 +121,9 @@
 			if (typeof options.onPageUpdated == 'function') {
 				fabricObj.on('object:added', function() {
 					var oldValue = Object.assign({}, inst.fabricObjectsData[index]);
-					inst.fabricObjectsData[index] = fabricObj.toJSON()
-					options.onPageUpdated(index + 1, oldValue, inst.fabricObjectsData[index]) 
-				})
+					inst.fabricObjectsData[index] = fabricObj.toJSON();
+					options.onPageUpdated(index + 1, oldValue, inst.fabricObjectsData[index]); 
+				});
 			}
 	        fabricObj.setBackgroundImage(background, fabricObj.renderAll.bind(fabricObj));
 	        $(fabricObj.upperCanvasEl).click(function (event) {
@@ -125,15 +131,15 @@
 	            inst.fabricClickHandler(event, fabricObj);
 			});
 			fabricObj.on('after:render', function () {
-				inst.fabricObjectsData[index] = fabricObj.toJSON()
-				fabricObj.off('after:render')
-			})
+				inst.fabricObjectsData[index] = fabricObj.toJSON();
+				fabricObj.off('after:render');
+			});
 
 			if (index === canvases.length - 1 && typeof options.ready === 'function') {
-				options.ready()
+				options.ready();
 			}
 		});
-	}
+	};
 
 	this.fabricClickHandler = function (event, fabricObj) {
 		var inst = this;
@@ -164,7 +170,8 @@
 		}
 		else if(inst.active_tool== 0) {	//Select
 		  	if(activeObject) {
-				if(activeObject.get('type')== 'path') {		//locking the rotation and scaling of free hand brush, if it is currently selected	
+				//locking the rotation and scaling of free hand brush, if it is currently selected	
+				if(activeObject.get('type')== 'path') {
 				activeObject.set({
 					lockScalingX: true,
 					lockScalingY: true,
@@ -198,7 +205,7 @@ PDFAnnotate.prototype.enableSelector = function () {
 	}
                
 
-}
+};
 
 PDFAnnotate.prototype.enablePencil = function () {
 	var inst = this;
@@ -210,7 +217,7 @@ PDFAnnotate.prototype.enablePencil = function () {
 	    });
 	}
 	  
-}
+};
 
 PDFAnnotate.prototype.enableAddText = function () {
 	var inst = this;
@@ -221,7 +228,7 @@ PDFAnnotate.prototype.enableAddText = function () {
 	    });
 	}
 	  
-}
+};
 
 PDFAnnotate.prototype.enableRectangle = function () {
 	var inst = this;
@@ -231,21 +238,24 @@ PDFAnnotate.prototype.enableRectangle = function () {
 			fabricObj.isDrawingMode = false;
 		});
 	}
-}
+};
 
 PDFAnnotate.prototype.deleteSelectedObject = function () {
 	var inst = this;
 	var activeObject = inst.fabricObjects[inst.active_canvas].getActiveObject();
 	if (activeObject)
 	{
-	    if (confirm('Are you sure ?')) inst.fabricObjects[inst.active_canvas].remove(activeObject);
+	    if (confirm('Are you sure ?'))
+		{
+			inst.fabricObjects[inst.active_canvas].remove(activeObject);
+		}
 	}
-}
+};
 
 //Updated by Asha Jose and Parvathy S Kumar
   PDFAnnotate.prototype.savePdf = function () {
 	//Calling the serializePdf function 
-    pdf.serializePdf(function (string) {
+    this.serializePdf(function (string) {
       var value = JSON.stringify(JSON.parse(string), null, 4);
 	   
 	  var xmlhttp = new XMLHttpRequest();	//Creating an HTTP request instance
@@ -295,7 +305,8 @@ PDFAnnotate.prototype.deleteSelectedObject = function () {
 
 	  };
 	  //Sending data to upload.php
-	  xmlhttp.send("id=" + value + "&contextid=" + contextid + "&attemptid="+attemptid + "&filename=" + filename + "&usageid=" + usageid + "&slot=" + slot);
+	  xmlhttp.send("id=" + value + "&contextid=" + contextid + "&attemptid="+attemptid
+	  + "&filename=" + filename + "&usageid=" + usageid + "&slot=" + slot);
 	});
 };
 
@@ -326,7 +337,7 @@ PDFAnnotate.prototype.serializePdf = function (callback) {
 					var matrix=pathObj.calcTransformMatrix();
 					var pointsList = pathObj.path;
 					var length = Object.keys(pointsList).length;
-					var offsetX=pathObj.pathOffset.x
+					var offsetX=pathObj.pathOffset.x;
 					var offsetY=pathObj.pathOffset.y;
 					for(var i=0; i< length;i++)
 					{
@@ -374,13 +385,23 @@ PDFAnnotate.prototype.setColor = function (color) {
 	$.each(inst.fabricObjects, function (index, fabricObj) {
         fabricObj.freeDrawingBrush.color = color;
     });
-}
+};
 
 PDFAnnotate.prototype.setBorderColor = function (color) {
 	var inst = this;
 	inst.borderColor = color;
-}
+};
 
 PDFAnnotate.prototype.setFontSize = function (size) {
 	this.font_size = size;
-}
+};
+
+
+export const init =(contextId,attemptId,fileName,usageId,sloT) =>{
+    
+	contextid=contextId;
+	attemptid=attemptId;
+	filename=fileName;
+	usageid=usageId;
+	slot=sloT;
+};

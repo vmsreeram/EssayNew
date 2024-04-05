@@ -52,10 +52,10 @@ class annotatorMustacheConfig {
         array('color' => 'rgb(255, 255, 0)'),
     );
     public $other_tools = array(
-        array('other_tools_id'=>'select', 'icon_class' => 'fa fa-hand-pointer-o', 'onclick_action' => 'enableSelector(event)', 'tooltip' => 'Select', 'selected' => true),
-        array('other_tools_id'=>'pencil','icon_class' => 'fa fa-pencil', 'onclick_action' => 'enablePencil(event)', 'tooltip' => 'Pen'),
-        array('other_tools_id'=>'text','icon_class' => 'fa fa-font', 'onclick_action' => 'enableAddText(event)', 'tooltip' => 'Add Text'),
-        array('other_tools_id'=>'rectangle','icon_class' => 'fa fa-square-o', 'onclick_action' => 'enableRectangle(event)', 'tooltip' => 'Highlight Box'),
+        array('other_tools_id'=>'select', 'icon_class' => 'fa fa-hand-pointer-o', 'tooltip' => 'Select', 'selected' => true),
+        array('other_tools_id'=>'pencil','icon_class' => 'fa fa-pencil', 'tooltip' => 'Pen'),
+        array('other_tools_id'=>'text','icon_class' => 'fa fa-font', 'tooltip' => 'Add Text'),
+        array('other_tools_id'=>'rectangle','icon_class' => 'fa fa-square-o', 'tooltip' => 'Highlight Box'),
     );
     public $other_tools_extra ;
     public $jquery_js_url = 'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js';
@@ -76,8 +76,8 @@ class annotatorMustacheConfig {
         $this->annotator_text = get_string('annotator', 'qtype_essayannotate');
         $this->font_size = get_string('font_size','qtype_essayannotate');
         $this->other_tools_extra = array(
-            array('select_danger'=>true,'icon_class' => 'fa fa-trash', 'onclick_action' => 'deleteSelectedObject(event)'),
-            array('select_light'=>true,'icon_class' => 'fa fa-save', 'onclick_action' => 'savePDF(event)', 'select_savenexit' => true,'save_exit' =>  get_string('save_exit','qtype_essayannotate')),
+            array('select_danger'=>true,'other_tools_extra_id'=>'deletebtn','icon_class' => 'fa fa-trash'),
+            array('select_light'=>true,'other_tools_extra_id'=>'savebtn','icon_class' => 'fa fa-save', 'select_savenexit' => true,'save_exit' =>  get_string('save_exit','qtype_essayannotate')),
         );
     }
 }

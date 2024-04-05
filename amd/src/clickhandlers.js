@@ -17,7 +17,6 @@
  * OnClick handlers are defined here
  * These functions will call functions in pdfannotate.js.
  *
- * @package    qtype
  * @subpackage essayannotate
  * @copyright  2024 IIT Palakkad
  * @copyright  based on work done by Ravisha Hesh {@link https://github.com/RavishaHesh/PDFJsAnnotations/tree/master}
@@ -28,6 +27,8 @@
 // This function calls PDFAnnotate function defined in pdfannotate.js
 // fileurl has been assigned its correct value in annotator.php file
 
+import $ from 'jquery';
+import PDFAnnotate from 'qtype_essayannotate/pdfannotate';
 
 function changeActiveTool(event) {
     event.preventDefault();
@@ -38,36 +39,36 @@ function changeActiveTool(event) {
     $(element).addClass("active");
 }
 
-function enableSelector(event) {
+function enableSelector(event,pdf) {
     event.preventDefault();    
     changeActiveTool(event);
     pdf.enableSelector();    
 }
 
-function enablePencil(event) {
+function enablePencil(event,pdf) {
     event.preventDefault();    
     changeActiveTool(event);
     pdf.enablePencil();    
 }
 
-function enableAddText(event) {
+function enableAddText(event,pdf) {
     event.preventDefault();    
     changeActiveTool(event);
     pdf.enableAddText();    
 }
 
-function enableRectangle(event) {
+function enableRectangle(event,pdf) {
     event.preventDefault();
     changeActiveTool(event);
     pdf.enableRectangle();    
 }
 
-function deleteSelectedObject(event) {
+function deleteSelectedObject(event,pdf) {
     event.preventDefault();
     pdf.deleteSelectedObject();   
 }
 
-function savePDF(event) {
+function savePDF(event,pdf) {
     event.preventDefault();    
     pdf.savePdf();        //Changes made by Asha and Parvathy: Removed a parameter of the function
 }
@@ -77,7 +78,7 @@ function savePDF(event) {
 export const init =(fileurl) =>{
 
     var pdf = new PDFAnnotate("pdf-container", fileurl, {
-        onPageUpdated(page, oldData, newData) {
+        onPageUpdated(page, oldData, newData) { // eslint-disable-line no-unused-vars
         },
         ready() {
         },
@@ -88,7 +89,7 @@ export const init =(fileurl) =>{
         $('.color-tool').click(function () {
             $('.color-tool.active').removeClass('active');
             $(this).addClass('active');
-            color = $(this).get(0).style.backgroundColor;
+            var color = $(this).get(0).style.backgroundColor;
             pdf.setColor(color);
         });
     
@@ -98,12 +99,28 @@ export const init =(fileurl) =>{
         });
     });
       
-    // Find the button element by its class name
     const pencilButton = document.getElementById('pencil');
-    // console.log("init called");
-    // Add an event listener to the button
     pencilButton.addEventListener('click', (event) => {
-        // Call the annotate function
-        enablePencil(event);
+        enablePencil(event,pdf);
+    });
+    const selectorButton = document.getElementById('select');
+    selectorButton.addEventListener('click', (event) => {
+        enableSelector(event,pdf);
+    });
+    const addTextButton = document.getElementById('text');
+    addTextButton.addEventListener('click', (event) => {
+        enableAddText(event,pdf);
+    });
+    const rectangleButton = document.getElementById('rectangle');
+    rectangleButton.addEventListener('click', (event) => {
+        enableRectangle(event,pdf);
+    });
+    const deleteButton = document.getElementById('deletebtn');
+    deleteButton.addEventListener('click', (event) => {
+        deleteSelectedObject(event,pdf);
+    });
+    const saveButton = document.getElementById('savebtn');
+    saveButton.addEventListener('click', (event) => {
+        savePDF(event,pdf);
     });
 };
