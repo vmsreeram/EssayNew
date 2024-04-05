@@ -69,6 +69,8 @@ if (!empty($cmid)) {
     $cm = get_coursemodule_from_id('quiz', $cmid);
     $context = context_module::instance($cm->id);
     $PAGE->set_context($context);
+    $PAGE->set_cm($cm);
+    // $PAGE->set_state(3);
 }
 else 
 {
@@ -246,12 +248,19 @@ if($canProceed == true)
     $mustache = new Mustache_Engine;
     $data = new annotatorMustacheConfig();
     $template = file_get_contents('../templates/annotator.mustache');
-    // $PAGE->requires->js_call_amd('qtype_essayannotate/testing','init');
+    $PAGE->requires->js_call_amd('qtype_essayannotate/testing','init');
+    $output = $PAGE->get_renderer('qtype_essayannotate');
+
+
     // $PAGE->requires->js_call_amd('qtype_essayannotate/pdfannotate','init',[$contextid,$attemptid,$filename,$usageid,$slot]);
     // $PAGE->requires->js_call_amd('qtype_essayannotate/clickhandlers','init',[$fileurl]);
+    // echo $output->header();
+     echo $output->header();
+    
+     echo $output->footer();
+     echo $mustache->render($template, $data); 
 
-
-    echo $mustache->render($template, $data);    
+   
 }
 
 ?>

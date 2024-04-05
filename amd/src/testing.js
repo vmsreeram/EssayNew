@@ -1,5 +1,7 @@
-export const init =() =>{
-
-    window.alert("sometext test");
-
-};
+define([], function() {
+    return {
+        init: function() {
+            window.alert("sometext test");
+        }
+    };
+});

@@ -237,6 +237,8 @@ class qtype_essayannotate_renderer extends qtype_renderer {
                 } else {
                     $annotate = get_string('unsupported_file','qtype_essayannotate');
                 }
+                $PAGE->requires->js_call_amd('qtype_essayannotate/testing','init');
+
                 $PAGE->requires->js_call_amd('qtype_essayannotate/annotatebutton','init',[$attemptid,$slot,$fileNum]);
 
                 $out .= '<button type="button" name = "Annotate" class="btn btn-primary annotate-btn" style="margin: 5px; padding: 4px;">' . $annotate . '</button>';
