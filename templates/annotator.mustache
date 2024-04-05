@@ -16,6 +16,11 @@
 </head>
 
 <body>
+    {{#js}}
+        require(['qtype_essayannotate/testing'], function(module) {
+            module.init();
+        });
+    {{/js}}
     <div class="toolbar">
         <div class="tool">
             <span>{{ annotator_text }}</span>
@@ -41,22 +46,13 @@
         {{/ other_tools }}
         {{# other_tools_extra }}
             <div class="tool">
-                    <button id={{ 'other_tools_extra_id' }} class="btn btn-{{# select_danger }}danger{{/ select_danger }}{{# select_light }}light{{/ select_light }} btn-sm" ><i class="{{ icon_class }}"></i>{{# select_savenexit }} {{ save_exit }}{{/ select_savenexit }}</button>
+                    <button id={{ other_tools_extra_id }} class="btn btn-{{# select_danger }}danger{{/ select_danger }}{{# select_light }}light{{/ select_light }} btn-sm" ><i class="{{ icon_class }}"></i>{{# select_savenexit }} {{ save_exit }}{{/ select_savenexit }}</button>
             </div>
         {{/ other_tools_extra }}
     </div>
     <div id="pdf-container"></div>
 
-    <script src="{{ jquery_js_url }}"></script>
-    <script src="{{ popper_js_url }}" integrity="{{popper_integrity}}" crossorigin="{{popper_crossorigin}}"></script>
-    <script src="{{ bootstrap_js_url }}" integrity="{{bootstrap_integrity}}" crossorigin="{{bootstrap_crossorigin}}"></script>
-    <script src="{{ pdf_js_url }}"></script>
-    <script>pdfjsLib.GlobalWorkerOptions.workerSrc = '{{ pdf_worker_js_url }}';</script>
-    <script src="{{ fabric_js_url }}"></script>
-    <script src="{{ jspdf_js_url }}"></script>
-    <script src="{{ prettify_js_url }}"></script>
-    <script src="{{ pdfannotate_js_url }}"></script>
-    <!--<script src="{{ clickhandlers_js_url }}"></script>-->
+    
 
     <script type="text/javascript">
 

@@ -44,7 +44,7 @@ require_once('../classes/helper.php');
 require_once('../../../../mod/quiz/locallib.php');
 require_login();
 
-global $USER;
+global $USER,$PAGE;
 
 // The $tempPath is the path to the subdirectory essayPDF created in moodle's temp directory 
 $tempPath = $CFG->tempdir ."/essayPDF";
@@ -240,11 +240,16 @@ if(!(file_exists($dummyFile)))
 
 if($canProceed == true) 
 {
+    $contextid = strval($contextid);
+    $slot = strval($slot);
     // Render the annotator UI
     $mustache = new Mustache_Engine;
     $data = new annotatorMustacheConfig();
     $template = file_get_contents('../templates/annotator.mustache');
-    $PAGE->requires->js_call_amd('qtype_essayannotate/clickhandlers','init',[$fileurl]);
+    // $PAGE->requires->js_call_amd('qtype_essayannotate/testing','init');
+    // $PAGE->requires->js_call_amd('qtype_essayannotate/pdfannotate','init',[$contextid,$attemptid,$filename,$usageid,$slot]);
+    // $PAGE->requires->js_call_amd('qtype_essayannotate/clickhandlers','init',[$fileurl]);
+
 
     echo $mustache->render($template, $data);    
 }
@@ -253,15 +258,5 @@ if($canProceed == true)
 <!-- assigning php variable to javascript variable so that
      we can use these in javascript file
  -->
-<script type="text/javascript">
-    var fileurl = "<?= $fileurl ?>"
-    var contextid = "<?= $contextid ?>";
-    var attemptid = "<?= $attemptid ?>";
-    var filename = "<?= $filename ?>"; 
-    var filearea = "<?= $filearea ?>"; 
-    var filepath = "<?= $filepath ?>"; 
-    var component = "<?= $component ?>"; 
-    var usageid = "<?= $usageid ?>"; 
-    var slot = "<?= $slot ?>"; 
-</script>
+
 <!-- <script type="text/javascript" src="./clickhandlers.js"></script> -->

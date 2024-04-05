@@ -30,6 +30,11 @@
 import $ from 'jquery';
 import PDFAnnotate from 'qtype_essayannotate/pdfannotate';
 
+/**
+ * Changes the active tool based on the event target.
+ *
+ * @param {Event} event - The event object.
+ */
 function changeActiveTool(event) {
     event.preventDefault();
     var element = $(event.target).hasClass("tool-button")
@@ -39,43 +44,83 @@ function changeActiveTool(event) {
     $(element).addClass("active");
 }
 
+/**
+ * Enables the selector tool in the PDF.
+ *
+ * @param {Event} event - The event object.
+ * @param {PDFAnnotate} pdf - The PDFAnnotate instance.
+ */
 function enableSelector(event,pdf) {
-    event.preventDefault();    
+    event.preventDefault();
     changeActiveTool(event);
-    pdf.enableSelector();    
+    pdf.enableSelector();
 }
 
+/**
+ * Enables the pencil tool in the PDF.
+ *
+ * @param {Event} event - The event object.
+ * @param {PDFAnnotate} pdf - The PDFAnnotate instance.
+ */
 function enablePencil(event,pdf) {
-    event.preventDefault();    
+    event.preventDefault();
     changeActiveTool(event);
-    pdf.enablePencil();    
+    pdf.enablePencil();
 }
 
+/**
+ * Enables the add text tool in the PDF.
+ *
+ * @param {Event} event - The event object.
+ * @param {PDFAnnotate} pdf - The PDFAnnotate instance.
+ */
 function enableAddText(event,pdf) {
-    event.preventDefault();    
+    event.preventDefault();
     changeActiveTool(event);
-    pdf.enableAddText();    
+    pdf.enableAddText();
 }
 
+/**
+ * Enables the rectangle tool in the PDF.
+ *
+ * @param {Event} event - The event object.
+ * @param {PDFAnnotate} pdf - The PDFAnnotate instance.
+ */
 function enableRectangle(event,pdf) {
     event.preventDefault();
     changeActiveTool(event);
-    pdf.enableRectangle();    
+    pdf.enableRectangle();
 }
 
+/**
+ * Deletes the selected object in the PDF.
+ *
+ * @param {Event} event - The event object.
+ * @param {PDFAnnotate} pdf - The PDFAnnotate instance.
+ */
 function deleteSelectedObject(event,pdf) {
     event.preventDefault();
-    pdf.deleteSelectedObject();   
+    pdf.deleteSelectedObject();
 }
 
+/**
+ * Saves the PDF.
+ *
+ * @param {Event} event - The event object.
+ * @param {PDFAnnotate} pdf - The PDFAnnotate instance.
+ */
 function savePDF(event,pdf) {
-    event.preventDefault();    
+    event.preventDefault();
     pdf.savePdf();        //Changes made by Asha and Parvathy: Removed a parameter of the function
 }
 
 //Change the color and font size to currently selected color and font size respectively in the UI
 
 export const init =(fileurl) =>{
+    // eslint-disable-next-line no-console
+    window.console.log("ClickHandler :: Init");
+
+    window.alert("sometext clickhandler");
 
     var pdf = new PDFAnnotate("pdf-container", fileurl, {
         onPageUpdated(page, oldData, newData) { // eslint-disable-line no-unused-vars
@@ -92,13 +137,13 @@ export const init =(fileurl) =>{
             var color = $(this).get(0).style.backgroundColor;
             pdf.setColor(color);
         });
-    
+
         $('#font-size').change(function () {
             var font_size = $(this).val();
             pdf.setFontSize(font_size);
         });
     });
-      
+
     const pencilButton = document.getElementById('pencil');
     pencilButton.addEventListener('click', (event) => {
         enablePencil(event,pdf);
