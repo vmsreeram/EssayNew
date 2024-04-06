@@ -121,7 +121,7 @@ export const init =(fileurl) =>{
     window.console.log("ClickHandler :: Init");
 
     window.alert("sometext clickhandler");
-
+    window.console.log(PDFAnnotate);
     var pdf = new PDFAnnotate("pdf-container", fileurl, {
         onPageUpdated(page, oldData, newData) { // eslint-disable-line no-unused-vars
         },

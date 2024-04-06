@@ -30,7 +30,7 @@ export const  annotate = (attemptid, slot, fileno) => {
 
 export const init =(attemptid,slot,fileno) =>{
 
-    window.alert("sometext annotatebtn");
+    // window.alert("sometext annotatebtn");
 
     // Find the button element by its class name
     const annotateButton = document.querySelector('.annotate-btn');

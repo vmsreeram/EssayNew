@@ -248,12 +248,12 @@ if($canProceed == true)
     $mustache = new Mustache_Engine;
     $data = new annotatorMustacheConfig();
     // $template = file_get_contents('../templates/annotator.mustache');
-    $PAGE->requires->js_call_amd('qtype_essayannotate/testing','init');
+    // $PAGE->requires->js_call_amd('qtype_essayannotate/testing','init');
+    $PAGE->requires->js_call_amd('qtype_essayannotate/pdfannotate','init',[$contextid,$attemptid,$filename,$usageid,$slot,$fileurl]);
+    // $PAGE->requires->js_call_amd('qtype_essayannotate/clickhandlers','init',[$fileurl]);
     $output = $PAGE->get_renderer('qtype_essayannotate');
 
 
-    // $PAGE->requires->js_call_amd('qtype_essayannotate/pdfannotate','init',[$contextid,$attemptid,$filename,$usageid,$slot]);
-    // $PAGE->requires->js_call_amd('qtype_essayannotate/clickhandlers','init',[$fileurl]);
     // echo $output->header();
     // $temp1 = $PAGE->get_header_actions();
     echo $output->header();

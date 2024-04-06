@@ -10,11 +10,7 @@
     <link rel="stylesheet" href="{{ prettify_css_url }}">
     <link rel="stylesheet" href="{{ custom_css_url }}">
     <link rel="stylesheet" href="{{ pdfannotate_css_url }}">
-    {{#js}}
-        require(['qtype_essayannotate/testing'], function(testing) {
-            testing.init();
-        });
-    {{/js}}
+    
     <div class="toolbar">
         <div class="tool">
             <span>{{ annotator_text }}</span>

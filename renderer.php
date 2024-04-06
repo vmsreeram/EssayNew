@@ -237,7 +237,7 @@ class qtype_essayannotate_renderer extends qtype_renderer {
                 } else {
                     $annotate = get_string('unsupported_file','qtype_essayannotate');
                 }
-                $PAGE->requires->js_call_amd('qtype_essayannotate/testing','init');
+                // $PAGE->requires->js_call_amd('qtype_essayannotate/testing','init');
 
                 $PAGE->requires->js_call_amd('qtype_essayannotate/annotatebutton','init',[$attemptid,$slot,$fileNum]);
 
