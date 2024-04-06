@@ -247,7 +247,7 @@ if($canProceed == true)
     // Render the annotator UI
     $mustache = new Mustache_Engine;
     $data = new annotatorMustacheConfig();
-    $template = file_get_contents('../templates/annotator.mustache');
+    // $template = file_get_contents('../templates/annotator.mustache');
     $PAGE->requires->js_call_amd('qtype_essayannotate/testing','init');
     $output = $PAGE->get_renderer('qtype_essayannotate');
 
@@ -255,10 +255,13 @@ if($canProceed == true)
     // $PAGE->requires->js_call_amd('qtype_essayannotate/pdfannotate','init',[$contextid,$attemptid,$filename,$usageid,$slot]);
     // $PAGE->requires->js_call_amd('qtype_essayannotate/clickhandlers','init',[$fileurl]);
     // echo $output->header();
-     echo $output->header();
-    
-     echo $output->footer();
-     echo $mustache->render($template, $data); 
+    // $temp1 = $PAGE->get_header_actions();
+    echo $output->header();
+    //  echo $output->box_start();
+    //  echo $output->box_end();
+    echo $output->render_from_template('qtype_essayannotate/annotator', $data); 
+    echo $output->footer();
+    // echo $PAGE->requires->get_end_code();
 
    
 }
