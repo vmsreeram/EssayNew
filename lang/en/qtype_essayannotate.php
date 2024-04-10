@@ -15,13 +15,13 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Strings for component 'qtype_essayannotate', language 'en', branch 'MOODLE_20_STABLE'
+ * Strings for component 'qtype_essayannotate', language 'en', branch 'MOODLE_41_STABLE'
  *
  * @package    qtype
  * @subpackage essayannotate
- * @copyright  2024 IIT Palakkad 
- * @copyright  based on work done by Martin Dougiamas  {@link http://moodle.com}
+ * @copyright  Martin Dougiamas  {@link http://moodle.com}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @updatedby  Nideesh N, VM Sreeram (IIT Palakkad)
  */
 
 $string['acceptedfiletypes'] = 'Accepted file types';

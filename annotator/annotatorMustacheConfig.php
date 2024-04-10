@@ -15,12 +15,13 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * This page consists of data for annotator.mustache.
+ * This page consists of data for annotator.mustache. These definitions are used in annotator.php.
  *
  * @package    qtype
  * @subpackage essayannotate
  * @copyright  2024 IIT Palakkad
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @author     Nideesh N, VM Sreeram
  */
 require_once('../../../../config.php');
 class annotatorMustacheConfig {
@@ -58,19 +59,6 @@ class annotatorMustacheConfig {
         array('other_tools_id'=>'rectangle','icon_class' => 'fa fa-square-o', 'tooltip' => 'Highlight Box'),
     );
     public $other_tools_extra ;
-    public $jquery_js_url = 'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js';
-    public $popper_js_url = 'https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js';
-    public $popper_integrity = 'sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN';
-    public $popper_crossorigin = 'anonymous';
-    public $bootstrap_js_url = 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js';
-    public $bootstrap_integrity = 'sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV';
-    public $bootstrap_crossorigin = 'anonymous';
-    public $pdf_js_url = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.347/pdf.min.js';
-    public $pdf_worker_js_url = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.347/pdf.worker.min.js';
-    public $fabric_js_url = 'https://cdnjs.cloudflare.com/ajax/libs/fabric.js/4.3.0/fabric.min.js';
-    public $jspdf_js_url = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.2.0/jspdf.umd.min.js';
-    public $prettify_js_url = 'https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js';
-    public $pdfannotate_js_url = './pdfannotate.js';
 
     public function __construct() {
         $this->annotator_text = get_string('annotator', 'qtype_essayannotate');
