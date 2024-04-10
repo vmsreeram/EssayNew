@@ -23,6 +23,7 @@
  * @subpackage essayannotate
  * @copyright  2024 IIT Palakkad
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @author     Asha Jose, Parvathy S Kumar (IIT Palakkad)
  */
 defined('MOODLE_INTERNAL') || die();
 

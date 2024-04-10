@@ -19,9 +19,9 @@
  *
  * @package    qtype
  * @subpackage essayannotate
- * @copyright  2024 IIT Palakkad
- * @copyright  based on work done by Martin Hall-May, FPDF {@link http://www.fpdf.org/en/script/script74.php}
+ * @copyright  Martin Hall-May, FPDF {@link http://www.fpdf.org/en/script/script74.php}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @updatedby  Parvathy S Kumar, Asha Jose (IIT Palakkad)
  */
 defined('MOODLE_INTERNAL') || die();
 

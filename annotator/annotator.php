@@ -24,17 +24,17 @@
  */
 
 /**
- * @author Tausif Iqbal, Vishal Rao
+ * @author Tausif Iqbal, Vishal Rao (IIT Palakkad)
  * @link {https://github.com/TausifIqbal/moodle_quiz_annotator}
  *
- * @updatedby Asha Jose, Parvathy S Kumar
+ * @updatedby Asha Jose, Parvathy S Kumar (IIT Palakkad)
  * @link {https://github.com/Parvathy-S-Kumar/Moodle_Quiz_PDF_Annotator}
  *
- * @updatedby Nideesh, Sreeram
- * Followed security guidelines such as require_login, require_capability, escaping shell cmds before execution.
+ * @updatedby Nideesh N, VM Sreeram (IIT Palakkad)
+ * Changed code to follow security guidelines such as require_login, require_capability, escaping shell cmds before execution.
  * Used Mustache template to render HTML output. 
- * Updated logic for checking filetype is PDF by using mimetype and extension.
- * Updated itemid as the attemptid of the first annotation step.
+ * Updated the logic for checking filetype is PDF by using mimetype and extension.
+ * Updated itemid as the step id of the first annotation step.
  * Added logic to create `essayPDF` directory within temp directory of moodledata to store temporary files.
  */
 
@@ -44,7 +44,7 @@ require_once('../classes/helper.php');
 require_once('../../../../mod/quiz/locallib.php');
 require_login();
 
-global $USER;
+global $USER,$PAGE;
 
 // The $tempPath is the path to the subdirectory essayPDF created in moodle's temp directory 
 $tempPath = $CFG->tempdir ."/essayPDF";
@@ -69,6 +69,7 @@ if (!empty($cmid)) {
     $cm = get_coursemodule_from_id('quiz', $cmid);
     $context = context_module::instance($cm->id);
     $PAGE->set_context($context);
+    $PAGE->set_cm($cm);
 }
 else 
 {
@@ -77,7 +78,7 @@ else
 
 require_capability('mod/quiz:grade', $PAGE->context);
 
-// Try to create the subdirectory if not exists
+// Try to create the subdirectory essayPDF if not exists
 if(!is_dir($tempPath) && !mkdir($tempPath,0777,true)){
     throw new moodle_exception("Cannot create directory");
 }
@@ -114,19 +115,20 @@ $component = 'question';
 $filearea = 'response_attachments';
 $filepath = '/';
 $usageid = $qa->get_usage_id();
+// itemid is required for saving the file. Annotation step id is used as itemid so that it gets marked for backup.  
 $itemid = helper::get_first_annotation_comment_step($qa)->get_id();
 
-// If uploaded file is not PDF, the converted file will have to be saved in file area. An $itemid is required for it.
+// If an annotation step does not exist, itemid will be null
 if ($itemid == null)
     $itemid = $attemptid;
 
 $canProceed=true;
+
+// Checking if file is not PDF
 $format = explode(".", $filename);
 $format = end($format);
 $ispdf = true;
 $mime = explode(' ',get_mimetype_description($file))[0];
-
-// Checking if file is not PDF
 if($mime !== "PDF" && $format !== "pdf")
 {
     $ispdf = false;
@@ -191,11 +193,11 @@ if($doesExists === true)
     {
         // Execute the commands of imagemagick(Convert texts and images to PDF)
         $safecommand = escapeshellcmd($command);
-        $shellOutput = shell_exec($safecommand.'  2>&1');
+        $shellOutput = shell_exec($safecommand);
    
         $command = "rm '" . $fileToConvert . "'";
         $safecommand = escapeshellcmd($command);
-        $shellOutput = shell_exec($safecommand.'  2>&1');
+        $shellOutput = shell_exec($safecommand);
 
         // Create a PDF file in moodle database from the above created PDF file
         $temppath = $dummyFile;
