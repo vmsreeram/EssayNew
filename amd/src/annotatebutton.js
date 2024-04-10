@@ -28,16 +28,18 @@ export const  annotate = (attemptid, slot, fileno) => {
     form.remove();
 };
 
-export const init =(attemptid,slot,fileno) =>{
+export const init =(attemptid,slot) =>{
 
     // window.alert("sometext annotatebtn");
 
-    // Find the button element by its class name
-    const annotateButton = document.querySelector('.annotate-btn');
-    // console.log("init called");
-    // Add an event listener to the button
-    annotateButton.addEventListener('click', () => {
-        // Call the annotate function
-        annotate(attemptid, slot, fileno);
+    // Iterate over all buttons with class "annotate-btn"
+    document.querySelectorAll('.annotate-btn').forEach(function(annotateButton) {
+        annotateButton.addEventListener('click', function() {
+            // Extract the filenum from the button's name attribute
+            var filenum = this.name;
+
+            // Call the annotate function with attemptid, slot, and filenum
+            annotate(attemptid, slot, filenum);
+        });
     });
 };

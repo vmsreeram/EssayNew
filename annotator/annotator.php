@@ -177,10 +177,10 @@ if($doesExists === true)
     $convert = get_config('qtype_essayannotate', 'imagemagickpath');
     
     if($mime === "image")
-        $command = $convert." '" . $fileToConvert ."'  -page a4 " .$dummyFile.'  2>&1';
+        $command = $convert." '" . $fileToConvert ."'  -page a4 " .$dummyFile;
     else if($mime=="text")
     {
-        $command = $convert." TEXT:'" . $fileToConvert ."' " .$dummyFile.'  2>&1';
+        $command = $convert." TEXT:'" . $fileToConvert ."' " .$dummyFile;
     }
     else
     {

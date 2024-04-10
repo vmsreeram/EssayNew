@@ -215,7 +215,9 @@ class qtype_essayannotate_renderer extends qtype_renderer {
         $step = $qa->get_last_step_with_qt_var('attachments');
         
         $fileNum = 0;
-        
+        $attemptid = optional_param('attempt', null, PARAM_INT);
+        $slot = optional_param('slot', null, PARAM_INT);
+        $PAGE->requires->js_call_amd('qtype_essayannotate/annotatebutton','init',[$attemptid,$slot]);
         foreach ($files as $file) {
             $fileNum++;
             $out = html_writer::link($qa->get_response_file_url($file),
@@ -239,9 +241,9 @@ class qtype_essayannotate_renderer extends qtype_renderer {
                 }
                 // $PAGE->requires->js_call_amd('qtype_essayannotate/testing','init');
 
-                $PAGE->requires->js_call_amd('qtype_essayannotate/annotatebutton','init',[$attemptid,$slot,$fileNum]);
+                
 
-                $out .= '<button type="button" name = "Annotate" class="btn btn-primary annotate-btn" style="margin: 5px; padding: 4px;">' . $annotate . '</button>';
+                $out .= '<button type="button" name = '.$fileNum.' class="btn btn-primary annotate-btn" style="margin: 5px; padding: 4px;">' . $annotate . '</button>';
             }
             if (!empty($CFG->enableplagiarism)) {
                 require_once($CFG->libdir . '/plagiarismlib.php');
