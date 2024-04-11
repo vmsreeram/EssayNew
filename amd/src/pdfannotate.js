@@ -33,7 +33,7 @@
  * SerializePDF and SavePDF functions are modified.
  */
 
-define(['qtype_essayannotate/fabric', 'qtype_essayannotate/pdf', 'jquery'], function(fabric, pdf, $) {
+define(['qtype_essayannotate/fabric', 'qtype_essayannotate/pdf', 'jquery'], function(fabric, pdfjsLib, $) {
 
 var contextid,attemptid,filename,usageid,slot;
 var PDFAnnotate = function(container_id, url, options = {}) {
@@ -63,10 +63,10 @@ var PDFAnnotate = function(container_id, url, options = {}) {
     window.console.log("fabric");
     window.console.log(fabric);
     window.console.log("pdfjsLib");
-    window.console.log(pdf);
-    window.console.log(pdf.GlobalWorkerOptions);
-    pdf.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.347/pdf.worker.min.js';
-    var loadingTask = pdf.getDocument(this.url);
+    window.console.log(pdfjsLib);
+    window.console.log(pdfjsLib.GlobalWorkerOptions);
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    var loadingTask = pdfjsLib.getDocument(this.url);
     loadingTask.promise.then(function (pdf) {
         var scale = options.scale ? options.scale : 1.3;
         inst.number_of_pages = pdf.numPages;
