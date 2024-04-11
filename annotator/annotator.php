@@ -248,7 +248,7 @@ if($canProceed == true)
     $mustache = new Mustache_Engine;
     $data = new annotatorMustacheConfig();
 
-    $PAGE->requires->js_call_amd('qtype_essayannotate/pdfannotate','init',[$contextid,$attemptid,$filename,$usageid,$slot,$fileurl]);
+    $PAGE->requires->js_call_amd('qtype_essayannotate/pdfannotate','init',[$contextid,$attemptid,$filename,$usageid,$slot]);
     $PAGE->requires->js_call_amd('qtype_essayannotate/clickhandlers','init',[$fileurl]);
     $output = $PAGE->get_renderer('qtype_essayannotate');
 

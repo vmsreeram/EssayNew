@@ -26,146 +26,144 @@
 
 // This function calls PDFAnnotate function defined in pdfannotate.js
 // fileurl has been assigned its correct value in annotator.php file
+define(['jquery', 'qtype_essayannotate/pdfannotate'], function($, PDFAnnotate) {
+    /**
+     * Changes the active tool based on the event target.
+     *
+     * @param {Event} event - The event object.
+     */
+    function changeActiveTool(event) {
+        event.preventDefault();
+        var element = $(event.target).hasClass("tool-button")
+        ? $(event.target)
+        : $(event.target).parents(".tool-button").first();
+        $(".tool-button.active").removeClass("active");
+        $(element).addClass("active");
+    }
 
-import $ from 'jquery';
-import PDFAnnotate from 'qtype_essayannotate/pdfannotate';
+    /**
+     * Enables the selector tool in the PDF.
+     *
+     * @param {Event} event - The event object.
+     * @param {PDFAnnotate} pdf - The PDFAnnotate instance.
+     */
+    function enableSelector(event, pdf) {
+        event.preventDefault();
+        changeActiveTool(event);
+        pdf.enableSelector();
+    }
 
-/**
- * Changes the active tool based on the event target.
- *
- * @param {Event} event - The event object.
- */
-function changeActiveTool(event) {
-    event.preventDefault();
-    var element = $(event.target).hasClass("tool-button")
-    ? $(event.target)
-    : $(event.target).parents(".tool-button").first();
-    $(".tool-button.active").removeClass("active");
-    $(element).addClass("active");
-}
+    /**
+     * Enables the pencil tool in the PDF.
+     *
+     * @param {Event} event - The event object.
+     * @param {PDFAnnotate} pdf - The PDFAnnotate instance.
+     */
+    function enablePencil(event, pdf) {
+        event.preventDefault();
+        changeActiveTool(event);
+        pdf.enablePencil();
+    }
 
-/**
- * Enables the selector tool in the PDF.
- *
- * @param {Event} event - The event object.
- * @param {PDFAnnotate} pdf - The PDFAnnotate instance.
- */
-function enableSelector(event,pdf) {
-    event.preventDefault();
-    changeActiveTool(event);
-    pdf.enableSelector();
-}
+    /**
+     * Enables the add text tool in the PDF.
+     *
+     * @param {Event} event - The event object.
+     * @param {PDFAnnotate} pdf - The PDFAnnotate instance.
+     */
+    function enableAddText(event, pdf) {
+        event.preventDefault();
+        changeActiveTool(event);
+        pdf.enableAddText();
+    }
 
-/**
- * Enables the pencil tool in the PDF.
- *
- * @param {Event} event - The event object.
- * @param {PDFAnnotate} pdf - The PDFAnnotate instance.
- */
-function enablePencil(event,pdf) {
-    event.preventDefault();
-    changeActiveTool(event);
-    pdf.enablePencil();
-}
+    /**
+     * Enables the rectangle tool in the PDF.
+     *
+     * @param {Event} event - The event object.
+     * @param {PDFAnnotate} pdf - The PDFAnnotate instance.
+     */
+    function enableRectangle(event, pdf) {
+        event.preventDefault();
+        changeActiveTool(event);
+        pdf.enableRectangle();
+    }
 
-/**
- * Enables the add text tool in the PDF.
- *
- * @param {Event} event - The event object.
- * @param {PDFAnnotate} pdf - The PDFAnnotate instance.
- */
-function enableAddText(event,pdf) {
-    event.preventDefault();
-    changeActiveTool(event);
-    pdf.enableAddText();
-}
+    /**
+     * Deletes the selected object in the PDF.
+     *
+     * @param {Event} event - The event object.
+     * @param {PDFAnnotate} pdf - The PDFAnnotate instance.
+     */
+    function deleteSelectedObject(event, pdf) {
+        event.preventDefault();
+        pdf.deleteSelectedObject();
+    }
 
-/**
- * Enables the rectangle tool in the PDF.
- *
- * @param {Event} event - The event object.
- * @param {PDFAnnotate} pdf - The PDFAnnotate instance.
- */
-function enableRectangle(event,pdf) {
-    event.preventDefault();
-    changeActiveTool(event);
-    pdf.enableRectangle();
-}
+    /**
+     * Saves the PDF.
+     *
+     * @param {Event} event - The event object.
+     * @param {PDFAnnotate} pdf - The PDFAnnotate instance.
+     */
+    function savePDF(event, pdf) {
+        event.preventDefault();
+        pdf.savePdf(); // Changes made by Asha and Parvathy: Removed a parameter of the function
+    }
 
-/**
- * Deletes the selected object in the PDF.
- *
- * @param {Event} event - The event object.
- * @param {PDFAnnotate} pdf - The PDFAnnotate instance.
- */
-function deleteSelectedObject(event,pdf) {
-    event.preventDefault();
-    pdf.deleteSelectedObject();
-}
+    //Change the color and font size to currently selected color and font size respectively in the UI
 
-/**
- * Saves the PDF.
- *
- * @param {Event} event - The event object.
- * @param {PDFAnnotate} pdf - The PDFAnnotate instance.
- */
-function savePDF(event,pdf) {
-    event.preventDefault();
-    pdf.savePdf();        //Changes made by Asha and Parvathy: Removed a parameter of the function
-}
+    return {
+        init: function(fileurl) {
+            // eslint-disable-next-line no-console
+            window.console.log("ClickHandler :: Init");
 
-//Change the color and font size to currently selected color and font size respectively in the UI
+            window.alert("sometext clickhandler");
+            window.console.log(PDFAnnotate);
+            var pdf = new PDFAnnotate.PDFAnnotate("pdf-container", fileurl, {
+                onPageUpdated: function(page, oldData, newData) {}, // eslint-disable-line no-unused-vars
+                ready: function() {},
+                scale: 1.5,
+                pageImageCompression: "SLOW", // FAST, MEDIUM, SLOW(Helps to control the new PDF file size)
+            });
+            $(function () {
+                $('.color-tool').click(function () {
+                    $('.color-tool.active').removeClass('active');
+                    $(this).addClass('active');
+                    var color = $(this).get(0).style.backgroundColor;
+                    pdf.setColor(color);
+                });
 
-export const init =(fileurl) =>{
-    // eslint-disable-next-line no-console
-    window.console.log("ClickHandler :: Init");
+                $('#font-size').change(function () {
+                    var font_size = $(this).val();
+                    pdf.setFontSize(font_size);
+                });
+            });
 
-    window.alert("sometext clickhandler");
-    window.console.log(PDFAnnotate);
-    var pdf = new PDFAnnotate("pdf-container", fileurl, {
-        onPageUpdated(page, oldData, newData) { // eslint-disable-line no-unused-vars
-        },
-        ready() {
-        },
-        scale: 1.5,
-        pageImageCompression: "SLOW", // FAST, MEDIUM, SLOW(Helps to control the new PDF file size)
-    });
-    $(function () {
-        $('.color-tool').click(function () {
-            $('.color-tool.active').removeClass('active');
-            $(this).addClass('active');
-            var color = $(this).get(0).style.backgroundColor;
-            pdf.setColor(color);
-        });
-
-        $('#font-size').change(function () {
-            var font_size = $(this).val();
-            pdf.setFontSize(font_size);
-        });
-    });
-
-    const pencilButton = document.getElementById('pencil');
-    pencilButton.addEventListener('click', (event) => {
-        enablePencil(event,pdf);
-    });
-    const selectorButton = document.getElementById('select');
-    selectorButton.addEventListener('click', (event) => {
-        enableSelector(event,pdf);
-    });
-    const addTextButton = document.getElementById('text');
-    addTextButton.addEventListener('click', (event) => {
-        enableAddText(event,pdf);
-    });
-    const rectangleButton = document.getElementById('rectangle');
-    rectangleButton.addEventListener('click', (event) => {
-        enableRectangle(event,pdf);
-    });
-    const deleteButton = document.getElementById('deletebtn');
-    deleteButton.addEventListener('click', (event) => {
-        deleteSelectedObject(event,pdf);
-    });
-    const saveButton = document.getElementById('savebtn');
-    saveButton.addEventListener('click', (event) => {
-        savePDF(event,pdf);
-    });
-};
+            const pencilButton = document.getElementById('pencil');
+            pencilButton.addEventListener('click', function(event) {
+                enablePencil(event, pdf);
+            });
+            const selectorButton = document.getElementById('select');
+            selectorButton.addEventListener('click', function(event) {
+                enableSelector(event, pdf);
+            });
+            const addTextButton = document.getElementById('text');
+            addTextButton.addEventListener('click', function(event) {
+                enableAddText(event, pdf);
+            });
+            const rectangleButton = document.getElementById('rectangle');
+            rectangleButton.addEventListener('click', function(event) {
+                enableRectangle(event, pdf);
+            });
+            const deleteButton = document.getElementById('deletebtn');
+            deleteButton.addEventListener('click', function(event) {
+                deleteSelectedObject(event, pdf);
+            });
+            const saveButton = document.getElementById('savebtn');
+            saveButton.addEventListener('click', function(event) {
+                savePDF(event, pdf);
+            });
+        }
+    };
+});
