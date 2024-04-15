@@ -65,7 +65,7 @@ var PDFAnnotate = function(container_id, url, options = {}) {
     window.console.log("pdfjsLib");
     window.console.log(pdfjsLib);
     window.console.log(pdfjsLib.GlobalWorkerOptions);
-    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    pdfjsLib.GlobalWorkerOptions.workerSrc = '../amd/build/pdfworker.min.js';
     var loadingTask = pdfjsLib.getDocument(this.url);
     loadingTask.promise.then(function (pdf) {
         var scale = options.scale ? options.scale : 1.3;
