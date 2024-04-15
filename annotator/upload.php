@@ -78,7 +78,7 @@ function convert_pdf_version($file, $path, $attemptid, $slot)
         if($pdfversion > "1.4")
         {
             // Filename contains attemptid, slot, userid so that multiple files can be annotated simultaneously
-            $srcfile_new = $path."/newdummy".$attemptid."$".$slot.$USER->id.".pdf";;
+            $srcfile_new = $path."/newdummy".$attemptid."$".$slot."$".$USER->id.".pdf";;
             $srcfile = $file;
             // Using GhostScript convert the pdf version to 1.4
             // Getting GhostScript path from settings page of plugin
@@ -138,8 +138,8 @@ $json = json_decode($value,true);
 
 // Referencing the file from the temp directory 
 $path = $CFG->tempdir . '/essayPDF';
-$file = $path . '/dummy'.$attemptid."$".$slot.$USER->id.".pdf"; 
-$tempfile = $path . '/outputmoodle'.$attemptid."$".$slot.$USER->id.".pdf";
+$file = $path . '/dummy'.$attemptid."$".$slot."$".$USER->id.".pdf"; 
+$tempfile = $path . '/outputmoodle'.$attemptid."$".$slot."$".$USER->id.".pdf";
 
 if(file_exists($file))
 {
