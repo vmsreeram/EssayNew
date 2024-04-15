@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<libraries>
+    <library>
+        <location>amd/src/fabric.js</location>
+        <name>Fabric JS</name>
+        <description>Javascript Canvas Library, SVG-to-Canvas (and canvas-to-SVG) Parser</description>
+        <version>5.3.0</version>
+        <license>MIT</license>
+        <licenseversion></licenseversion>
+    </library>
+    <library>
+        <location>amd/src/pdf.js</location>
+        <name>PDF JS</name>
+        <description>PDF.js is a Portable Document Format (PDF) viewer that is built with HTML5</description>
+        <version>3.11.174</version>
+        <license>Apache</license>
+        <licenseversion>2.0</licenseversion>
+    </library>
+    <library>
+        <location>amd/src/pdfworker.js</location>
+        <name>Pdf worker JS</name>
+        <version>3.11.174</version>
+        <license>Apache</license>
+        <licenseversion>2.0</licenseversion>
+    </library>
+    <library>
+        <location>amd/src/pdfannotate.js</location>
+        <name>PDFJsAnnotations</name>
+        <description>Wrapper for PDF JS to add annotations</description>
+        <version>1.0.1</version>
+        <license>MIT</license>
+        <licenseversion></licenseversion>
+    </library>
+</libraries>
