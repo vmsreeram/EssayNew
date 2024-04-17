@@ -19,7 +19,7 @@
  *
  * @subpackage essayannotate
  * @copyright  2024 IIT Palakkad
- * @copyright  based on work done by Ravisha Hesh {@link https://github.com/RavishaHesh/PDFJsAnnotations/tree/master}
+ * @copyright  based on work done by Ravisha Hesh {@link https://github.com/RavishaHesh/PDFJsAnnotations/tree/master?tab=MIT-1-ov-file#readme}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -416,12 +416,6 @@ return {
         filename = fileName;
         usageid = usageId;
         slot = sloT;
-
-        window.console.log(contextid);
-        window.console.log(attemptid);
-        window.console.log(filename);
-        window.console.log(slot);
-        window.console.log(usageid);
     }
 };
 });

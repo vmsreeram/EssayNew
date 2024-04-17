@@ -63,4 +63,18 @@ class helper {
         }
         return new question_attempt_step_read_only();
     }
+
+    public static function create_fileurl($qa, $file) {
+        // Create url of this file
+        $url = file_encode_url(new moodle_url('/pluginfile.php'), '/' . implode('/', array(
+            $file->get_contextid(),
+            $file->get_component(),
+            $file->get_filearea(),
+            $qa->get_usage_id(),
+            $qa->get_slot(),
+            $file->get_itemid())) .
+            $file->get_filepath() . $file->get_filename(), true);
+        $url = (explode("?", $url))[0];     // remove '?forcedownload=1' from the end of the url
+        return $url;
+    }
 }

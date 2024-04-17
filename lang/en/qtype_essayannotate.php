@@ -101,3 +101,6 @@ $string['unsupported_file'] = 'Unsupported file';
 $string['save_exit'] = 'Save and Exit';
 $string['font_size'] = 'Font size';
 $string['annotator'] = 'Annotator';
+$string['annotator_url'] = '/question/type/essayannotate/annotator/annotator.php';
+$string['generic_error'] = 'Some error occurred.';
+$string['mkdir_fail'] = 'Cannot create directory';

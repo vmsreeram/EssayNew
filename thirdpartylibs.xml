@@ -23,12 +23,18 @@
         <license>Apache</license>
         <licenseversion>2.0</licenseversion>
     </library>
-    <library>
-        <location>amd/src/pdfannotate.js</location>
-        <name>PDFJsAnnotations</name>
-        <description>Wrapper for PDF JS to add annotations</description>
-        <version>1.0.1</version>
+     <library>
+        <location>annotator/fpdi-fpdf/fpdi</location>
+        <name>FPDI</name>
+        <description>Collection of PHP classes facilitating developers to read pages from existing PDF documents and use them as templates in FPDF.</description>
+        <version>2.3.6</version>
         <license>MIT</license>
-        <licenseversion></licenseversion>
-    </library>
+  </library>
+  <library>
+        <location>annotator/fpdi-fpdf/fpdf</location>
+        <name>FPDF</name>
+        <description>FPDF is a PHP class which allows to generate PDF files with pure PHP.</description>
+        <version>1.85</version>
+        <license>MIT</license>
+  </library>
 </libraries>

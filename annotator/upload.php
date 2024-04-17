@@ -17,23 +17,20 @@
 /**
  * This page saves the annotated PDF file to database
  *
- * @package    qtype
- * @subpackage essayannotate
+ * @package    qtype_essayannotate
  * @copyright  2024 IIT Palakkad
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 /**
- * @author Tausif Iqbal, Vishal Rao
- * @link {https://github.com/TausifIqbal/moodle_quiz_annotator}
- * 
- * @updatedby Asha Jose, Parvathy S Kumar
- * @link {https://github.com/Parvathy-S-Kumar/Moodle_Quiz_PDF_Annotator}
- * All parts of this file excluding preparing the file record object and adding file to the database is modified
- *
- * @updatedby Nideesh, Sreeram
+ * @author Nideesh N, VM Sreeram,
+ * Asha Jose, Parvathy S Kumar,
+ * Tausif Iqbal, Vishal Rao (IIT Palakkad)
+ * First version @link {https://github.com/TausifIqbal/moodle_quiz_annotator/blob/main/3.6/mod/quiz/upload.php}
+ * Second version @link {https://github.com/Parvathy-S-Kumar/Moodle_Quiz_PDF_Annotator/blob/main/src/common/mod/quiz/upload.php}
+ * This file is the third version, the changes from the previous version are as follows:
  * Followed security guidelines such as require_login, require_capability, required_param instead of $_POST, escaping shell cmds before execution.
- * Added the logic to add steps to question_attempt_step after each annotation. 
+ * Added the logic to add steps to question_attempt_step after each annotation.
  * Modified the itemid of the file saved in the database to be the step_id of first annotation step we add.
  * Updated fileinfo array to fix unexpected annotations to different files with same filename within a quiz bug.
  *
@@ -48,9 +45,9 @@
 require_once('../../../../config.php');
 require_once('../../../../mod/quiz/locallib.php');
 require_once('../classes/helper.php');
-require __DIR__ . '/annotatedfilebuilder.php';
-require __DIR__ . '/parser.php';
-require __DIR__ . '/alphapdf.php';
+require(__DIR__ . '/annotatedfilebuilder.php');
+require(__DIR__ . '/parser.php');
+require(__DIR__ . '/alphapdf.php');
 
 
 /**
@@ -65,36 +62,32 @@ require __DIR__ . '/alphapdf.php';
  * @param int $slot the slot id
  * @return $file the pdf file after conversion is done if necessary
  */
-function convert_pdf_version($file, $path, $attemptid, $slot)
-{
+function convert_pdf_version($file, $path, $attemptid, $slot) {
     global $USER;
-    $filepdf = fopen($file,"r");
-    if ($filepdf) 
-    {
-        $line_first = fgets($filepdf);
-        preg_match_all('!\d+!', $line_first, $matches);	
+    $filepdf = fopen($file, "r");
+    if ($filepdf) {
+        $linefirst = fgets($filepdf);
+        preg_match_all('!\d+!', $linefirst, $matches);
         // save that number in a variable
         $pdfversion = implode('.', $matches[0]);
-        if($pdfversion > "1.4")
-        {
+        if ($pdfversion > "1.4") {
             // Filename contains attemptid, slot, userid so that multiple files can be annotated simultaneously
-            $srcfile_new = $path."/newdummy".$attemptid."$".$slot.$USER->id.".pdf";;
+            $srcfilenew = $path."/newdummy".$attemptid."$".$slot.$USER->id.".pdf";;
             $srcfile = $file;
             // Using GhostScript convert the pdf version to 1.4
             // Getting GhostScript path from settings page of plugin
-            $gsPath = get_config('qtype_essayannotate', 'ghostscriptpath');
+            $gspath = get_config('qtype_essayannotate', 'ghostscriptpath');
 
-            $command = $gsPath . ' -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dNOPAUSE -dBATCH -sOutputFile="' . $srcfile_new . '" "' . $srcfile . '"'.'  2>&1';
+            $command = $gspath . ' -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dNOPAUSE -dBATCH -sOutputFile="' . $srcfilenew . '" "' . $srcfile . '"'.'  2>&1';
             $safecommand = escapeshellcmd($command);
-            $shellOutput = shell_exec($safecommand);
+            $shelloutput = shell_exec($safecommand);
 
-            if(is_null($shellOutput))
-            {
+            if (is_null($shelloutput)) {
                 throw new Exception("PDF conversion using GhostScript failed");
             }
-            $file = $srcfile_new;
+            $file = $srcfilenew;
             unlink($srcfile);          // to remove original dummy.pdf
-        }   
+        }
         fclose($filepdf);
     }
 
@@ -114,7 +107,7 @@ $component = 'question';
 $filearea = 'response_attachments';
 $filepath = '/';
 
-global $USER,$DB;
+global $USER, $DB;
 
 $result = helper::getCmid($attemptid);
 
@@ -125,62 +118,58 @@ if ($result) {
 }
 
 if (!empty($cmid)) {
-    $cm = get_coursemodule_from_id('quiz', $cmid); 
+    $cm = get_coursemodule_from_id('quiz', $cmid);
     $context = context_module::instance($cm->id);
     $PAGE->set_context($context);
 }
 
-require_capability('mod/quiz:grade', $PAGE->context); 
+require_capability('mod/quiz:grade', $PAGE->context);
 
 
 // Get the serialisepdf value contents and convert into php arrays
-$json = json_decode($value,true);
+$json = json_decode($value, true);
 
-// Referencing the file from the temp directory 
+// Referencing the file from the temp directory
 $path = $CFG->tempdir . '/essayPDF';
-$file = $path . '/dummy'.$attemptid."$".$slot.$USER->id.".pdf"; 
+$file = $path . '/dummy'.$attemptid."$".$slot.$USER->id.".pdf";
 $tempfile = $path . '/outputmoodle'.$attemptid."$".$slot.$USER->id.".pdf";
 
-if(file_exists($file))
-{
+if (file_exists($file)) {
     // Calling function to convert the PDF version above 1.4 to 1.4 for compatibility with fpdf
-    $file=convert_pdf_version($file, $path, $attemptid, $slot);
+    $file = convert_pdf_version($file, $path, $attemptid, $slot);
 
     // Using FPDF and FPDI to annotate
-    if(file_exists($file))
-    {
+    if (file_exists($file)) {
         $pdf = build_annotated_file($file, $json);
         // Deleting dummy.pdf
         unlink($file);
         // Creating output moodle file for loading into database
         $pdf->Output('F', $tempfile);
-    }
-    else
+    } else {
         throw new Exception('\nPDF Version incompatible'); 
-}
-else
-    throw new Exception('\nSource PDF not found!'); 
-
-if(file_exists($tempfile))
-{
-    $fsize = filesize($tempfile);
-    $max_upload = (int)(ini_get('upload_max_filesize'));
-    $max_post = (int)(ini_get('post_max_size'));
-    $memory_limit = (int)(ini_get('memory_limit'));
-    $max_mb = min($max_upload, $max_post, $memory_limit);
-    $maxbytes = $max_mb*1024*1024;
-
-    $mdl_maxbytes = $CFG->maxbytes;
-    if($mdl_maxbytes > 0)
-    {
-        $maxbytes = min($maxbytes, $mdl_maxbytes);
     }
-    if(($fsize > 0) && ($maxbytes > 0) && ($fsize < $maxbytes))
-    {
-        $quba = question_engine::load_questions_usage_by_activity($usageid);       
+} else {
+    throw new Exception('\nSource PDF not found!');
+}
+
+if (file_exists($tempfile)) {
+    $fsize = filesize($tempfile);
+    $maxupload = (int)(ini_get('upload_max_filesize'));
+    $maxpost = (int)(ini_get('post_max_size'));
+    $memorylimit = (int)(ini_get('memory_limit'));
+    $maxmb = min($maxupload, $maxpost, $memorylimit);
+    $maxbytes = $maxmb * 1024 * 1024;
+
+    $mdlmaxbytes = $CFG->maxbytes;
+    if ($mdlmaxbytes > 0) {
+        $maxbytes = min($maxbytes, $mdlmaxbytes);
+    }
+    if (($fsize > 0) && ($maxbytes > 0) && ($fsize < $maxbytes)) {
+        $quba = question_engine::load_questions_usage_by_activity($usageid);
         $qa = $quba->get_question_attempt($slot);
         // Adding the annotation step to keep track of annotations in Response History
-        $submitteddata = array("-comment"=>get_string('annotated_file','qtype_essayannotate'). $filename . get_string('user','qtype_essayannotate') . $USER->firstname ." " . $USER->lastname. get_string('time','qtype_essayannotate') . date("'Y-m-d H:i:s'",time()) . ".");
+        $submitteddata = array("-comment" => get_string('annotated_file', 'qtype_essayannotate'). $filename . get_string('user', 'qtype_essayannotate') . 
+                         $USER->firstname ." " . $USER->lastname. get_string('time', 'qtype_essayannotate') . date("'Y-m-d H:i:s'", time()) . ".");
         $quba->process_action($slot, $submitteddata, null);
 
         // Saving the step to database
@@ -188,7 +177,7 @@ if(file_exists($tempfile))
         question_engine::save_questions_usage_by_activity($quba);
         $transaction->allow_commit();
 
-        $quba = question_engine::load_questions_usage_by_activity($usageid);       
+        $quba = question_engine::load_questions_usage_by_activity($usageid);
         $qa = $quba->get_question_attempt($slot);
 
         // saving the annotated file with $itemid as stepid of annotation step so that it gets marked for backup
@@ -203,15 +192,14 @@ if(file_exists($tempfile))
             'itemid' => $itemid,
             'filepath' => $filepath,
             'filename' => $filename);
-        
-            $doesExists = $fs->file_exists($contextid, $component, $filearea, $itemid, $filepath, $filename);
-            if($doesExists === true)
-            {
-                $storedfile = $fs->get_file($contextid, $component, $filearea, $itemid, $filepath, $filename);
-                $storedfile->delete();
-            }
-        
-        $fs->create_file_from_pathname($fileinfo, $tempfile); 
+
+        $doesexists = $fs->file_exists($contextid, $component, $filearea, $itemid, $filepath, $filename);
+        if ($doesexists === true) {
+            $storedfile = $fs->get_file($contextid, $component, $filearea, $itemid, $filepath, $filename);
+            $storedfile->delete();
+        }
+
+        $fs->create_file_from_pathname($fileinfo, $tempfile);
 
         $submitteddata = array();
         $markstep = $qa->get_last_step_with_qt_var("-mark");
@@ -221,12 +209,10 @@ if(file_exists($tempfile))
             $submitteddata["-mark"] = $markstep->get_qt_var("-mark");
             $submitteddata["-commentformat"] = $markstep->get_qt_var("-commentformat");
             $submitteddata["-comment"] = $markstep->get_qt_var("-comment");
-        }
-        else
-        {
+        } else {
             // So that the annotated step comment does not get revealed to students
-            $submitteddata["-comment"]=get_string('annotationstep_default_comment','qtype_essayannotate');
-            $submitteddata["-mark"]='';
+            $submitteddata["-comment"] = get_string('annotationstep_default_comment', 'qtype_essayannotate');
+            $submitteddata["-mark"] = '';
         }
         $quba = question_engine::load_questions_usage_by_activity($usageid);
         $quba->process_action($slot, $submitteddata, null);
@@ -235,17 +221,12 @@ if(file_exists($tempfile))
         question_engine::save_questions_usage_by_activity($quba);
         $transaction->allow_commit();
         
-    }
-    else
-    {
+    } else {
         throw new Exception("Too big file");
     }
     // Deleting outputmoodle.pdf
     unlink($tempfile);
-}
-else
-{
+} else {
     throw new Exception("Failed to create output file");
 }
-?>
 
