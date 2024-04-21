@@ -19,8 +19,7 @@
  *
  * @subpackage essayannotate
  * @copyright  2024 IIT Palakkad
- * @copyright  based on work done by Ravisha Hesh
- * @link      {@link https://github.com/RavishaHesh/PDFJsAnnotations/tree/master?tab=MIT-1-ov-file#readme}
+ * @copyright  based on work done by Ravisha Hesh {@link https://github.com/RavishaHesh/PDFJsAnnotations}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 

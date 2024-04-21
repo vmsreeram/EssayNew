@@ -82,7 +82,7 @@ function convert_pdf_version($file, $path, $attemptid, $slot) {
             $shelloutput = shell_exec($safecommand);
 
             if (is_null($shelloutput)) {
-                throw new Exception('gs_fail', 'qtype_essayannotate');
+                throw new moodle_exception('gs_fail', 'qtype_essayannotate');
             }
             $file = $srcfilenew;
             unlink($srcfile);          // to remove original dummy file
@@ -93,6 +93,21 @@ function convert_pdf_version($file, $path, $attemptid, $slot) {
     return $file;
 }
 
+function get_annotation_stepdata($markstep) {
+    $submitteddata = array();
+    if ($markstep->get_state() != question_state::$unprocessed) {
+        // So that the teacher's last manual comment is shown to students
+        $submitteddata["-maxmark"] = $markstep->get_qt_var("-maxmark");
+        $submitteddata["-mark"] = $markstep->get_qt_var("-mark");
+        $submitteddata["-commentformat"] = $markstep->get_qt_var("-commentformat");
+        $submitteddata["-comment"] = $markstep->get_qt_var("-comment");
+    } else {
+        // So that the annotated step comment does not get revealed to students
+        $submitteddata["-comment"] = get_string('annotationstep_default_comment', 'qtype_essayannotate');
+        $submitteddata["-mark"] = '';
+    }
+    return $submitteddata;
+}
 require_login();
 
 // Getting all the data from pdfannotate.js
@@ -145,10 +160,10 @@ if (file_exists($file)) {
         // Creating output moodle file for loading into database
         $pdf->Output('F', $tempfile);
     } else {
-        throw new Exception('pdf_version_error', 'qtype_essayannotate');
+        throw new moodle_exception('pdf_version_error', 'qtype_essayannotate');
     }
 } else {
-    throw new Exception('pdf_source_error', 'qtype_essayannotate');
+    throw new moodle_exception('pdf_source_error', 'qtype_essayannotate');
 }
 
 if (file_exists($tempfile)) {
@@ -203,33 +218,22 @@ if (file_exists($tempfile)) {
 
         $fs->create_file_from_pathname($fileinfo, $tempfile);
 
-        $submitteddata = array();
         $markstep = $qa->get_last_step_with_qt_var("-mark");
-        // TODO: seperate to a function
-        if ($markstep->get_state() != question_state::$unprocessed) {
-            // So that the teacher's last manual comment is shown to students
-            $submitteddata["-maxmark"] = $markstep->get_qt_var("-maxmark");
-            $submitteddata["-mark"] = $markstep->get_qt_var("-mark");
-            $submitteddata["-commentformat"] = $markstep->get_qt_var("-commentformat");
-            $submitteddata["-comment"] = $markstep->get_qt_var("-comment");
-        } else {
-            // So that the annotated step comment does not get revealed to students
-            $submitteddata["-comment"] = get_string('annotationstep_default_comment', 'qtype_essayannotate');
-            $submitteddata["-mark"] = '';
-        }
+
+        $submitteddata = get_annotation_stepdata($markstep);
         $quba = question_engine::load_questions_usage_by_activity($usageid);
-        $quba->process_action($slot, $submitteddata, null);
+        $quba->process_action($slot, $submitteddata);
 
         $transaction = $DB->start_delegated_transaction();
         question_engine::save_questions_usage_by_activity($quba);
         $transaction->allow_commit();
 
     } else {
-        throw new Exception('file_too_big', 'qtype_essayannotate');
+        throw new moodle_exception('file_too_big', 'qtype_essayannotate');
     }
     // Deleting outputmoodle.pdf
     unlink($tempfile);
 } else {
-    throw new Exception('output_file_failed', 'qtype_essayannotate');
+    throw new moodle_exception('output_file_failed', 'qtype_essayannotate');
 }
 

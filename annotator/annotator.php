@@ -201,7 +201,7 @@ if ($doesexists === true) {
 // Checking if creation of dummyfile was unsuccessful
 if (!(file_exists($dummyfile))) {
     $canproceed = false;
-    throw new Exception("Permission  Denied");
+    throw new moodle_exception('permission_denied','qtype_essayannotate');
 }
 
 if ($canproceed == true) {

@@ -112,3 +112,4 @@ $string['pdf_version_error'] = 'PDF Version incompatible';
 $string['pdf_source_error'] = 'Source PDF not found!';
 $string['file_too_big'] = 'Too big file';
 $string['output_file_failed'] = 'Failed to create output file';
+$string['permission_denied'] = 'Permission denied';
