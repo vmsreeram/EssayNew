@@ -19,7 +19,8 @@
  *
  * @subpackage essayannotate
  * @copyright  2024 IIT Palakkad
- * @copyright  based on work done by Ravisha Hesh {@link https://github.com/RavishaHesh/PDFJsAnnotations/tree/master?tab=MIT-1-ov-file#readme}
+ * @copyright  based on work done by Ravisha Hesh
+ * @link      {@link https://github.com/RavishaHesh/PDFJsAnnotations/tree/master?tab=MIT-1-ov-file#readme}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -313,7 +314,7 @@ PDFAnnotate.prototype.deleteSelectedObject = function () {
 
       };
       //Sending data to upload.php
-      xmlhttp.send("id=" + value + "&contextid=" + contextid + "&attemptid="+attemptid
+      xmlhttp.send("data=" + value + "&contextid=" + contextid + "&attemptid="+attemptid        // changed id to data
       + "&filename=" + filename + "&usageid=" + usageid + "&slot=" + slot);
     });
 };
@@ -409,7 +410,7 @@ return {
     init: function(contextId, attemptId, fileName, usageId, sloT) {
         // eslint-disable-next-line no-console
         window.console.log("pdfAnnotate :: Init");
-        window.alert("sometext pdfAnnotate");
+        // window.alert("sometext pdfAnnotate");
 
         contextid = contextId;
         attemptid = attemptId;
