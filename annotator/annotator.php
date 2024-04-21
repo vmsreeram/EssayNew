@@ -33,6 +33,7 @@
  * Updated the logic for checking filetype is PDF by using mimetype and extension.
  * Updated itemid as the step id of the first annotation step.
  * Added logic to create `essayPDF` directory within temp directory of moodledata to store temporary files.
+ * Changed the name of dummy file to include attemptid and slot number to allow concurrent annotation of different files by different users.
  * Used Mustache template to render HTML output.
  * Removed script tags and using js_call_amd to load javascript
  */
@@ -46,13 +47,13 @@ require_login();
 global $USER, $PAGE;
 
 // The $temppath is the path to the subdirectory essayPDF created in moodle's temp directory
-$temppath = $CFG->tempdir ."/essayPDF";
+$temppath = $CFG->tempdir . get_string('essayPDF_path', 'qtype_essayannotate');
 
 $attemptid = required_param('attempt', PARAM_INT);
 $slot = required_param('slot', PARAM_INT);
 $fileno = required_param('fileno', PARAM_INT);
 $cmid = optional_param('cmid', null, PARAM_INT);
-$dummyfile = $temppath ."/dummy".$attemptid."$".$slot.$USER->id.".pdf";
+$dummyfile = $temppath . get_string('dummy_path', 'qtype_essayannotate') . $attemptid . "$" . $slot . $USER->id . ".pdf";
 if ($cmid == null) {
     $result = helper::getCmid($attemptid);
     if ($result) {
@@ -93,7 +94,7 @@ $fileurl = "";
 $currfileno = 0;
 foreach ($files as $file) {
     $currfileno = $currfileno + 1;
-    if ($currfileno == $fileno) {		// this is the file we want
+    if ($currfileno == $fileno) {           // this is the file we want
         $out = $qa->get_response_file_url($file);
         $url = (explode("?", $out))[0];     // remove '?forcedownload=1' from the end of the url
         $fileurl = $url;
@@ -102,7 +103,7 @@ foreach ($files as $file) {
     }
 }
 
-$attemptid = $attemptobj->get_attemptid();
+$attemptid = (string)$attemptid;
 $contextid = $options->context->id;
 $component = 'question';
 $filearea = 'response_attachments';
