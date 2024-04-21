@@ -118,7 +118,7 @@ define(['jquery', 'qtype_essayannotate/pdfannotate'], function($, PDFAnnotate) {
             // eslint-disable-next-line no-console
             window.console.log("ClickHandler :: Init");
 
-            window.alert("sometext clickhandler");
+            // window.alert("sometext clickhandler");
             window.console.log(PDFAnnotate);
             var pdf = new PDFAnnotate.PDFAnnotate("pdf-container", fileurl, {
                 onPageUpdated: function(page, oldData, newData) {}, // eslint-disable-line no-unused-vars
