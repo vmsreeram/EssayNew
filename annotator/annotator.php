@@ -53,7 +53,7 @@ $attemptid = required_param('attempt', PARAM_INT);
 $slot = required_param('slot', PARAM_INT);
 $fileno = required_param('fileno', PARAM_INT);
 $cmid = optional_param('cmid', null, PARAM_INT);
-$dummyfile = $temppath . get_string('dummy_path', 'qtype_essayannotate') . $attemptid . "$" . $slot . $USER->id . ".pdf";
+$dummyfile = $temppath . get_string('dummy_path', 'qtype_essayannotate') . $attemptid . "$" . $slot . "$" . $USER->id . ".pdf";
 if ($cmid == null) {
     $result = helper::getCmid($attemptid);
     if ($result) {
