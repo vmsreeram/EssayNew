@@ -135,6 +135,23 @@ function get_max_bytes()
     return $maxbytes;
 }
 
+/**
+ * Processes a question attempt step and saves it to the database.
+ *
+ * @param $quba The question usage by activity object.
+ * @param $slot The slot where the question attempt is being made.
+ * @param $submitteddata The data submitted for the question attempt.
+ */
+function add_question_attempt_step($quba, $slot, $submitteddata) {
+    global $DB;
+    $quba->process_action($slot, $submitteddata);
+
+    // Saving the step to database
+    $transaction = $DB->start_delegated_transaction();
+    question_engine::save_questions_usage_by_activity($quba);
+    $transaction->allow_commit();
+}
+
 require_login();
 // Getting all the data from pdfannotate.js
 $annotations = required_param('data', PARAM_RAW);                 // changed id to data
@@ -200,16 +217,12 @@ if (file_exists($tempfile)) {
         // Changes by Nideesh N and VM Sreeram for marking file for backup
         $quba = question_engine::load_questions_usage_by_activity($usageid);
         $qa = $quba->get_question_attempt($slot);
+
         // Adding the annotation step to keep track of annotations in Response History
         // In Response History, a new entry is added
         $submitteddata = array("-comment" => get_string('annotated_file', 'qtype_essayannotate'). $filename . get_string('user', 'qtype_essayannotate') .
                          $USER->firstname ." " . $USER->lastname. get_string('time', 'qtype_essayannotate') . date("'Y-m-d H:i:s'", time()) . ".");
-        $quba->process_action($slot, $submitteddata);
-
-        // Saving the step to database
-        $transaction = $DB->start_delegated_transaction();
-        question_engine::save_questions_usage_by_activity($quba);
-        $transaction->allow_commit();
+        add_question_attempt_step($quba, $slot, $submitteddata);
 
         // Updating $qa after the step is saved
         $quba = question_engine::load_questions_usage_by_activity($usageid);
@@ -242,13 +255,7 @@ if (file_exists($tempfile)) {
         // so that the teacher's last manual comment is shown to students
         $markstep = $qa->get_last_step_with_qt_var("-mark");
         $submitteddata = get_annotation_stepdata($markstep);
-        /*TODO: Delete*/$quba = question_engine::load_questions_usage_by_activity($usageid);
-        $quba->process_action($slot, $submitteddata);
-
-        $transaction = $DB->start_delegated_transaction();
-        question_engine::save_questions_usage_by_activity($quba);
-        $transaction->allow_commit();
-
+        add_question_attempt_step($quba, $slot, $submitteddata);
     } else {
         throw new moodle_exception('file_too_big', 'qtype_essayannotate');
     }
