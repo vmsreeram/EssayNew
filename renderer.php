@@ -17,19 +17,18 @@
 /**
  * essayannotate question renderer class.
  *
- * @package    qtype
- * @subpackage essayannotate
+ * @package    qtype_essayannotate
  * @copyright  2024 IIT Palakkad
  * @copyright  based on work by 2009 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 /**
- * @updatedby Tausif Iqbal and Vishal Rao
- * @link {https://github.com/TausifIqbal/moodle_quiz_annotator}
+ * @author Nideesh N, VM Sreeram,
+ * Tausif Iqbal, Vishal Rao (IIT Palakkad)
+ * First version @link {https://github.com/TausifIqbal/moodle_quiz_annotator/blob/main/3.6/mod/quiz/annotator.php}
  *  Added logic to get and display Corrected Documents
- *
- * @updatedby Nideesh and Sreeram
+ * This file is the second version, the changes from the previous version are as follows:
  *  `Corrected Documents` shown to students if and only if qa is graded.
  *  Followed Moodle coding conventions by adding language strings.
  *  Updated itemid as the attemptid of the first annotation step.
@@ -49,7 +48,7 @@ require_once('classes/helper.php');
 class qtype_essayannotate_renderer extends qtype_renderer {
     public function formulation_and_controls(question_attempt $qa,
             question_display_options $options) {
-        global $CFG, $PAGE;
+        global $CFG;
         $question = $qa->get_question();
 
         /** @var qtype_essayannotate_format_renderer_base $responseoutput */
@@ -97,7 +96,7 @@ class qtype_essayannotate_renderer extends qtype_renderer {
                 $files = $this->files_read_only($qa, $options);
 
                 // Display `Corrected Documents` to teachers always, but display to students only if the qa is graded.
-                if($qa->get_state()->is_graded() || has_capability('mod/quiz:grade',$PAGE->context))
+                if($qa->get_state()->is_graded() || has_capability('mod/quiz:grade',$this->page->context))
                 {
                     $annotatedfiles = $this->feedback_files_read_only($qa,$options);
                 }
@@ -208,7 +207,7 @@ class qtype_essayannotate_renderer extends qtype_renderer {
      *      not be displayed. Used to get the context.
      */
     public function files_read_only(question_attempt $qa, question_display_options $options) {
-        global $CFG,$PAGE;
+        global $CFG;
         $files = $qa->get_last_qt_files('attachments', $options->context->id);
         $filelist = [];
 
@@ -217,7 +216,7 @@ class qtype_essayannotate_renderer extends qtype_renderer {
         $fileNum = 0;
         $attemptid = optional_param('attempt', null, PARAM_INT);
         $slot = optional_param('slot', null, PARAM_INT);
-        $PAGE->requires->js_call_amd('qtype_essayannotate/annotatebutton','init',[$attemptid,$slot]);
+        $this->page->requires->js_call_amd('qtype_essayannotate/annotatebutton','init',[$attemptid,$slot]);
         foreach ($files as $file) {
             $fileNum++;
             $out = html_writer::link($qa->get_response_file_url($file),
@@ -225,25 +224,21 @@ class qtype_essayannotate_renderer extends qtype_renderer {
                     'moodle', array('class' => 'icon')) . ' ' . s($file->get_filename()));
 
             // Display `Annotate` button to teachers only in comment.php and not in review.php
-            if(has_capability('mod/quiz:grade',$PAGE->context) &&
+            if(has_capability('mod/quiz:grade',$this->page->context) &&
                 $options->manualcomment == question_display_options::EDITABLE)
             {
                 $attemptid = optional_param('attempt', null, PARAM_INT);
                 $slot = optional_param('slot', null, PARAM_INT);
                 
                 $mime = explode(' ',get_mimetype_description($file))[0];
-                $onclick = ' ';
+                $disabledTxt = ' ';
                 $annotate = get_string('annotate_button_label', 'qtype_essayannotate');
-                if ($mime === 'Image' || $mime === 'Text' || $mime === "PDF") {
-                    $onclick = "annotate($attemptid,$slot,$fileNum)";
-                } else {
+                if ($mime !== 'Image' && $mime !== 'Text' && $mime !== "PDF") {
                     $annotate = get_string('unsupported_file','qtype_essayannotate');
+                    $disabledTxt = ' disabled';
                 }
-                // $PAGE->requires->js_call_amd('qtype_essayannotate/testing','init');
 
-                
-
-                $out .= '<button type="button" name = '.$fileNum.' class="btn btn-primary annotate-btn" style="margin: 5px; padding: 4px;">' . $annotate . '</button>';
+                $out .= '<button type="button" name = '.$fileNum.' class="btn btn-primary annotate-btn" style="margin: 5px; padding: 4px;"'. $disabledTxt .'>' . $annotate . '</button>';
             }
             if (!empty($CFG->enableplagiarism)) {
                 require_once($CFG->libdir . '/plagiarismlib.php');

@@ -93,6 +93,12 @@ function convert_pdf_version($file, $path, $attemptid, $slot) {
     return $file;
 }
 
+/**
+ * Get the annotation step data based on the provided $markstep object.
+ *
+ * @param object $markstep The markstep object to retrieve data from.
+ * @return array The array containing the submitted data.
+ */
 function get_annotation_stepdata($markstep) {
     $submitteddata = array();
     if ($markstep->get_state() != question_state::$unprocessed) {
@@ -108,8 +114,28 @@ function get_annotation_stepdata($markstep) {
     }
     return $submitteddata;
 }
-require_login();
 
+/**
+ * Get the maximum number of bytes allowed for file uploads, considering various limits.
+ * @return int The maximum number of bytes allowed for file uploads.
+ */
+function get_max_bytes()
+{
+    global $CFG;
+    $maxupload = (int)(ini_get('upload_max_filesize'));
+    $maxpost = (int)(ini_get('post_max_size'));
+    $memorylimit = (int)(ini_get('memory_limit'));
+    $maxmb = min($maxupload, $maxpost, $memorylimit);
+    $maxbytes = $maxmb * 1024 * 1024;
+
+    $mdlmaxbytes = $CFG->maxbytes;
+    if ($mdlmaxbytes > 0) {
+        $maxbytes = min($maxbytes, $mdlmaxbytes);
+    }
+    return $maxbytes;
+}
+
+require_login();
 // Getting all the data from pdfannotate.js
 $annotations = required_param('data', PARAM_RAW);                 // changed id to data
 $contextid = required_param('contextid', PARAM_INT);
@@ -168,16 +194,8 @@ if (file_exists($file)) {
 
 if (file_exists($tempfile)) {
     $fsize = filesize($tempfile);       // file size of annotated file
-    $maxupload = (int)(ini_get('upload_max_filesize'));
-    $maxpost = (int)(ini_get('post_max_size'));
-    $memorylimit = (int)(ini_get('memory_limit'));
-    $maxmb = min($maxupload, $maxpost, $memorylimit);
-    $maxbytes = $maxmb * 1024 * 1024;
+    $maxbytes = get_max_bytes();
 
-    $mdlmaxbytes = $CFG->maxbytes;
-    if ($mdlmaxbytes > 0) {
-        $maxbytes = min($maxbytes, $mdlmaxbytes);
-    }
     if (($fsize > 0) && ($maxbytes > 0) && ($fsize < $maxbytes)) {
         // Changes by Nideesh N and VM Sreeram for marking file for backup
         $quba = question_engine::load_questions_usage_by_activity($usageid);
@@ -197,7 +215,7 @@ if (file_exists($tempfile)) {
         $quba = question_engine::load_questions_usage_by_activity($usageid);
         $qa = $quba->get_question_attempt($slot);
 
-        // saving the annotated file with $itemid as stepid of annotation step so that it gets marked for backup
+        // Saving the annotated file with $itemid as stepid of annotation step so that it gets marked for backup
         $itemid = helper::get_first_annotation_comment_step($qa)->get_id();
         $fs = get_file_storage();
         $fileinfo = array(
@@ -210,18 +228,21 @@ if (file_exists($tempfile)) {
             'filepath' => $filepath,
             'filename' => $filename);
 
+        // Check if the annotated file exists in the file system and delete if so
         $doesexists = $fs->file_exists($contextid, $component, $filearea, $itemid, $filepath, $filename);
         if ($doesexists === true) {
             $storedfile = $fs->get_file($contextid, $component, $filearea, $itemid, $filepath, $filename);
             $storedfile->delete();
         }
 
+        // Saving the new annotated file to the file system
         $fs->create_file_from_pathname($fileinfo, $tempfile);
 
+        // Getting the last feedback comment by teacher, and adding it once more
+        // so that the teacher's last manual comment is shown to students
         $markstep = $qa->get_last_step_with_qt_var("-mark");
-
         $submitteddata = get_annotation_stepdata($markstep);
-        $quba = question_engine::load_questions_usage_by_activity($usageid);
+        /*TODO: Delete*/$quba = question_engine::load_questions_usage_by_activity($usageid);
         $quba->process_action($slot, $submitteddata);
 
         $transaction = $DB->start_delegated_transaction();
@@ -231,7 +252,7 @@ if (file_exists($tempfile)) {
     } else {
         throw new moodle_exception('file_too_big', 'qtype_essayannotate');
     }
-    // Deleting outputmoodle.pdf
+    // Deleting outputmoodle file
     unlink($tempfile);
 } else {
     throw new moodle_exception('output_file_failed', 'qtype_essayannotate');
