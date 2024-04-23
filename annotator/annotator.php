@@ -39,7 +39,7 @@
  */
 
 require_once('../../../../config.php');
-require_once('annotatorMustacheConfig.php');
+require_once('annotatormustacheconfig.php');
 require_once('../classes/helper.php');
 require_once('../../../../mod/quiz/locallib.php');
 require_login();
@@ -209,7 +209,7 @@ if ($canproceed == true) {
     $slot = strval($slot);
     // Render the annotator UI
     $mustache = new Mustache_Engine;
-    $data = getAnnotatorMustacheConfig();
+    $data = get_annotator_mustache_config();
 
     // calling init function of pdfannotate.js and clickhandlers.js for setting the necessary parameters
     $PAGE->requires->js_call_amd('qtype_essayannotate/pdfannotate', 'init', [$contextid, $attemptid, $filename, $usageid, $slot]);

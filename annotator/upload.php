@@ -119,8 +119,7 @@ function get_annotation_stepdata($markstep) {
  * Get the maximum number of bytes allowed for file uploads, considering various limits.
  * @return int The maximum number of bytes allowed for file uploads.
  */
-function get_max_bytes()
-{
+function get_max_bytes() {
     global $CFG;
     $maxupload = (int)(ini_get('upload_max_filesize'));
     $maxpost = (int)(ini_get('post_max_size'));
