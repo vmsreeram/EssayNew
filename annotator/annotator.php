@@ -209,7 +209,7 @@ if ($canproceed == true) {
     $slot = strval($slot);
     // Render the annotator UI
     $mustache = new Mustache_Engine;
-    $data = new annotatorMustacheConfig();
+    $data = getAnnotatorMustacheConfig();
 
     // calling init function of pdfannotate.js and clickhandlers.js for setting the necessary parameters
     $PAGE->requires->js_call_amd('qtype_essayannotate/pdfannotate', 'init', [$contextid, $attemptid, $filename, $usageid, $slot]);
