@@ -269,7 +269,7 @@ PDFAnnotate.prototype.deleteSelectedObject = function () {
         //Getting the response once upload.php finishes execution
         //readyState will become 4 if the execution finishes
         if (this.status == 200 && this.readyState == 4) {
-            showMessage("file has been saved");
+            showMessage("File has been saved");
         } else if (this.status != 200 && this.readyState == 4) {
             showMessage("Not able to save the file");
         }
@@ -289,8 +289,13 @@ PDFAnnotate.prototype.deleteSelectedObject = function () {
             messageBox.style.top = "50%";
             messageBox.style.left = "50%";
             messageBox.style.transform = "translate(-50%, -50%)";
-            messageBox.style.backgroundColor = "#4CAF50";
-            messageBox.style.color = "#fff";
+            if (message == "File has been saved") {
+                messageBox.style.backgroundColor = "#d7e4d6";
+                messageBox.style.color = "#1c3f1a";
+            } else {
+                messageBox.style.backgroundColor = "#ca3120";
+                messageBox.style.color = "#fff";
+            }
             messageBox.style.padding = "20px";
             messageBox.style.borderRadius = "5px";
             messageBox.style.boxShadow = "0 0 10px rgba(0, 0, 0, 0.3)";
