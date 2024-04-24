@@ -221,17 +221,10 @@ class qtype_essayannotate_renderer extends qtype_renderer {
             // Display Annotate button to teachers only in comment.php and not in review.php
             if (has_capability('mod/quiz:grade', $this->page->context) &&
                 $options->manualcomment == question_display_options::EDITABLE) {
-                $mime = explode(' ', get_mimetype_description($file))[0];
-                $disabledtxt = ' ';
                 $annotate = get_string('annotate_button_label', 'qtype_essayannotate');
-                // if ($mime !== 'Image' && $mime !== 'Text' && $mime !== "PDF") {
-                //     $annotate = get_string('unsupported_file', 'qtype_essayannotate');
-                //     $disabledtxt = ' disabled';
-                // }
 
                 $out .= '<button type="button" name = ' .
-                    $filenum . ' class="btn btn-primary annotate-btn" style="margin: 5px; padding: 4px;"' .
-                    $disabledtxt . '>' . $annotate . '</button>';
+                    $filenum . ' class="btn btn-primary annotate-btn" style="margin: 5px; padding: 4px;">' . $annotate . '</button>';
             }
             if (!empty($CFG->enableplagiarism)) {
                 require_once($CFG->libdir . '/plagiarismlib.php');
