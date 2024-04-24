@@ -165,6 +165,7 @@ if ($doesexists === true) {
         $command = $convert." TEXT:'" . $filetoconvert ."' " .$dummyfile;
     } else {
         $canproceed = false;
+        unlink($filetoconvert);
         throw new moodle_exception('unsupported_file', 'qtype_essayannotate');
     }
 
@@ -173,9 +174,7 @@ if ($doesexists === true) {
         $safecommand = escapeshellcmd($command);
         $shelloutput = shell_exec($safecommand);
 
-        $command = "rm '" . $filetoconvert . "'";
-        $safecommand = escapeshellcmd($command);
-        $shelloutput = shell_exec($safecommand);
+        unlink($filetoconvert);
 
         // Create a PDF file in moodle database from the above created PDF file
         $fileinfo = array(

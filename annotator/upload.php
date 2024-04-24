@@ -56,13 +56,13 @@ require(__DIR__ . '/alphapdf.php');
  * Given a file and its path, the file converted to version 1.4 is returned,
  * if version is above it else, the original file is retured.
  *
- * @param string $file the pdf file
- * @param string $path the path where the file exists
+ * @param string $file the path to the pdf file
+ * @param string $essaypdfpath the path where the file exists
  * @param int $attemptid the attempt id
  * @param int $slot the slot id
- * @return $file the pdf file after conversion (if necessary)
+ * @return $file the path to thepdf file after conversion (if necessary)
  */
-function convert_pdf_version($file, $path, $attemptid, $slot) {
+function convert_pdf_version($file, $essaypdfpath, $attemptid, $slot) {
     global $USER;
     $filepdf = fopen($file, "r");
     if ($filepdf) {
@@ -72,7 +72,7 @@ function convert_pdf_version($file, $path, $attemptid, $slot) {
         $pdfversion = implode('.', $matches[0]);
         if ($pdfversion > "1.4") {
             // Filename contains attemptid, slot, userid so that multiple files can be annotated simultaneously
-            $srcfilenew = $path . "/newdummy" . $attemptid . "$" . $slot . "$" . $USER->id . ".pdf";
+            $srcfilenew = $essaypdfpath . "/newdummy" . $attemptid . "$" . $slot . "$" . $USER->id . ".pdf";
             $srcfile = $file;
             // Using GhostScript convert the pdf version to 1.4
             // Getting GhostScript path from settings page of plugin
@@ -186,13 +186,13 @@ require_capability('mod/quiz:grade', $PAGE->context);
 $json = json_decode($annotations, true);
 
 // Referencing the file from the temp directory
-$path = $CFG->tempdir . get_string('essayPDF_path', 'qtype_essayannotate');
-$file = $path . get_string('dummy_path', 'qtype_essayannotate') . $attemptid . "$" . $slot . "$" . $USER->id . ".pdf";
-$tempfile = $path . '/outputmoodle' . $attemptid . "$" . $slot . "$" . $USER->id . ".pdf";
+$essaypdfpath = $CFG->tempdir . get_string('essayPDF_path', 'qtype_essayannotate');
+$file = $essaypdfpath . get_string('dummy_path', 'qtype_essayannotate') . $attemptid . "$" . $slot . "$" . $USER->id . ".pdf";
+$tempfile = $essaypdfpath . '/outputmoodle' . $attemptid . "$" . $slot . "$" . $USER->id . ".pdf";
 
 if (file_exists($file)) {
     // Calling function to convert the PDF version above 1.4 to 1.4 for compatibility with fpdf
-    $file = convert_pdf_version($file, $path, $attemptid, $slot);
+    $file = convert_pdf_version($file, $essaypdfpath, $attemptid, $slot);
 
     // Using FPDF and FPDI to annotate
     if (file_exists($file)) {
