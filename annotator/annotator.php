@@ -64,6 +64,7 @@ if ($cmid == null) {
 }
 
 $PAGE->set_url(get_string('annotator_url', 'qtype_essayannotate'), array('attempt' => $attemptid, 'slot' => $slot, 'fileno' => $fileno));
+$PAGE->set_pagelayout('popup');
 
 if (!empty($cmid)) {
     $cm = get_coursemodule_from_id('quiz', $cmid);
