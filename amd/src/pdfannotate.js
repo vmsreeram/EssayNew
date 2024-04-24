@@ -416,6 +416,15 @@ return {
         filename = fileName;
         usageid = usageId;
         slot = sloT;
+
+        // window.addEventListener('beforeunload', function(e) {
+        //     e.preventDefault();
+        //     var xmlhttp = new XMLHttpRequest();    //Creating an HTTP request instance
+        //     xmlhttp.open("POST", "cleanup.php", false);
+        //     xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        //     //Sending data to cleanup.php
+        //     xmlhttp.send("attemptid="+attemptid + "&slot=" + slot);
+        // });
     }
 };
 });
