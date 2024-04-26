@@ -119,8 +119,8 @@ class qtype_essayannotate_renderer extends qtype_renderer {
 
         // Displaying the Corrected Documents
         if (!empty($annotatedfiles)) {
-            $result .= '<hr style="height:1px;border:none;color:#333;background-color:#333;">';
-            $result .= '<p> <b>' . get_string('corrected_documents', 'qtype_essayannotate').'</b> </p>';
+            $result .= html_writer::tag('hr', '', array('style' => 'height:1px;border:none;color:#333;background-color:#333;'));
+            $result .= html_writer::tag('p', html_writer::tag('b', get_string('corrected_documents', 'qtype_essayannotate')));
             $result .= html_writer::tag('div', $annotatedfiles, array('class' => 'attachments'));   // adding annotated file.
         }
         $result .= html_writer::end_tag('div');
@@ -165,7 +165,7 @@ class qtype_essayannotate_renderer extends qtype_renderer {
             }
             if (!empty($fileurl) && !empty($filename)) {
                 $icon = $this->output->pix_icon('f/pdf', "PDF document", 'core', ['class' => 'icon']);
-                $annotatedfiles .= '<p><a href="' . $fileurl . '">' . $icon . $filename  . '</a></p>';
+                $annotatedfiles .= html_writer::tag('p', html_writer::link($fileurl, $icon . $filename));
             }
         }
         return $annotatedfiles;
@@ -234,9 +234,13 @@ class qtype_essayannotate_renderer extends qtype_renderer {
             if (has_capability('mod/quiz:grade', $this->page->context) &&
                 $options->manualcomment == question_display_options::EDITABLE) {
                 $annotate = get_string('annotate_button_label', 'qtype_essayannotate');
-
-                $out .= '<button type="button" name = ' .
-                    $filenum . ' class="btn btn-primary annotate-btn" style="margin: 5px; padding: 4px;">' . $annotate . '</button>';
+                $out .= html_writer::tag('button', $annotate, array(
+                    'type' => 'button',
+                    'name' => $filenum,
+                    'class' => 'btn btn-primary annotate-btn',
+                    'style' => 'margin: 5px; padding: 4px;'
+                ));
+                    
             }
             if (!empty($CFG->enableplagiarism)) {
                 require_once($CFG->libdir . '/plagiarismlib.php');

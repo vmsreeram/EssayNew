@@ -19,25 +19,22 @@
  * The data from serialiser of fabricjs is read and processed.
  * The processed data is then stored in utiliszable manner for fpdf
  *
- * @package    qtype
- * @subpackage essayannotate
+ * @package    qtype_essayannotate
  * @copyright  2024 IIT Palakkad
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 defined('MOODLE_INTERNAL') || die();
 
-define("RATIO", 0.238); //Ratio to convert FabricJS objects to FPDF objects
+define("RATIO", 0.238); // Ratio to convert FabricJS objects to FPDF objects
 
 /**
  * for finding corresponding size of fpdf object given a fabricjs object
- * 
- * @param float $fabricjsUnit variable corresponding to FabricJS distance unit(px)
- * @return $fpdfUnit corresponding distance unit value in FPDF
+ * @param float $fabricjsunit variable corresponding to FabricJS distance unit(px)
+ * @return $fpdfunit corresponding distance unit value in FPDF
  */
-function normalize($fabricjsUnit)
-{
-    $fpdfUnit= RATIO * $fabricjsUnit;
-    return $fpdfUnit;
+function normalize($fabricjsunit) {
+    $fpdfunit = RATIO * $fabricjsunit;
+    return $fpdfunit;
 }
 
 /**
@@ -45,29 +42,28 @@ function normalize($fabricjsUnit)
  * Given an array containing the data related to FabricJS path object,
  * deserialize it, taking the relevant data to convert the path to an FPDF line object.
  *
- * @param object $arrPath the array containing data related to a path object.
+ * @param object $arrpath the array containing data related to a path object.
  * @return $list deserialized data for the path in FPDF line format
  */
-function parser_path($arrPath) 
-{
+function parser_path($arrpath) {
     // stored as a set of points (x and y coordinates)
     $list = array();
-    $len = count($arrPath["path"]);
-    for($i = 0; $i < $len-1 ; $i++)
-    {
-        if($i == 0 || $i == $len-2)  //First and Last array elements are dummy values 
-            continue;               
+    $len = count($arrpath["path"]);
+    for ($i = 0; $i < $len - 1; $i++) {
+        if($i == 0 || $i == $len-2) {  // First and Last array elements are dummy values 
+            continue;  
+        }
 
         $temp = array();
-        array_push($temp,normalize($arrPath["path"][$i][1]));  //x1
-        array_push($temp,normalize($arrPath["path"][$i][2]));  //y1
-        array_push($list,$temp);
+        array_push($temp, normalize($arrpath["path"][$i][1]));  //x1
+        array_push($temp, normalize($arrpath["path"][$i][2]));  //y1
+        array_push($list, $temp);
         $temp = array();
-        array_push($temp,normalize($arrPath["path"][$i][3]));  //x2
-        array_push($temp,normalize($arrPath["path"][$i][4]));  //y2
-        array_push($list,$temp);
+        array_push($temp, normalize($arrpath["path"][$i][3]));  //x2
+        array_push($temp, normalize($arrpath["path"][$i][4]));  //y2
+        array_push($list, $temp);
     }
-   array_push($list,$arrPath["stroke"]);                       // stroke color
+   array_push($list,$arrpath["stroke"]);                       // stroke color
    return $list;
 }
 
@@ -76,18 +72,18 @@ function parser_path($arrPath)
  * Given an array containing the data related to FabricJS text object,
  * deserialize it, taking the relevant data to convert the text to an FPDF text object.
  *
- * @param object $arrText the array containing data related to a text object.
+ * @param object $arrtext the array containing data related to a text object.
  * @return $list deserialized data in FPDF text format
  */
-function parser_text($arrText)
+function parser_text($arrtext)
 {
     $list = array();
     // left and top refers to x and y coordinates of top left corner
-    array_push($list,normalize($arrText["left"]),normalize($arrText["top"]),
-                normalize($arrText["width"]),normalize($arrText["height"]));
+    array_push($list,normalize($arrtext["left"]),normalize($arrtext["top"]),
+                normalize($arrtext["width"]),normalize($arrtext["height"]));
     // text refers to the content and fill is the color of the text
-    array_push($list,$arrText["text"],$arrText["fill"]);
-    array_push($list,$arrText["fontSize"]);
+    array_push($list,$arrtext["text"],$arrtext["fill"]);
+    array_push($list,$arrtext["fontSize"]);
     return $list;
 }
 
