@@ -50,21 +50,22 @@ function parser_path($arrpath) {
     $list = array();
     $len = count($arrpath["path"]);
     for ($i = 0; $i < $len - 1; $i++) {
-        if($i == 0 || $i == $len-2) {  // First and Last array elements are dummy values 
-            continue;  
+        // First and Last array elements are dummy values
+        if ($i == 0 || $i == $len - 2) {
+            continue;
         }
 
         $temp = array();
-        array_push($temp, normalize($arrpath["path"][$i][1]));  //x1
-        array_push($temp, normalize($arrpath["path"][$i][2]));  //y1
+        array_push($temp, normalize($arrpath["path"][$i][1]));  // x1
+        array_push($temp, normalize($arrpath["path"][$i][2]));  // y1
         array_push($list, $temp);
         $temp = array();
-        array_push($temp, normalize($arrpath["path"][$i][3]));  //x2
-        array_push($temp, normalize($arrpath["path"][$i][4]));  //y2
+        array_push($temp, normalize($arrpath["path"][$i][3]));  // x2
+        array_push($temp, normalize($arrpath["path"][$i][4]));  // y2
         array_push($list, $temp);
     }
-   array_push($list,$arrpath["stroke"]);                       // stroke color
-   return $list;
+    array_push($list, $arrpath["stroke"]);                       // stroke color
+    return $list;
 }
 
 /**
@@ -75,15 +76,14 @@ function parser_path($arrpath) {
  * @param object $arrtext the array containing data related to a text object.
  * @return $list deserialized data in FPDF text format
  */
-function parser_text($arrtext)
-{
+function parser_text($arrtext) {
     $list = array();
     // left and top refers to x and y coordinates of top left corner
-    array_push($list,normalize($arrtext["left"]),normalize($arrtext["top"]),
-                normalize($arrtext["width"]),normalize($arrtext["height"]));
+    array_push($list, normalize($arrtext["left"]), normalize($arrtext["top"]),
+                normalize($arrtext["width"]), normalize($arrtext["height"]));
     // text refers to the content and fill is the color of the text
-    array_push($list,$arrtext["text"],$arrtext["fill"]);
-    array_push($list,$arrtext["fontSize"]);
+    array_push($list, $arrtext["text"], $arrtext["fill"]);
+    array_push($list, $arrtext["fontSize"]);
     return $list;
 }
 
@@ -96,15 +96,14 @@ function parser_text($arrtext)
  * @param object $arrRect the array containing data related to a Rect object.
  * @return $list deserialized data in FPDF Rect format
  */
-function parser_rectangle($arrRect)
-{
+function parser_rectangle($arrrect) {
     $list = array();
     // scaleX and scaleY is 1 if the rectangle is not transformed
     // during transformation, width and height remains same but the scaleX and scaleY change
-    $width=(normalize($arrRect["width"]))*($arrRect["scaleX"]); 
-    $height=(normalize($arrRect["height"]))*($arrRect["scaleY"]);
-    array_push($list,normalize($arrRect["left"]),normalize($arrRect["top"]),$width,$height);
-    array_push($list,$arrRect["fill"]);
+    $width = (normalize($arrrect["width"])) * ($arrrect["scaleX"]);
+    $height = (normalize($arrrect["height"])) * ($arrrect["scaleY"]);
+    array_push($list, normalize($arrrect["left"]), normalize($arrrect["top"]), $width, $height);
+    array_push($list, $arrrect["fill"]);
     return $list;
 
 }
@@ -113,28 +112,29 @@ function parser_rectangle($arrRect)
  * Utility function for converting color format from fabricJS to rgb values
  * Given a string containing the color data in fabricJS format,
  * return the corresponding color values in [r,g,b]
- * 
+ *
  * @param string $colorString the string containing color data
  * @return array $rgb colors in [r,g,b] format
  */
-function process_color($colorString) {
-    if ($colorString == "null")    
+function process_color($colorstring) {
+    if ($colorstring == "null") {
         $rgb = [0, 0, 0];
-    if ($colorString == "red" || $colorString == "rgba(251, 17, 17, 0.3)" || $colorString == "rgb(251, 17, 17)")                 
+    }
+    if ($colorstring == "red" || $colorstring == "rgba(251, 17, 17, 0.3)" || $colorstring == "rgb(251, 17, 17)") {
         $rgb = [251, 17, 17];              // converting string to rgb
-    else if ($colorString == "green" || $colorString == "rgba(13, 93, 13, 0.3)" || $colorString == "rgb(13, 93, 13)")
+    } else if ($colorstring == "green" || $colorstring == "rgba(13, 93, 13, 0.3)" || $colorstring == "rgb(13, 93, 13)") {
         $rgb = [13, 93, 13];
-    else if($colorString == "blue" || $colorString == "rgba(2, 2, 182, 0.3)" || $colorString == "rgb(2, 2, 182)")
+    } else if ($colorstring == "blue" || $colorstring == "rgba(2, 2, 182, 0.3)" || $colorstring == "rgb(2, 2, 182)") {
         $rgb = [2, 2, 182];
-    else if($colorString == "black" || $colorString == "rgba(0, 0, 0, 0.3)" || $colorString == "rgb(0, 0, 0)")
+    } else if ($colorstring == "black" || $colorstring == "rgba(0, 0, 0, 0.3)" || $colorstring == "rgb(0, 0, 0)") {
         $rgb = [0, 0, 0];
-        else if($colorString == "yellow" || $colorString == "rgba(255, 255, 0, 0.3)" || $colorString == "rgb(255, 255, 0)")
+    } else if ($colorstring == "yellow" || $colorstring == "rgba(255, 255, 0, 0.3)" || $colorstring == "rgb(255, 255, 0)") {
         $rgb = [255, 255, 0];
-    else {
+    } else {
         $rgb = array();
-        list($r, $g, $b) = sscanf($colorString, "#%02x%02x%02x"); //hexadecimal format
+        list($r, $g, $b) = sscanf($colorstring, "#%02x%02x%02x"); // hexadecimal format
         $rgb = [$r, $g, $b];
     }
     return $rgb;
 }
-?>
+
