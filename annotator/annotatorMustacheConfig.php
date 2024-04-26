@@ -29,6 +29,7 @@ require_login();
  * Generates and returns the data for annotator.mustache.
  *
  * @return stdClass The data for annotator.mustache.
+ * @package qtype_essayannotate
  */
 function get_annotator_mustache_config() {
     $annotatormustacheconfig = new stdClass();
@@ -66,8 +67,8 @@ function get_annotator_mustache_config() {
     );
     $annotatormustacheconfig->other_tools_extra = array(
         array('select_danger' => true, 'other_tools_extra_id' => 'deletebtn', 'icon_class' => 'fa fa-trash'),
-        array('select_light' => true, 'other_tools_extra_id' => 'savebtn', 'icon_class' => 'fa fa-save', 
-            'select_savenexit' => true, 'save_exit' =>  get_string('save_exit', 'qtype_essayannotate')),
+        array('select_light' => true, 'other_tools_extra_id' => 'savebtn', 'icon_class' => 'fa fa-save',
+            'select_savenexit' => true, 'save_exit' => get_string('save_exit', 'qtype_essayannotate')),
     );
 
     $annotatormustacheconfig->annotator_text = get_string('annotator', 'qtype_essayannotate');

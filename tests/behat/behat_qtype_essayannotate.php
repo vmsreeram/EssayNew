@@ -17,7 +17,7 @@
 /**
  * This page consists of data for annotator.mustache.
  *
- * @package    qtype
+ * @package    qtype_essayannotate
  * @subpackage essayannotate
  * @copyright  2024 IIT Palakkad
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -31,7 +31,7 @@ class behat_qtype_essayannotate extends behat_base {
     /**
      * @When I annotate the pdf
      */
-    public function i_annotate_the_pdf(){
+    public function i_annotate_the_pdf() {
 
         $js = "
         var pathString = 'M 100 100 Q 125 125 150 150 Q 175 175 200 200 L 200 200';
@@ -51,30 +51,30 @@ class behat_qtype_essayannotate extends behat_base {
     }
 
     /**
-     * @When path to gs and covert is set 
+     * @When path to gs and covert is set
      */
-    public function path_to_gs_and_convert_is_set(){
+    public function path_to_gs_and_convert_is_set() {
         // Define the plugin name
         $plugin = 'qtype_essayannotate';
 
-        $gsPath = shell_exec(escapeshellcmd("which gs"));
-        $convertPath = shell_exec(escapeshellcmd("which convert"));
+        $gspath = shell_exec(escapeshellcmd("which gs"));
+        $convertpath = shell_exec(escapeshellcmd("which convert"));
         // Define the configurations
         $configurations = [
-            'ghostscriptpath' => $gsPath,
-            'imagemagickpath' => $convertPath
+            'ghostscriptpath' => $gspath,
+            'imagemagickpath' => $convertpath,
         ];
 
         // Update existing configurations in the database
         foreach ($configurations as $name => $value) {
             global $DB;
             // Check if the configuration already exists
-            $existingRecord = $DB->get_record('config_plugins', ['plugin' => $plugin, 'name' => $name]);
+            $existingrecord = $DB->get_record('config_plugins', ['plugin' => $plugin, 'name' => $name]);
 
-            if ($existingRecord) {
+            if ($existingrecord) {
                 // Update the existing record with the new value
-                $existingRecord->value = $value;
-                $DB->update_record('config_plugins', $existingRecord);
+                $existingrecord->value = $value;
+                $DB->update_record('config_plugins', $existingrecord);
             } else {
                 // If the configuration does not exist, insert a new record
                 $record = new stdClass();
@@ -87,38 +87,35 @@ class behat_qtype_essayannotate extends behat_base {
     }
 
     /**
-    * @Then /^The document should open in a new tab$/
-    */   
-    public function document_should_open_in_new_tab()
-    {
+     * @Then /^The document should open in a new tab$/
+     */
+    public function document_should_open_in_new_tab() {
         $session     = $this->getSession();
-        $windowNames = $session->getWindowNames();
-        if(sizeof($windowNames) < 2){
-            throw new \ErrorException("Expected to see at least 2 windows opened"); 
+        $windownames = $session->getWindowNames();
+        if(sizeof($windownames) < 2){
+            throw new \ErrorException("Expected to see at least 2 windows opened");
         }
 
-        //You can even switch to that window
-        $session->switchToWindow($windowNames[1]);
+        // You can even switch to that window
+        $session->switchToWindow($windownames[1]);
     }
 
     /**
-    * @Then /^I switch to main window$/
-    */  
-    public function i_switch_to_main_window()
-    {
+     * @Then /^I switch to main window$/
+     */
+    public function i_switch_to_main_window() {
         $session = $this->getSession();
-        $windowNames = $session->getWindowNames();
-        $session->switchToWindow($windowNames[0]);
+        $windownames = $session->getWindowNames();
+        $session->switchToWindow($windownames[0]);
     }
 
     /**
-    * @When /^I go back to previous page$/
-    */  
-    public function i_go_back_to_previous_page()
-    {
+     * @When /^I go back to previous page$/
+     */
+    public function i_go_back_to_previous_page() {
         $session = $this->getSession();
         $session->back();
     }
 
-    
+
 }

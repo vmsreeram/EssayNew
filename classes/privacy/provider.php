@@ -18,16 +18,16 @@
  * Privacy Subsystem implementation for qtype_essayannotate.
  *
  * @package    qtype_essayannotate
- * @copyright  2024 IIT Palakkad 
+ * @copyright  2024 IIT Palakkad
  * @copyright  based on work done by 2018 Andrew Nicols <andrew@nicols.co.uk>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 namespace qtype_essayannotate\privacy;
 
-use \core_privacy\local\metadata\collection;
-use \core_privacy\local\request\user_preference_provider;
-use \core_privacy\local\request\writer;
+use core_privacy\local\metadata\collection;
+use core_privacy\local\request\user_preference_provider;
+use core_privacy\local\request\writer;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -41,8 +41,8 @@ class provider implements
         // This component has data.
         // We need to return default options that have been set a user preferences.
         \core_privacy\local\metadata\provider,
-        \core_privacy\local\request\user_preference_provider
-{
+        \core_privacy\local\request\user_preference_provider {
+
 
     /**
      * Returns meta data about this system.
@@ -50,7 +50,7 @@ class provider implements
      * @param   collection     $collection The initialised collection to add items to.
      * @return  collection     A listing of user data stored through this system.
      */
-    public static function get_metadata(collection $collection) : collection {
+    public static function get_metadata(collection $collection): collection {
         $collection->add_user_preference('qtype_essayannotate_defaultmark', 'privacy:preference:defaultmark');
         $collection->add_user_preference('qtype_essayannotate_responseformat', 'privacy:preference:responseformat');
         $collection->add_user_preference('qtype_essayannotate_responserequired', 'privacy:preference:responserequired');
