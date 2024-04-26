@@ -113,3 +113,5 @@ $string['pdf_source_error'] = 'Source PDF not found!';
 $string['file_too_big'] = 'Too big file';
 $string['output_file_failed'] = 'Failed to create output file';
 $string['permission_denied'] = 'Permission denied';
+$string['file_saved_message'] = 'File has been saved';
+$string['file_not_saved_message'] = 'Not able to save the file';

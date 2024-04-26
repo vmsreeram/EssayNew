@@ -119,3 +119,22 @@ body {
     background-color: rgb(82, 86, 89);
     border-color: rgb(82, 86, 89);
 }
+
+/* Styles for visible message boxes */
+.messagebox {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #c2c6ca;
+    color: #1d2125;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    transition: opacity 0.5s;
+}
+
+/* Styles for hidden message boxes */
+.messagebox.hidden {
+    display: none;
+}

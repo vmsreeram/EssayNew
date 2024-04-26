@@ -72,5 +72,7 @@ function get_annotator_mustache_config() {
 
     $annotatormustacheconfig->annotator_text = get_string('annotator', 'qtype_essayannotate');
     $annotatormustacheconfig->font_size = get_string('font_size', 'qtype_essayannotate');
+    $annotatormustacheconfig->file_saved_message_text = get_string('file_saved_message', 'qtype_essayannotate');
+    $annotatormustacheconfig->file_not_saved_message_text = get_string('file_not_saved_message', 'qtype_essayannotate');
     return $annotatormustacheconfig;
 }
