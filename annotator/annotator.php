@@ -127,8 +127,18 @@ $canproceed = true;
 $format = explode(".", $filename);
 $format = end($format);
 $ispdf = true;
-$mime = explode(' ', get_mimetype_description($file))[0];
-if ($mime !== "PDF" || $format !== "pdf") {
+// Copy file to the temp directory of moodledata
+$filetoconvert = $temppath . "/" . $originalfile->get_filename();
+$filetoconvert = escapeshellcmd($filetoconvert);
+$originalfile->copy_content_to($filetoconvert);
+
+// Get the mime-type of the original file
+$tempmime = mime_content_type($filetoconvert);
+$mime = (explode("/", $tempmime))[0];
+if ($mime == "application") {
+    $mime = (explode("/", $tempmime))[1];
+}
+if ($mime !== "pdf" || $format !== "pdf") {
     $ispdf = false;
     $filename = (explode(".", $filename))[0] . "_topdf.pdf";
 }
@@ -143,19 +153,10 @@ if ($doesexists === true) {
     $file = $fs->get_file($contextid, $component, $filearea, $itemid, $filepath, $filename);
     $file->copy_content_to($dummyfile);
     $fileurl = helper::create_fileurl($qa, $file);
-
+    unlink($filetoconvert);
 } else if ($ispdf == false) {
     // Annotated PDF doesn't exists and the original file is not a PDF file
     // So we need to create PDF first and update fileurl to this PDF file
-
-    // Copy non-PDF file to the temp directory of moodledata
-    $filetoconvert = $temppath . "/" . $originalfile->get_filename();
-    $filetoconvert = escapeshellcmd($filetoconvert);
-    $originalfile->copy_content_to($filetoconvert);
-
-    // Get the mime-type of the original file
-    $mime = mime_content_type($filetoconvert);
-    $mime = (explode("/", $mime))[0];
 
     // Convert that file into PDF, based on mime type
     $convert = get_config('qtype_essayannotate', 'imagemagickpath');
@@ -195,6 +196,7 @@ if ($doesexists === true) {
         $fileurl = helper::create_fileurl($qa, $file);
     }
 } else {
+    unlink($filetoconvert);
     $originalfile->copy_content_to($dummyfile);
 }
 
