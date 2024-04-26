@@ -265,50 +265,37 @@ PDFAnnotate.prototype.deleteSelectedObject = function () {
         //Getting the response once upload.php finishes execution
         //readyState will become 4 if the execution finishes
         if (this.status == 200 && this.readyState == 4) {
-            showMessage("File has been saved");
+            showMessage(1);
         } else if (this.status != 200 && this.readyState == 4) {
-            showMessage("Not able to save the file");
+            showMessage(0);
         }
 
         /**
          * Displays a message box with the given message.
          *
-         * @param {string} message - The message to be displayed.
+         * @param {int} message - 1 if the file has been saved, 0 otherwise.
          */
         function showMessage(message) {
-            // Create a message box
-            var messageBox = document.createElement("div");
-            messageBox.innerHTML = "<p>" + message + "</p>";
+            // Getting the message box
+            var messageBox = document.getElementById("message-box-saved");
+            if(message==0) {
+                messageBox = document.getElementById("message-box-not-saved");
+            }
 
-            // Style the message box
-            messageBox.style.position = "fixed";
-            messageBox.style.top = "50%";
-            messageBox.style.left = "50%";
-            messageBox.style.transform = "translate(-50%, -50%)";
-            messageBox.style.backgroundColor = "#c2c6ca";
-            messageBox.style.color = "#1d2125";
-            messageBox.style.padding = "20px";
-            messageBox.style.borderRadius = "5px";
-            messageBox.style.boxShadow = "0 0 10px rgba(0, 0, 0, 0.3)";
-            messageBox.style.transition = "opacity 0.5s";
-
-            // Append the message box to the body
-            document.body.appendChild(messageBox);
+            // Showing the message box
+            messageBox.classList.remove("hidden");
 
             // Automatically remove the message box after 3 seconds
             setTimeout(function () {
                 messageBox.style.opacity = "0";
                 setTimeout(function () {
-                    document.body.removeChild(messageBox);
+                    document.getElementById("essayannotator-annotator").removeChild(messageBox);
                     window.close();
                     window.opener.location.reload();
                 }, 500); // Fade-out transition time
-            }, 5000); // Display time
+            }, 3000); // Display time
         }
-
-
       };
-      
     });
 };
 

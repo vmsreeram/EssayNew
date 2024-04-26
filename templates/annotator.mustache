@@ -4,7 +4,7 @@
     and removed onclick function call from i tag and putted it outside) 
     changes made by Asha and Parvathy 
     (Background color of color-tool active changed to black)-->
-    <div class="annotator">
+    <div id="essayannotator-annotator" class="annotator">
     
     <div class="toolbar">
         <div class="tool">
@@ -37,4 +37,6 @@
     </div>
     <div id="pdf-container">
     </div>
+    <div class="messagebox hidden" id="message-box-saved"><p>{{ file_saved_message_text }}</p></div>
+    <div class="messagebox hidden" id="message-box-not-saved"><p>{{ file_not_saved_message_text }}</p></div>
 </div>
