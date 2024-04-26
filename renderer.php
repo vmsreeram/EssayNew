@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * essayannotate question renderer class.
+ * Essayannotate question renderer class.
  *
  * @package    qtype_essayannotate
  * @copyright  2024 IIT Palakkad
@@ -24,15 +24,16 @@
  */
 
 /**
+ * Original source from question/type/essay/renderer.php
+ * Updated for question/type/essayannotate plugin
  * @author Nideesh N, VM Sreeram,
  * Tausif Iqbal, Vishal Rao (IIT Palakkad)
- * First version @link {https://github.com/TausifIqbal/moodle_quiz_annotator/blob/main/3.6/mod/quiz/annotator.php}
+ * First version @link {https://github.com/TausifIqbal/moodle_quiz_annotator/blob/main/3.6/question/type/essay/renderer.php}
  *  Added logic to get and display Corrected Documents
  * This file is the second version, the changes from the previous version are as follows:
  *  Corrected Documents shown to students if and only if qa is graded.
  *  Followed Moodle coding conventions by adding language strings.
  *  Updated itemid as the attemptid of the first annotation step.
- *  Updated logic for checking filetype is PDF by using mimetype and extension.
  *  Show Annotate button to teachers adjacent to the file attachments.
  */
 
@@ -133,7 +134,10 @@ class qtype_essayannotate_renderer extends qtype_renderer {
      * @param question_attempt $qa the question attempt to display.
      * @param question_display_options $options controls what should and should
      *      not be displayed. Used to get the context.
+     * Updated by Nideesh N, VM Sreeram.
+     * Updated itemid as the attemptid of the first annotation step.
      */
+
     public function feedback_files_read_only(question_attempt $qa, question_display_options $options) {
         $contextid = $options->context->id;
         $component = 'question';
@@ -173,6 +177,9 @@ class qtype_essayannotate_renderer extends qtype_renderer {
      * @param question_attempt $qa the question attempt to display.
      * @param question_display_options $options controls what should and should
      *      not be displayed. Used to get the context.
+     * Updated by Nideesh N, VM Sreeram. 
+     * Removed slot id  from annotated file name because we are adding it in filerecord.
+     * Changed from get_mimetype() to get_mimetype_description()
      */
     public function get_filenames(question_attempt $qa, question_display_options $options) {
         $files = $qa->get_last_qt_files('attachments', $options->context->id);
@@ -186,8 +193,9 @@ class qtype_essayannotate_renderer extends qtype_renderer {
             // check if format is not PDF
             // then change the filename as originalFileName_topdf.pdf
             $tempname = explode('.', $name);
-            $mime = explode(' ', get_mimetype_description($file))[0];
-            if ($mime != "PDF" && $tempname[1] != "pdf") {
+            $mime = get_mimetype_description($file);
+            $mime = explode(' ', $mime)[0];
+            if ($mime != "PDF" || $tempname[1] != "pdf") {
                 $name = ($tempname)[0] . "_topdf.pdf";
             }
             $names[] = $name;
@@ -200,6 +208,10 @@ class qtype_essayannotate_renderer extends qtype_renderer {
      * @param question_attempt $qa the question attempt to display.
      * @param question_display_options $options controls what should and should
      *      not be displayed. Used to get the context.
+     * Updated by Nideesh N, VM Sreeram
+     * Changes to add annotate button adjacent to each attahchment 
+     * Passing control to annotatebutton.js when button is clicked
+     * Making sure that annotate button is shown only to teachers
      */
     public function files_read_only(question_attempt $qa, question_display_options $options) {
         global $CFG;

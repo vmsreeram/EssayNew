@@ -53,18 +53,11 @@ var PDFAnnotate = function(container_id, url, options = {}) {
     ? options.pageImageCompression.toUpperCase()
     : "NONE";
     this.textBoxText = 'Edit Text';
-    // this.format;
-    // this.orientation;
     this.highlightBoxWidth=400;
     this.highlightBoxHeight=50;
     this.highlightBoxOpacity=0.3;
     this.freeDrawingBrushWidth=2;
     var inst = this;
-    window.console.log("fabric");
-    window.console.log(fabric);
-    window.console.log("pdfjsLib");
-    window.console.log(pdfjsLib);
-    window.console.log(pdfjsLib.GlobalWorkerOptions);
     pdfjsLib.GlobalWorkerOptions.workerSrc = '../amd/build/pdfworker.min.js';
     var loadingTask = pdfjsLib.getDocument(this.url);
     loadingTask.promise.then(function (pdf) {
@@ -264,6 +257,9 @@ PDFAnnotate.prototype.deleteSelectedObject = function () {
       var xmlhttp = new XMLHttpRequest();    //Creating an HTTP request instance
       xmlhttp.open("POST", "upload.php", true);
       xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+      //Sending data to upload.php
+      xmlhttp.send("data=" + value + "&contextid=" + contextid + "&attemptid="+attemptid        // changed id to data
+      + "&filename=" + filename + "&usageid=" + usageid + "&slot=" + slot);
       xmlhttp.onreadystatechange = function() {
 
         //Getting the response once upload.php finishes execution
@@ -307,14 +303,12 @@ PDFAnnotate.prototype.deleteSelectedObject = function () {
                     window.close();
                     window.opener.location.reload();
                 }, 500); // Fade-out transition time
-            }, 1000); // Display time
+            }, 5000); // Display time
         }
 
 
       };
-      //Sending data to upload.php
-      xmlhttp.send("data=" + value + "&contextid=" + contextid + "&attemptid="+attemptid        // changed id to data
-      + "&filename=" + filename + "&usageid=" + usageid + "&slot=" + slot);
+      
     });
 };
 
@@ -417,14 +411,6 @@ return {
         usageid = usageId;
         slot = sloT;
 
-        // window.addEventListener('beforeunload', function(e) {
-        //     e.preventDefault();
-        //     var xmlhttp = new XMLHttpRequest();    //Creating an HTTP request instance
-        //     xmlhttp.open("POST", "cleanup.php", false);
-        //     xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        //     //Sending data to cleanup.php
-        //     xmlhttp.send("attemptid="+attemptid + "&slot=" + slot);
-        // });
     }
 };
 });

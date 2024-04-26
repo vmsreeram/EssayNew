@@ -128,7 +128,7 @@ $format = explode(".", $filename);
 $format = end($format);
 $ispdf = true;
 $mime = explode(' ', get_mimetype_description($file))[0];
-if ($mime !== "PDF" && $format !== "pdf") {
+if ($mime !== "PDF" || $format !== "pdf") {
     $ispdf = false;
     $filename = (explode(".", $filename))[0] . "_topdf.pdf";
 }
