@@ -388,16 +388,11 @@ PDFAnnotate.prototype.setFontSize = function (size) {
 return {
     PDFAnnotate: PDFAnnotate, // Exporting PDFAnnotate constructor
     init: function(contextId, attemptId, fileName, usageId, sloT) {
-        // eslint-disable-next-line no-console
-        window.console.log("pdfAnnotate :: Init");
-        // window.alert("sometext pdfAnnotate");
-
         contextid = contextId;
         attemptid = attemptId;
         filename = fileName;
         usageid = usageId;
         slot = sloT;
-
     }
 };
 });
