@@ -17,11 +17,11 @@
 /**
  * Strings for component 'qtype_essayannotate', language 'en', branch 'MOODLE_41_STABLE'
  *
- * @package    qtype
- * @subpackage essayannotate
- * @copyright  Martin Dougiamas  {@link http://moodle.com}
+ * @package    qtype_essayannotate
+ * @copyright  2024 IIT Palakkad
+ * @copyright  based on work by Martin Dougiamas  {@link http://moodle.com}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @updatedby  Nideesh N, VM Sreeram (IIT Palakkad)
+ * Updated By  Nideesh N, VM Sreeram (IIT Palakkad)
  */
 
 $string['acceptedfiletypes'] = 'Accepted file types';
