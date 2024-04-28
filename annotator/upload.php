@@ -29,7 +29,8 @@
  * First version @link {https://github.com/TausifIqbal/moodle_quiz_annotator/blob/main/3.6/mod/quiz/upload.php}
  * Second version @link {https://github.com/Parvathy-S-Kumar/Moodle_Quiz_PDF_Annotator/blob/main/src/common/mod/quiz/upload.php}
  * This file is the third version, the changes from the previous version are as follows:
- * Followed security guidelines such as require_login, require_capability, required_param instead of $_POST, escaping shell cmds before execution.
+ * Followed security guidelines such as require_login, require_capability, required_param
+ * instead of $_POST, escaping shell cmds before execution.
  * Added the logic to add steps to question_attempt_step after each annotation.
  * Modified the itemid of the file saved in the database to be the step_id of first annotation step we add.
  * Updated fileinfo array to fix unexpected annotations to different files with same filename within a quiz bug.
@@ -100,7 +101,7 @@ function convert_pdf_version($file, $essaypdfpath, $attemptid, $slot) {
  * @return array The array containing the submitted data.
  */
 function get_annotation_stepdata($markstep) {
-    $submitteddata = array();
+    $submitteddata = [];
     if ($markstep->get_state() != question_state::$unprocessed) {
         // So that the teacher's last manual comment is shown to students
         $submitteddata["-maxmark"] = $markstep->get_qt_var("-maxmark");
@@ -219,8 +220,11 @@ if (file_exists($tempfile)) {
 
         // Adding the annotation step to keep track of annotations in Response History
         // In Response History, a new entry is added
-        $submitteddata = array("-comment" => get_string('annotated_file', 'qtype_essayannotate'). $filename . get_string('user', 'qtype_essayannotate') .
-                         $USER->firstname ." " . $USER->lastname. get_string('time', 'qtype_essayannotate') . date("'Y-m-d H:i:s'", time()) . ".");
+        $submitteddata = ["-comment" => get_string('annotated_file', 'qtype_essayannotate') .
+                         $filename . get_string('user', 'qtype_essayannotate') .
+                         $USER->firstname . " " . $USER->lastname .
+                         get_string('time', 'qtype_essayannotate') .
+                         date("'Y-m-d H:i:s'", time()) . "."];
         add_question_attempt_step($quba, $slot, $submitteddata);
 
         // Updating $qa after the step is saved
@@ -230,7 +234,7 @@ if (file_exists($tempfile)) {
         // Saving the annotated file with $itemid as stepid of annotation step so that it gets marked for backup
         $itemid = helper::get_first_annotation_comment_step($qa)->get_id();
         $fs = get_file_storage();
-        $fileinfo = array(
+        $fileinfo = [
             'contextid' => $contextid,
             'component' => $component,
             'filearea' => $filearea,
@@ -238,7 +242,7 @@ if (file_exists($tempfile)) {
             'slot' => $slot,
             'itemid' => $itemid,
             'filepath' => $filepath,
-            'filename' => $filename);
+            'filename' => $filename, ];
 
         // Check if the annotated file exists in the file system and delete if so
         $doesexists = $fs->file_exists($contextid, $component, $filearea, $itemid, $filepath, $filename);
