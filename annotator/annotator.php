@@ -150,10 +150,10 @@ $doesexists = $fs->file_exists($contextid, $component, $filearea, $itemid, $file
 
 // If exists, then update $fileurl to the url of this file
 if ($doesexists === true) {
+    unlink($filetoconvert);
     $file = $fs->get_file($contextid, $component, $filearea, $itemid, $filepath, $filename);
     $file->copy_content_to($dummyfile);
     $fileurl = helper::create_fileurl($qa, $file);
-    unlink($filetoconvert);
 } else if ($ispdf == false) {
     // Annotated PDF doesn't exists and the original file is not a PDF file
     // So we need to create PDF first and update fileurl to this PDF file
@@ -170,7 +170,7 @@ if ($doesexists === true) {
         unlink($filetoconvert);
         throw new moodle_exception('unsupported_file', 'qtype_essayannotate');
     }
-
+    
     if ($canproceed == true) {
         // Execute the commands of imagemagick(Convert texts and images to PDF)
         $safecommand = escapeshellcmd($command);
