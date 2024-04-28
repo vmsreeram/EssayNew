@@ -15,14 +15,14 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Privacy Subsystem implementation for qtype_essayannotate.
+ * Helper functions for qtype_essayannotate plugin.
  *
  * @package    qtype_essayannotate
  * @copyright  2024 IIT Palakkad
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @author     Nideesh N, VM Sreeram
  */
 
-defined('MOODLE_INTERNAL') || die();
 /**
  * Class with helper functions for qtype_essayannotate plugin
  */
@@ -33,12 +33,13 @@ class helper {
      * @param int $attemptid the attempt id whose cmid is to be found
      * @return $result the record containing cmid
      */
-    public static function getCmid($attemptid) {
+    public static function getcmid($attemptid) {
         global $DB;
 
         $sql = "SELECT cm.id AS cmid
                 FROM {quiz_attempts} qa
-                JOIN {course_modules} cm ON qa.quiz = cm.instance AND cm.module = (SELECT id FROM {modules} WHERE name = 'quiz')
+                JOIN {course_modules} cm ON qa.quiz = cm.instance AND
+                    cm.module = (SELECT id FROM {modules} WHERE name = 'quiz')
                 WHERE qa.id = :attemptid";
 
         $params = ['attemptid' => $attemptid];
@@ -52,11 +53,12 @@ class helper {
      * Gets the step of first annotation made for the question attempt
      *
      * @param question_attempt $qa the question attempt whose first annotation step is to be found
-     * @return $step the question attempt step of first annotation made for the question attempt if exists, a readonly step is returned if not exists
+     * @return $step the question attempt step of first annotation made for the question attempt if exists,
+     *  otherwise, a readonly step is returned
      */
     public static function get_first_annotation_comment_step($qa) {
         foreach ($qa->get_step_iterator() as $step) {
-            // The annotation step does not have qt_var "-mark"
+            // The annotation step does not have qt_var "-mark".
             if ($step->has_qt_var("-comment") && !$step->has_qt_var("-mark")) {
                 return $step;
             }
@@ -64,17 +66,24 @@ class helper {
         return new question_attempt_step_read_only();
     }
 
+    /**
+     * Create URL of the file based on the provided question attempt and file object.
+     *
+     * @param $qa The question attempt object.
+     * @param $file The file object.
+     * @return string The URL of the file.
+     */
     public static function create_fileurl($qa, $file) {
-        // Create url of this file
-        $url = file_encode_url(new moodle_url('/pluginfile.php'), '/' . implode('/', array(
+        // Create url of this file.
+        $url = file_encode_url(new moodle_url('/pluginfile.php'), '/' . implode('/', [
             $file->get_contextid(),
             $file->get_component(),
             $file->get_filearea(),
             $qa->get_usage_id(),
             $qa->get_slot(),
-            $file->get_itemid())) .
+            $file->get_itemid()]) .
             $file->get_filepath() . $file->get_filename(), true);
-        $url = (explode("?", $url))[0];     // remove '?forcedownload=1' from the end of the url
+        $url = (explode("?", $url))[0];     // Remove '?forcedownload=1' from the end of the url.
         return $url;
     }
 }

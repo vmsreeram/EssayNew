@@ -56,7 +56,7 @@ $fileno = required_param('fileno', PARAM_INT);
 $cmid = optional_param('cmid', null, PARAM_INT);
 $dummyfile = $temppath . get_string('dummy_path', 'qtype_essayannotate') . $attemptid . "$" . $slot . "$" . $USER->id . ".pdf";
 if ($cmid == null) {
-    $result = helper::getCmid($attemptid);
+    $result = helper::getcmid($attemptid);
     if ($result) {
         $cmid = $result->cmid;
     } else {
