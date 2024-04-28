@@ -88,7 +88,7 @@ class qtype_essayannotate_renderer extends qtype_renderer {
 
         $files = '';
 
-        $annotatedfiles = "";           // contains the HTML script corressponding to annotated files
+        $annotatedfiles = "";           // Contains the HTML script corressponding to annotated files.
         if ($question->attachments) {
             if (empty($options->readonly)) {
                 $files = $this->files_input($qa, $question->attachments, $options);
@@ -119,9 +119,9 @@ class qtype_essayannotate_renderer extends qtype_renderer {
 
         // Displaying the Corrected Documents
         if (!empty($annotatedfiles)) {
-            $result .= html_writer::tag('hr', '', array('style' => 'height:1px;border:none;color:#333;background-color:#333;'));
+            $result .= html_writer::tag('hr', '', ['style' => 'height:1px;border:none;color:#333;background-color:#333;']);
             $result .= html_writer::tag('p', html_writer::tag('b', get_string('corrected_documents', 'qtype_essayannotate')));
-            $result .= html_writer::tag('div', $annotatedfiles, array('class' => 'attachments'));   // adding annotated file.
+            $result .= html_writer::tag('div', $annotatedfiles, ['class' => 'attachments']);   // Adding annotated file.
         }
         $result .= html_writer::end_tag('div');
 
@@ -137,7 +137,6 @@ class qtype_essayannotate_renderer extends qtype_renderer {
      * Updated by Nideesh N, VM Sreeram.
      * Updated itemid as the attemptid of the first annotation step.
      */
-
     public function feedback_files_read_only(question_attempt $qa, question_display_options $options) {
         $contextid = $options->context->id;
         $component = 'question';
@@ -153,13 +152,13 @@ class qtype_essayannotate_renderer extends qtype_renderer {
             $doesexists = $fs->file_exists($contextid, $component, $filearea, $itemid, $filepath, $filename);
             if ($doesexists === true) {
                 $file = $fs->get_file($contextid, $component, $filearea, $itemid, $filepath, $filename);
-                $temp = file_encode_url(new moodle_url('/pluginfile.php'), '/' . implode('/', array(
+                $temp = file_encode_url(new moodle_url('/pluginfile.php'), '/' . implode('/', [
                     $file->get_contextid(),
                     $file->get_component(),
                     $file->get_filearea(),
                     $qa->get_usage_id(),
                     $qa->get_slot(),
-                    $file->get_itemid())) .
+                    $file->get_itemid()]) .
                     $file->get_filepath() . $file->get_filename(), true);
                 $fileurl = $temp;
             }
@@ -177,21 +176,21 @@ class qtype_essayannotate_renderer extends qtype_renderer {
      * @param question_attempt $qa the question attempt to display.
      * @param question_display_options $options controls what should and should
      *      not be displayed. Used to get the context.
-     * Updated by Nideesh N, VM Sreeram. 
+     * Updated by Nideesh N, VM Sreeram.
      * Removed slot id  from annotated file name because we are adding it in filerecord.
      * Changed from get_mimetype() to get_mimetype_description()
      */
     public function get_filenames(question_attempt $qa, question_display_options $options) {
         $files = $qa->get_last_qt_files('attachments', $options->context->id);
-        $names = array();
+        $names = [];
         foreach ($files as $file) {
             $temp = $qa->get_response_file_url($file);
             $url = (explode("?", $temp))[0];
             $name = (explode("/", $url));
             $name = end($name);
             $name = urldecode($name);
-            // check if format is not PDF
-            // then change the filename as originalFileName_topdf.pdf
+            // Check if format is not PDF.
+            // Then change the filename as originalFileName_topdf.pdf.
             $tempname = explode('.', $name);
             $mime = get_mimetype_description($file);
             $mime = explode(' ', $mime)[0];
@@ -209,7 +208,7 @@ class qtype_essayannotate_renderer extends qtype_renderer {
      * @param question_display_options $options controls what should and should
      *      not be displayed. Used to get the context.
      * Updated by Nideesh N, VM Sreeram
-     * Changes to add annotate button adjacent to each attahchment 
+     * Changes to add annotate button adjacent to each attahchment
      * Passing control to annotatebutton.js when button is clicked
      * Making sure that annotate button is shown only to teachers
      */
@@ -234,13 +233,12 @@ class qtype_essayannotate_renderer extends qtype_renderer {
             if (has_capability('mod/quiz:grade', $this->page->context) &&
                 $options->manualcomment == question_display_options::EDITABLE) {
                 $annotate = get_string('annotate_button_label', 'qtype_essayannotate');
-                $out .= html_writer::tag('button', $annotate, array(
+                $out .= html_writer::tag('button', $annotate, [
                     'type' => 'button',
                     'name' => $filenum,
                     'class' => 'btn btn-primary annotate-btn',
-                    'style' => 'margin: 5px; padding: 4px;'
-                ));
-                    
+                    'style' => 'margin: 5px; padding: 4px;',
+                ]);
             }
             if (!empty($CFG->enableplagiarism)) {
                 require_once($CFG->libdir . '/plagiarismlib.php');
