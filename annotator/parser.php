@@ -22,11 +22,16 @@
  * @package    qtype_essayannotate
  * @copyright  2024 IIT Palakkad
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @author     Parvathy S Kumar, Asha Jose (IIT Palakkad)
+ * Updated By  Nideesh N, VM Sreeram (IIT Palakkad)
  */
+
+require_once('../../../../config.php');
+require_login();
+
 defined('MOODLE_INTERNAL') || die();
 
 define("RATIO", 0.238); // Ratio to convert FabricJS objects to FPDF objects
-
 /**
  * for finding corresponding size of fpdf object given a fabricjs object
  * @param float $fabricjsunit variable corresponding to FabricJS distance unit(px)
@@ -47,7 +52,7 @@ function normalize($fabricjsunit) {
  */
 function parser_path($arrpath) {
     // stored as a set of points (x and y coordinates)
-    $list = array();
+    $list = [];
     $len = count($arrpath["path"]);
     for ($i = 0; $i < $len - 1; $i++) {
         // First and Last array elements are dummy values
@@ -55,11 +60,11 @@ function parser_path($arrpath) {
             continue;
         }
 
-        $temp = array();
+        $temp = [];
         array_push($temp, normalize($arrpath["path"][$i][1]));  // x1
         array_push($temp, normalize($arrpath["path"][$i][2]));  // y1
         array_push($list, $temp);
-        $temp = array();
+        $temp = [];
         array_push($temp, normalize($arrpath["path"][$i][3]));  // x2
         array_push($temp, normalize($arrpath["path"][$i][4]));  // y2
         array_push($list, $temp);
@@ -77,7 +82,7 @@ function parser_path($arrpath) {
  * @return $list deserialized data in FPDF text format
  */
 function parser_text($arrtext) {
-    $list = array();
+    $list = [];
     // left and top refers to x and y coordinates of top left corner
     array_push($list, normalize($arrtext["left"]), normalize($arrtext["top"]),
                 normalize($arrtext["width"]), normalize($arrtext["height"]));
@@ -97,7 +102,7 @@ function parser_text($arrtext) {
  * @return $list deserialized data in FPDF Rect format
  */
 function parser_rectangle($arrrect) {
-    $list = array();
+    $list = [];
     // scaleX and scaleY is 1 if the rectangle is not transformed
     // during transformation, width and height remains same but the scaleX and scaleY change
     $width = (normalize($arrrect["width"])) * ($arrrect["scaleX"]);
@@ -120,18 +125,28 @@ function process_color($colorstring) {
     if ($colorstring == "null") {
         $rgb = [0, 0, 0];
     }
-    if ($colorstring == "red" || $colorstring == "rgba(251, 17, 17, 0.3)" || $colorstring == "rgb(251, 17, 17)") {
+    if ($colorstring == "red"
+        || $colorstring == get_string('rgba_red', 'qtype_essayannotate')
+        || $colorstring == get_string('rgb_red', 'qtype_essayannotate')) {
         $rgb = [251, 17, 17];              // converting string to rgb
-    } else if ($colorstring == "green" || $colorstring == "rgba(13, 93, 13, 0.3)" || $colorstring == "rgb(13, 93, 13)") {
+    } else if ($colorstring == "green"
+        || $colorstring == get_string('rgba_green', 'qtype_essayannotate')
+        || $colorstring == get_string('rgb_green', 'qtype_essayannotate')) {
         $rgb = [13, 93, 13];
-    } else if ($colorstring == "blue" || $colorstring == "rgba(2, 2, 182, 0.3)" || $colorstring == "rgb(2, 2, 182)") {
+    } else if ($colorstring == "blue"
+        || $colorstring == get_string('rgba_blue', 'qtype_essayannotate')
+        || $colorstring == get_string('rgb_blue', 'qtype_essayannotate')) {
         $rgb = [2, 2, 182];
-    } else if ($colorstring == "black" || $colorstring == "rgba(0, 0, 0, 0.3)" || $colorstring == "rgb(0, 0, 0)") {
+    } else if ($colorstring == "black"
+        || $colorstring == get_string('rgba_black', 'qtype_essayannotate')
+        || $colorstring == get_string('rgb_black', 'qtype_essayannotate')) {
         $rgb = [0, 0, 0];
-    } else if ($colorstring == "yellow" || $colorstring == "rgba(255, 255, 0, 0.3)" || $colorstring == "rgb(255, 255, 0)") {
+    } else if ($colorstring == "yellow"
+        || $colorstring == get_string('rgba_yellow', 'qtype_essayannotate')
+        || $colorstring == get_string('rgb_yellow', 'qtype_essayannotate')) {
         $rgb = [255, 255, 0];
     } else {
-        $rgb = array();
+        $rgb = [];
         list($r, $g, $b) = sscanf($colorstring, "#%02x%02x%02x"); // hexadecimal format
         $rgb = [$r, $g, $b];
     }
