@@ -20,12 +20,10 @@
  * Depending on the data, different objects can be drawn on top of a pdf using these functions.
  *
  * @package    qtype_essayannotate
- * @subpackage essayannotate
  * @copyright  2024 IIT Palakkad
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @author     Asha Jose, Parvathy S Kumar (IIT Palakkad)
  */
-defined('MOODLE_INTERNAL') || die();
 
 define("BRUSHSIZE", 0.50);
 define("FONTTYPE", 'Times');
