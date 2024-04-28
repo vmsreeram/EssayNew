@@ -17,11 +17,10 @@
 /**
  * This page serves as the library for AlphaPDF.
  *
- * @package    qtype
- * @subpackage essayannotate
+ * @package    qtype_essayannotate
  * @copyright  Martin Hall-May, FPDF {@link http://www.fpdf.org/en/script/script74.php}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * updatedby  Parvathy S Kumar, Asha Jose (IIT Palakkad)
+ * updatedby   Parvathy S Kumar, Asha Jose (IIT Palakkad)
  */
 defined('MOODLE_INTERNAL') || die();
 
@@ -94,4 +93,3 @@ class AlphaPDF extends Fpdi
         parent::_putresources();
     }
 }
-?>
