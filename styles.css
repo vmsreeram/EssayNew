@@ -125,13 +125,10 @@ body {
     position: fixed;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
     background-color: #c2c6ca;
     color: #1d2125;
-    padding: 20px;
+    padding: 5px;
     border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-    transition: opacity 0.5s;
 }
 
 /* Styles for hidden message boxes */
