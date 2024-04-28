@@ -33,7 +33,8 @@
  * Updated the logic for checking filetype is PDF by using mimetype and extension.
  * Updated itemid as the step id of the first annotation step.
  * Added logic to create `essayPDF` directory within temp directory of moodledata to store temporary files.
- * Changed the name of dummy file to include attemptid and slot number to allow concurrent annotation of different files by different users.
+ * Changed the name of dummy file to include attemptid and slot number to allow
+ * concurrent annotation of different files by different users.
  * Used Mustache template to render HTML output.
  * Removed script tags and using js_call_amd to load javascript
  */
@@ -63,7 +64,7 @@ if ($cmid == null) {
     }
 }
 
-$PAGE->set_url(get_string('annotator_url', 'qtype_essayannotate'), array('attempt' => $attemptid, 'slot' => $slot, 'fileno' => $fileno));
+$PAGE->set_url(get_string('annotator_url', 'qtype_essayannotate'), ['attempt' => $attemptid, 'slot' => $slot, 'fileno' => $fileno]);
 $PAGE->set_pagelayout('popup');
 
 if (!empty($cmid)) {
@@ -99,7 +100,8 @@ foreach ($files as $file) {
         $out = $qa->get_response_file_url($file);
         $url = (explode("?", $out))[0];     // remove '?forcedownload=1' from the end of the url
         $fileurl = $url;
-        $originalfile = $file;              // storing it; in case the file is not PDF, we need the original file to create PDF from it
+        // Storing it; in case the file is not PDF, we need the original file to create PDF from it
+        $originalfile = $file;
         break;
     }
 }
@@ -170,7 +172,7 @@ if ($doesexists === true) {
         unlink($filetoconvert);
         throw new moodle_exception('unsupported_file', 'qtype_essayannotate');
     }
-    
+
     if ($canproceed == true) {
         // Execute the commands of imagemagick(Convert texts and images to PDF)
         $safecommand = escapeshellcmd($command);
@@ -179,7 +181,7 @@ if ($doesexists === true) {
         unlink($filetoconvert);
 
         // Create a PDF file in moodle database from the above created PDF file
-        $fileinfo = array(
+        $fileinfo = [
             'contextid' => $contextid,
             'component' => $component,
             'filearea' => $filearea,
@@ -187,7 +189,7 @@ if ($doesexists === true) {
             'slot' => $slot,
             'itemid' => $itemid,
             'filepath' => $filepath,
-            'filename' => $filename);
+            'filename' => $filename];
 
         $fs->create_file_from_pathname($fileinfo, $dummyfile);
 
