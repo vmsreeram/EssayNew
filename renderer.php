@@ -209,7 +209,7 @@ class qtype_essayannotate_renderer extends qtype_renderer {
      *      not be displayed. Used to get the context.
      * Updated by Nideesh N, VM Sreeram
      * Changes to add annotate button adjacent to each attahchment
-     * Passing control to annotatebutton.js when button is clicked
+     * Passing control to annotator.php when button is clicked
      * Making sure that annotate button is shown only to teachers
      */
     public function files_read_only(question_attempt $qa, question_display_options $options) {
@@ -222,7 +222,6 @@ class qtype_essayannotate_renderer extends qtype_renderer {
         $filenum = 0;
         $attemptid = optional_param('attempt', null, PARAM_INT);
         $slot = optional_param('slot', null, PARAM_INT);
-        $this->page->requires->js_call_amd('qtype_essayannotate/annotatebutton', 'init', [$attemptid, $slot]);
         foreach ($files as $file) {
             $filenum++;
             $out = html_writer::link($qa->get_response_file_url($file),
@@ -232,13 +231,10 @@ class qtype_essayannotate_renderer extends qtype_renderer {
             // Display Annotate button to teachers only in comment.php and not in review.php
             if (has_capability('mod/quiz:grade', $this->page->context) &&
                 $options->manualcomment == question_display_options::EDITABLE) {
-                $annotate = get_string('annotate_button_label', 'qtype_essayannotate');
-                $out .= html_writer::tag('button', $annotate, [
-                    'type' => 'button',
-                    'name' => $filenum,
-                    'class' => 'btn btn-primary annotate-btn',
-                    'style' => 'margin: 5px; padding: 4px;',
-                ]);
+                $url = new moodle_url("$CFG->wwwroot" . get_string('annotator_url', 'qtype_essayannotate'),
+                                ["attempt" => $attemptid, "slot" => $slot, "fileno" => $filenum]);
+                $out .= html_writer::link($url, get_string('annotate_button_label', 'qtype_essayannotate'),
+                                ['class' => 'btn btn-secondary qtype_essayannotate_annotatebtn']);
             }
             if (!empty($CFG->enableplagiarism)) {
                 require_once($CFG->libdir . '/plagiarismlib.php');
