@@ -25,7 +25,7 @@
  * @updatedby  Parvathy S Kumar, Asha Jose
  * @updatedby  Nideesh N, VM Sreeram
  *             Converted into AMD format, added event listeners for all the tools,
- *             removed unused onPageUpdated function
+ *             removed unused onPageUpdated function, disabled save and exit button when clicked once
  */
 
 
