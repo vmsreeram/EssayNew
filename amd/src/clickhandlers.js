@@ -112,6 +112,7 @@ define(['jquery', 'qtype_essayannotate/pdfannotate'], function($, PDFAnnotate) {
      * @param {PDFAnnotate} pdf - The PDFAnnotate instance.
      */
     function savePDF(event, pdf) {
+        document.getElementById('savebtn').setAttribute("disabled","true");
         event.preventDefault();
         pdf.savePdf(); // Changes made by Asha and Parvathy: Removed a parameter of the function
     }
