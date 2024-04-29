@@ -17,20 +17,17 @@
  * OnClick handlers are defined here
  * These functions will call functions in pdfannotate.js.
  *
- * @subpackage essayannotate
+ * @module     qtype_essayannotate/pdfannotate
  * @copyright  2024 IIT Palakkad
  * @copyright  based on work done by Ravisha Hesh {@link https://github.com/RavishaHesh/PDFJsAnnotations}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
-
-/**
  * PDFAnnotate v1.0.1
- * Author: Ravisha Heshan
- */
-
- /**
- * @updatedby Asha Jose and Parvathy S Kumar
- * SerializePDF and SavePDF functions are modified.
+ * @author     Ravisha Hesh
+ * @updatedby  Asha Jose and Parvathy S Kumar
+ *             SerializePDF and SavePDF functions are modified.
+ * @updatedby  Nideesh N, VM Sreeram
+ *             Convert PDFAnnotate into AMD format, changed pdf workersrc to local version instead of cdn,
+ *             removed call to onPageUpdated function
  */
 
 define(['qtype_essayannotate/fabric', 'qtype_essayannotate/pdf', 'jquery'], function(fabric, pdfjsLib, $) {
@@ -104,7 +101,6 @@ var PDFAnnotate = function(container_id, url, options = {}) {
             });
         }
     }, function (reason) { // eslint-disable-line no-unused-vars
-        // console.error(reason);
     });
 
     this.initFabric = function () {
@@ -114,13 +110,6 @@ var PDFAnnotate = function(container_id, url, options = {}) {
             var background = el.toDataURL("image/png");
             var fabricObj = new fabric.Canvas(el.id, {});
             inst.fabricObjects.push(fabricObj);
-            if (typeof options.onPageUpdated == 'function') {
-                fabricObj.on('object:added', function() {
-                    var oldValue = Object.assign({}, inst.fabricObjectsData[index]);
-                    inst.fabricObjectsData[index] = fabricObj.toJSON();
-                    options.onPageUpdated(index + 1, oldValue, inst.fabricObjectsData[index]);
-                });
-            }
             fabricObj.setBackgroundImage(background, fabricObj.renderAll.bind(fabricObj));
             $(fabricObj.upperCanvasEl).click(function (event) {
                 inst.active_canvas = index;

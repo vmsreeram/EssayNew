@@ -17,10 +17,15 @@
  * OnClick handlers are defined here
  * These functions will call functions in pdfannotate.js.
  *
- * @subpackage essayannotate
+ * @module     qtype_essayannotate/clickhandlers
  * @copyright  2024 IIT Palakkad
  * @copyright  based on work done by Ravisha Hesh {@link https://github.com/RavishaHesh/PDFJsAnnotations/tree/master}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @author     Tausif Iqbal, Vishal Rao (IIT Palakkad)
+ * @updatedby  Parvathy S Kumar, Asha Jose
+ * @updatedby  Nideesh N, VM Sreeram
+ *             Converted into AMD format, added event listeners for all the tools,
+ *             removed unused onPageUpdated function
  */
 
 
@@ -116,7 +121,6 @@ define(['jquery', 'qtype_essayannotate/pdfannotate'], function($, PDFAnnotate) {
     return {
         init: function(fileurl) {
             var pdf = new PDFAnnotate.PDFAnnotate("pdf-container", fileurl, {
-                onPageUpdated: function(page, oldData, newData) {}, // eslint-disable-line no-unused-vars
                 ready: function() {},
                 scale: 1.5,
                 pageImageCompression: "SLOW", // FAST, MEDIUM, SLOW(Helps to control the new PDF file size)
