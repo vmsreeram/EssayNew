@@ -176,30 +176,28 @@ class qtype_essayannotate_renderer extends qtype_renderer {
      * @param question_attempt $qa the question attempt to display.
      * @param question_display_options $options controls what should and should
      *      not be displayed. Used to get the context.
+     * @return array the list of filenames of attachments
      * Updated by Nideesh N, VM Sreeram.
      * Removed slot id  from annotated file name because we are adding it in filerecord.
      * Changed from get_mimetype() to get_mimetype_description()
      */
     public function get_filenames(question_attempt $qa, question_display_options $options) {
         $files = $qa->get_last_qt_files('attachments', $options->context->id);
-        $names = [];
+        $filenames = [];
         foreach ($files as $file) {
             $temp = $qa->get_response_file_url($file);
             $url = (explode("?", $temp))[0];
-            $name = (explode("/", $url));
-            $name = end($name);
-            $name = urldecode($name);
             // Check if format is not PDF.
             // Then change the filename as originalFileName_topdf.pdf.
-            $tempname = explode('.', $name);
+            [$filename, $format] = helper::get_filename_format($url);
             $mime = get_mimetype_description($file);
             $mime = explode(' ', $mime)[0];
-            if ($mime != "PDF" || $tempname[1] != "pdf") {
-                $name = ($tempname)[0] . "_topdf.pdf";
+            if ($mime != "PDF" || $format != "pdf") {
+                $filename = (explode('.', $filename))[0] . "_topdf.pdf";
             }
-            $names[] = $name;
+            $filenames[] = $filename;
         }
-        return $names;
+        return $filenames;
     }
 
     /**

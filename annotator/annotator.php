@@ -112,9 +112,7 @@ $component = 'question';
 $filearea = 'response_attachments';
 $usageid = $qa->get_usage_id();
 $filepath = '/';
-$filename = explode("/", $fileurl);
-$filename = end($filename);
-$filename = urldecode($filename);
+[$filename, $format] = helper::get_filename_format($fileurl);
 
 // itemid is required for saving the file. Annotation step id is used as itemid so that it gets marked for backup.
 $itemid = helper::get_first_annotation_comment_step($qa)->get_id();
@@ -126,8 +124,6 @@ if ($itemid == null) {
 $canproceed = true;
 
 // Checking if file is not PDF
-$format = explode(".", $filename);
-$format = end($format);
 $ispdf = true;
 // Copy file to the temp directory of moodledata
 $filetoconvert = $temppath . "/" . $originalfile->get_filename();

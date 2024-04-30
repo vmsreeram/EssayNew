@@ -86,4 +86,19 @@ class helper {
         $url = (explode("?", $url))[0];     // Remove '?forcedownload=1' from the end of the url.
         return $url;
     }
+
+    /**
+     * Retrieves the filename and format from a given file URL.
+     *
+     * @param string $fileurl The URL of the file.
+     * @return array An array containing the filename and format.
+     */
+    public static function get_filename_format($fileurl) {
+        $filename = explode("/", $fileurl);
+        $filename = end($filename);
+        $filename = urldecode($filename);
+        $format = explode(".", $filename);
+        $format = end($format);
+        return [$filename, $format];
+    }
 }
