@@ -126,8 +126,8 @@ $canproceed = true;
 // Checking if file is not PDF
 $ispdf = true;
 // Copy file to the temp directory of moodledata
-$filetoconvert = $temppath . "/" . $originalfile->get_filename();
-$filetoconvert = escapeshellcmd($filetoconvert);
+$filetoconvertraw = $temppath . "/" . $originalfile->get_filename();
+$filetoconvert = escapeshellcmd($filetoconvertraw);
 $originalfile->copy_content_to($filetoconvert);
 
 // Get the mime-type of the original file
@@ -160,9 +160,9 @@ if ($doesexists === true) {
     $convert = get_config('qtype_essayannotate', 'imagemagickpath');
 
     if ($mime === "image") {
-        $command = $convert." '" . $filetoconvert ."'  -page a4 " .$dummyfile;
+        $command = $convert." '" . $filetoconvertraw ."'  -page a4 " .$dummyfile;
     } else if ($mime == "text") {
-        $command = $convert." TEXT:'" . $filetoconvert ."' " .$dummyfile;
+        $command = $convert." TEXT:'" . $filetoconvertraw ."' " .$dummyfile;
     } else {
         $canproceed = false;
         unlink($filetoconvert);
