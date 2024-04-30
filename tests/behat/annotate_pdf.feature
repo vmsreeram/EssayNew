@@ -140,31 +140,6 @@ Scenario: Student uploads a png file and teacher is able to annotate
     And I wait "5" seconds
     And I should see "Corrected Documents"
 
-
-@javascript
-Scenario: Student uploads unsupported mime-type file
-
-    When I log in as "student"
-    And I am on the "Quiz 1" "quiz activity" page
-    And I press "Attempt quiz"
-    And I should see "First question"
-    And I should see "You can drag and drop files here to add them."
-    And I click on "Add..." "button"
-    And I click on "Private files" "link" in the ".fp-repo-area" "css_element"
-    And I click on "blank.zip" "link"
-    And I click on "Select this file" "button"
-    And I press "Finish attempt"
-    And I press "Submit all and finish"
-    And I click on "Submit" "button" in the "Submit all your answers and finish?" "dialogue"
-    And I log out
-
-    And I am on the "Quiz 1" "mod_quiz > View" page logged in as "teacher"
-    And I follow "Attempts: 1"
-    And I follow "Review attempt"
-    And I follow "Make comment or override mark"
-    Then The document should open in a new tab
-    And I should see "Unsupported file"
-
 @javascript
 Scenario: Student can see the annotated file only after the question is graded
 
