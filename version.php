@@ -17,8 +17,7 @@
 /**
  * Version information for the essayannotate question type.
  *
- * @package    qtype
- * @subpackage essayannotate
+ * @package    qtype_essayannotate
  * @copyright  2024 IIT Palakkad
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -26,8 +25,8 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'qtype_essayannotate';
-$plugin->version   = 2022112800;
+$plugin->version   = 2024042800;
 
 $plugin->requires  = 2022111800;
 
-$plugin->maturity  = MATURITY_STABLE;
+$plugin->maturity  = MATURITY_RC;

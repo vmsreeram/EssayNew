@@ -1,25 +1,16 @@
-<!-- 			Originally taken from Ravisha Hesh : https://github.com/RavishaHesh/PDFJsAnnotations/tree/master
+<!-- 			
+    Originally taken from Ravisha Hesh : https://github.com/RavishaHesh/PDFJsAnnotations/tree/master
     changes made by Tausif Iqbal and Vishal Rao
     (added return to all the onclick callback function
     and removed onclick function call from i tag and putted it outside) 
     changes made by Asha and Parvathy 
-    (Background color of color-tool active changed to black)-->
-<!DOCTYPE html>
-<html>
-<head>
-    <title>{{ page_title }}</title>
-    <link rel="stylesheet" href="{{ bootstrap_css_url }}">
-    <link rel="stylesheet" href="{{ font_awesome_css_url }}">
-    <link rel="stylesheet" href="{{ prettify_css_url }}">
-    <link rel="stylesheet" href="{{ custom_css_url }}">
-    <link rel="stylesheet" href="{{ pdfannotate_css_url }}">
-</head>
-
-<body>
-    <div class="toolbar">
-        <div class="tool">
-            <span>{{ annotator_text }}</span>
-        </div>
+    (Background color of color-tool active changed to black)
+    changes made by Nideesh N and VM Sreeram
+    (Converted HTML format to Mustache for plugin, added messagebox)
+-->
+    <div id="essayannotator-annotator" class="annotator">
+    
+    <div class="qtype_essayannotate_toolbar">
         <div class="tool">
             <label for=""> {{ font_size}} </label>
             <select id="font-size" class="form-control">
@@ -36,41 +27,17 @@
         
         {{# other_tools }}
             <div class="tool">
-                    <button {{# id_select }}id="select" {{/ id_select }}class="tool-button{{# selected }} active{{/ selected }}" onclick="{{ onclick_action }}"><i class="{{ icon_class }}" title="{{ tooltip }}"></i></button>
+                    <button id={{ other_tools_id }} class="tool-button{{# selected }} active{{/ selected }}" ><i class="{{ icon_class }}" title="{{ tooltip }}"></i></button>
             </div>
         {{/ other_tools }}
         {{# other_tools_extra }}
             <div class="tool">
-                    <button class="btn btn-{{# select_danger }}danger{{/ select_danger }}{{# select_light }}light{{/ select_light }} btn-sm" onclick="{{ onclick_action }}"><i class="{{ icon_class }}"></i>{{# select_savenexit }} {{ save_exit }}{{/ select_savenexit }}</button>
+                    <button id={{ other_tools_extra_id }} class="btn btn-{{# select_danger }}danger{{/ select_danger }}{{# select_light }}light{{/ select_light }}" ><i class="{{ icon_class }}"></i>{{# select_savenexit }} {{ save_exit }}{{/ select_savenexit }}</button>
             </div>
         {{/ other_tools_extra }}
     </div>
-    <div id="pdf-container"></div>
-
-    <script src="{{ jquery_js_url }}"></script>
-    <script src="{{ popper_js_url }}" integrity="{{popper_integrity}}" crossorigin="{{popper_crossorigin}}"></script>
-    <script src="{{ bootstrap_js_url }}" integrity="{{bootstrap_integrity}}" crossorigin="{{bootstrap_crossorigin}}"></script>
-    <script src="{{ pdf_js_url }}"></script>
-    <script>pdfjsLib.GlobalWorkerOptions.workerSrc = '{{ pdf_worker_js_url }}';</script>
-    <script src="{{ fabric_js_url }}"></script>
-    <script src="{{ jspdf_js_url }}"></script>
-    <script src="{{ prettify_js_url }}"></script>
-    <script src="{{ pdfannotate_js_url }}"></script>
-    <!--<script src="{{ clickhandlers_js_url }}"></script>-->
-
-    <script type="text/javascript">
-
-		var _gaq = _gaq || [];
-		_gaq.push(['_setAccount', 'UA-36251023-1']);
-		_gaq.push(['_setDomainName', 'jqueryscript.net']);
-		_gaq.push(['_trackPageview']);
-
-		(function () {
-			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-		})();
-
-	</script>
-</body>
-</html>
+    <div class="qtype_essayannotate_pdf_container" id="pdf-container">
+    </div>
+    <div class="qtype_essayannotate_messagebox hidden" id="message-box-saved">{{ file_saved_message_text }}</div>
+    <div class="qtype_essayannotate_messagebox hidden" id="message-box-not-saved">{{ file_not_saved_message_text }}</div>
+</div>

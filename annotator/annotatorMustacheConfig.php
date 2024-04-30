@@ -15,71 +15,62 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * This page consists of data for annotator.mustache.
+ * This page consists of data for annotator.mustache. These definitions are used in annotator.php.
  *
- * @package    qtype
- * @subpackage essayannotate
+ * @package    qtype_essayannotate
  * @copyright  2024 IIT Palakkad
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @author     Nideesh N, VM Sreeram
  */
 require_once('../../../../config.php');
-class annotatorMustacheConfig {
-    public $page_title = 'PDF Annotation And Drawing Markup Plugin Example.';
-    public $bootstrap_css_url = 'https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css';
-    public $font_awesome_css_url = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css';
-    public $prettify_css_url = 'https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.css';
-    public $custom_css_url = './styles.css';
-    public $pdfannotate_css_url = './pdfannotate.css';
-    public $annotator_text;
-    public $font_size;
-    public $font_sizes = array(
-        array('value' => '10'),
-        array('value' => '12'),
-        array('value' => '16', 'selected' => true),
-        array('value' => '18'),
-        array('value' => '24'),
-        array('value' => '32'),
-        array('value' => '48'),
-        array('value' => '64'),
-        array('value' => '72'),
-        array('value' => '108')
-    );
-    public $color_tools = array(
-        array('color' => 'rgb(0, 0, 0)', 'active' => true),
-        array('color' => 'rgb(251, 17, 17)'),
-        array('color' => 'rgb(2, 2, 182)'),
-        array('color' => 'rgb(13, 93, 13)'),
-        array('color' => 'rgb(255, 255, 0)'),
-    );
-    public $other_tools = array(
-        array('id_select'=>true, 'icon_class' => 'fa fa-hand-pointer-o', 'onclick_action' => 'enableSelector(event)', 'tooltip' => 'Select', 'selected' => true),
-        array('icon_class' => 'fa fa-pencil', 'onclick_action' => 'enablePencil(event)', 'tooltip' => 'Pen'),
-        array('icon_class' => 'fa fa-font', 'onclick_action' => 'enableAddText(event)', 'tooltip' => 'Add Text'),
-        array('icon_class' => 'fa fa-square-o', 'onclick_action' => 'enableRectangle(event)', 'tooltip' => 'Highlight Box'),
-    );
-    public $other_tools_extra ;
-    public $jquery_js_url = 'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js';
-    public $popper_js_url = 'https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js';
-    public $popper_integrity = 'sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN';
-    public $popper_crossorigin = 'anonymous';
-    public $bootstrap_js_url = 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js';
-    public $bootstrap_integrity = 'sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV';
-    public $bootstrap_crossorigin = 'anonymous';
-    public $pdf_js_url = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.347/pdf.min.js';
-    public $pdf_worker_js_url = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.347/pdf.worker.min.js';
-    public $fabric_js_url = 'https://cdnjs.cloudflare.com/ajax/libs/fabric.js/4.3.0/fabric.min.js';
-    public $jspdf_js_url = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.2.0/jspdf.umd.min.js';
-    public $prettify_js_url = 'https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js';
-    public $pdfannotate_js_url = './pdfannotate.js';
+require_login();
 
-    public function __construct() {
-        $this->annotator_text = get_string('annotator', 'qtype_essayannotate');
-        $this->font_size = get_string('font_size','qtype_essayannotate');
-        $this->other_tools_extra = array(
-            array('select_danger'=>true,'icon_class' => 'fa fa-trash', 'onclick_action' => 'deleteSelectedObject(event)'),
-            array('select_light'=>true,'icon_class' => 'fa fa-save', 'onclick_action' => 'savePDF(event)', 'select_savenexit' => true,'save_exit' =>  get_string('save_exit','qtype_essayannotate')),
-        );
-    }
+/**
+ * Generates and returns the data for annotator.mustache.
+ *
+ * @return stdClass The data for annotator.mustache.
+ * @copyright  2024 IIT Palakkad
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package qtype_essayannotate
+ */
+function get_annotator_mustache_config() {
+    $annotatormustacheconfig = new stdClass();
+    $annotatormustacheconfig->page_title = 'PDF Annotation And Drawing Markup Plugin Example.';
+
+    $annotatormustacheconfig->font_sizes = [
+        ['value' => '10'],
+        ['value' => '12'],
+        ['value' => '16', 'selected' => true],
+        ['value' => '18'],
+        ['value' => '24'],
+        ['value' => '32'],
+        ['value' => '48'],
+        ['value' => '64'],
+        ['value' => '72'],
+        ['value' => '108'],
+    ];
+    $annotatormustacheconfig->color_tools = [
+        ['color' => 'rgb(0, 0, 0)', 'active' => true],
+        ['color' => 'rgb(251, 17, 17)'],
+        ['color' => 'rgb(2, 2, 182)'],
+        ['color' => 'rgb(13, 93, 13)'],
+        ['color' => 'rgb(255, 255, 0)'],
+    ];
+    $annotatormustacheconfig->other_tools = [
+        ['other_tools_id' => 'select', 'icon_class' => 'fa fa-hand-pointer-o', 'tooltip' => 'Select', 'selected' => true],
+        ['other_tools_id' => 'pencil', 'icon_class' => 'fa fa-pencil', 'tooltip' => 'Pen'],
+        ['other_tools_id' => 'text', 'icon_class' => 'fa fa-font', 'tooltip' => 'Add Text'],
+        ['other_tools_id' => 'rectangle', 'icon_class' => 'fa fa-square-o', 'tooltip' => 'Highlight Box'],
+    ];
+    $annotatormustacheconfig->other_tools_extra = [
+        ['select_danger' => true, 'other_tools_extra_id' => 'deletebtn', 'icon_class' => 'fa fa-trash'],
+        ['select_light' => true, 'other_tools_extra_id' => 'savebtn', 'icon_class' => 'fa fa-save',
+            'select_savenexit' => true, 'save_exit' => get_string('save_exit', 'qtype_essayannotate')],
+    ];
+
+    $annotatormustacheconfig->annotator_text = get_string('annotator', 'qtype_essayannotate');
+    $annotatormustacheconfig->font_size = get_string('font_size', 'qtype_essayannotate');
+    $annotatormustacheconfig->file_saved_message_text = get_string('file_saved_message', 'qtype_essayannotate');
+    $annotatormustacheconfig->file_not_saved_message_text = get_string('file_not_saved_message', 'qtype_essayannotate');
+    return $annotatormustacheconfig;
 }
-
-?>

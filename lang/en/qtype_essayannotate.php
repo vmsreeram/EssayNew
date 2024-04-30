@@ -15,13 +15,13 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Strings for component 'qtype_essayannotate', language 'en', branch 'MOODLE_20_STABLE'
+ * Strings for component 'qtype_essayannotate', language 'en', branch 'MOODLE_41_STABLE'
  *
- * @package    qtype
- * @subpackage essayannotate
- * @copyright  2024 IIT Palakkad 
- * @copyright  based on work done by Martin Dougiamas  {@link http://moodle.com}
+ * @package    qtype_essayannotate
+ * @copyright  2024 IIT Palakkad
+ * @copyright  based on work by Martin Dougiamas  {@link http://moodle.com}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * Updated By  Nideesh N, VM Sreeram (IIT Palakkad)
  */
 
 $string['acceptedfiletypes'] = 'Accepted file types';
@@ -58,12 +58,12 @@ $string['mustrequire'] = 'When "No online text" is selected, or responses are op
 $string['mustrequirefewer'] = 'You cannot require more attachments than you allow.';
 $string['nlines'] = '{$a} lines';
 $string['nonexistentfiletypes'] = 'The following file types were not recognised: {$a}';
-$string['pluginname'] = 'essayannotate';
+$string['pluginname'] = 'Essay annotate';
 $string['pluginname_help'] = 'In response to a question, the respondent may upload one or more files and/or enter text online. A response template may be provided. Responses must be graded manually.';
 $string['pluginname_link'] = 'question/type/essayannotate';
-$string['pluginnameadding'] = 'Adding an essayannotate new question';
-$string['pluginnameediting'] = 'Editing an essayannotate new question';
-$string['pluginnamesummary'] = 'Allows a response of a file upload and/or online text. This must then be graded manually.';
+$string['pluginnameadding'] = 'Adding an Essay annotate new question';
+$string['pluginnameediting'] = 'Editing an Essay annotate new question';
+$string['pluginnamesummary'] = 'Allows a response of a file upload and/or online text. This must then be graded manually. Supports annotation of the uploaded files.';
 $string['privacy:metadata'] = 'essayannotate question type plugin allows question authors to set default options as user preferences.';
 $string['privacy:preference:defaultmark'] = 'The default mark set for a given question.';
 $string['privacy:preference:responseformat'] = 'What is the response format (HTML editor, plain text, etc.)?';
@@ -101,3 +101,27 @@ $string['unsupported_file'] = 'Unsupported file';
 $string['save_exit'] = 'Save and Exit';
 $string['font_size'] = 'Font size';
 $string['annotator'] = 'Annotator';
+$string['annotator_url'] = '/question/type/essayannotate/annotator/annotator.php';
+$string['generic_error'] = 'Some error occurred.';
+$string['mkdir_fail'] = 'Cannot create directory';
+$string['gs_cmd'] = ' -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dNOPAUSE -dBATCH -sOutputFile="';
+$string['gs_fail'] = 'PDF conversion using GhostScript failed';
+$string['essayPDF_path'] = '/essayPDF';
+$string['dummy_path'] = '/dummy';
+$string['pdf_version_error'] = 'PDF Version incompatible';
+$string['pdf_source_error'] = 'Source PDF not found!';
+$string['file_too_big'] = 'Too big file';
+$string['output_file_failed'] = 'Failed to create output file';
+$string['permission_denied'] = 'Permission denied';
+$string['file_saved_message'] = 'File has been saved';
+$string['file_not_saved_message'] = 'Not able to save the file';
+$string['rgba_red'] = 'rgba(251, 17, 17, 0.3)';
+$string['rgb_red'] = 'rgb(251, 17, 17)';
+$string['rgba_green'] = 'rgba(13, 93, 13, 0.3)';
+$string['rgb_green'] = 'rgb(13, 93, 13)';
+$string['rgba_blue'] = 'rgba(2, 2, 182, 0.3)';
+$string['rgb_blue'] = 'rgb(2, 2, 182)';
+$string['rgba_black'] = 'rgba(0, 0, 0, 0.3)';
+$string['rgb_black'] = 'rgb(0, 0, 0)';
+$string['rgba_yellow'] = 'rgba(255, 255, 0, 0.3)';
+$string['rgb_yellow'] = 'rgb(255, 255, 0)';

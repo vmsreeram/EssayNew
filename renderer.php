@@ -15,26 +15,26 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * essayannotate question renderer class.
+ * Essayannotate question renderer class.
  *
- * @package    qtype
- * @subpackage essayannotate
+ * @package    qtype_essayannotate
  * @copyright  2024 IIT Palakkad
  * @copyright  based on work by 2009 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 /**
- * @updatedby Tausif Iqbal and Vishal Rao
- * @link {https://github.com/TausifIqbal/moodle_quiz_annotator}
+ * Original source from question/type/essay/renderer.php
+ * Updated for question/type/essayannotate plugin
+ * @author Nideesh N, VM Sreeram,
+ * Tausif Iqbal, Vishal Rao (IIT Palakkad)
+ * First version @link {https://github.com/TausifIqbal/moodle_quiz_annotator/blob/main/3.6/question/type/essay/renderer.php}
  *  Added logic to get and display Corrected Documents
- *
- * @updatedby Nideesh and Sreeram
- *  `Corrected Documents` shown to students if and only if qa is graded.
+ * This file is the second version, the changes from the previous version are as follows:
+ *  Corrected Documents shown to students if and only if qa is graded.
  *  Followed Moodle coding conventions by adding language strings.
  *  Updated itemid as the attemptid of the first annotation step.
- *  Updated logic for checking filetype is PDF by using mimetype and extension.
- *  Show `Annotate` button to teachers adjacent to the file attachments.
+ *  Show Annotate button to teachers adjacent to the file attachments.
  */
 
 defined('MOODLE_INTERNAL') || die();
@@ -49,7 +49,7 @@ require_once('classes/helper.php');
 class qtype_essayannotate_renderer extends qtype_renderer {
     public function formulation_and_controls(question_attempt $qa,
             question_display_options $options) {
-        global $CFG, $PAGE;
+        global $CFG;
         $question = $qa->get_question();
 
         /** @var qtype_essayannotate_format_renderer_base $responseoutput */
@@ -87,8 +87,8 @@ class qtype_essayannotate_renderer extends qtype_renderer {
         }
 
         $files = '';
-        // It will contain the HTML script corressponding to annotated pdf files
-        $annotatedfiles = "";
+
+        $annotatedfiles = "";           // Contains the HTML script corressponding to annotated files.
         if ($question->attachments) {
             if (empty($options->readonly)) {
                 $files = $this->files_input($qa, $question->attachments, $options);
@@ -96,10 +96,9 @@ class qtype_essayannotate_renderer extends qtype_renderer {
             } else {
                 $files = $this->files_read_only($qa, $options);
 
-                // Display `Corrected Documents` to teachers always, but display to students only if the qa is graded.
-                if($qa->get_state()->is_graded() || has_capability('mod/quiz:grade',$PAGE->context))
-                {
-                    $annotatedfiles = $this->feedback_files_read_only($qa,$options);
+                // Display Corrected Documents to teachers always, but display to students only if the attempt is graded.
+                if ($qa->get_state()->is_graded() || has_capability('mod/quiz:grade', $this->page->context)) {
+                    $annotatedfiles = $this->feedback_files_read_only($qa, $options);
                 }
             }
         }
@@ -117,27 +116,29 @@ class qtype_essayannotate_renderer extends qtype_renderer {
                 $question->get_validation_error($step->get_qt_data()), ['class' => 'validationerror']);
         }
         $result .= html_writer::tag('div', $files, array('class' => 'attachments'));
-        if(!empty($annotatedfiles))
-        {
-            $result .= '<hr style="height:1px;border:none;color:#333;background-color:#333;">';
-            $result .= '<p> <b>' . get_string('corrected_documents','qtype_essayannotate').'</b> </p>';
-            $result .= html_writer::tag('div', $annotatedfiles, array('class' => 'attachments'));   // adding annotated file.
-        }        
+
+        // Displaying the Corrected Documents
+        if (!empty($annotatedfiles)) {
+            $result .= html_writer::tag('hr', '', ['style' => 'height:1px;border:none;color:#333;background-color:#333;']);
+            $result .= html_writer::tag('p', html_writer::tag('b', get_string('corrected_documents', 'qtype_essayannotate')));
+            $result .= html_writer::tag('div', $annotatedfiles, ['class' => 'attachments']);   // Adding annotated file.
+        }
         $result .= html_writer::end_tag('div');
 
         return $result;
     }
-    
 
     /**
-     * @author Tausif Iqbal, Vishal Rao
      * Displays any submitted feedback (annotated) files when the question is in read-only mode.
+     * @author Tausif Iqbal, Vishal Rao
      * @param question_attempt $qa the question attempt to display.
      * @param question_display_options $options controls what should and should
      *      not be displayed. Used to get the context.
+     * Updated by Nideesh N, VM Sreeram.
+     * Updated itemid as the attemptid of the first annotation step.
      */
     public function feedback_files_read_only(question_attempt $qa, question_display_options $options) {
-        $contextID = $options->context->id;
+        $contextid = $options->context->id;
         $component = 'question';
         $filearea = 'response_attachments';
         $filepath = '/';
@@ -145,60 +146,58 @@ class qtype_essayannotate_renderer extends qtype_renderer {
         $filenames = $this->get_filenames($qa, $options);
 
         $annotatedfiles = "";
-        foreach($filenames as $filename)
-        {
+        foreach ($filenames as $filename) {
             $fileurl = "";
             $fs = get_file_storage();
-            $doesExists = $fs->file_exists($contextID, $component, $filearea, $itemid, $filepath, $filename);
-            if($doesExists === true)
-            {
-                $file = $fs->get_file($contextID, $component, $filearea, $itemid, $filepath, $filename);
-                $temp = file_encode_url(new moodle_url('/pluginfile.php'), '/' . implode('/', array(
+            $doesexists = $fs->file_exists($contextid, $component, $filearea, $itemid, $filepath, $filename);
+            if ($doesexists === true) {
+                $file = $fs->get_file($contextid, $component, $filearea, $itemid, $filepath, $filename);
+                $temp = file_encode_url(new moodle_url('/pluginfile.php'), '/' . implode('/', [
                     $file->get_contextid(),
                     $file->get_component(),
                     $file->get_filearea(),
                     $qa->get_usage_id(),
                     $qa->get_slot(),
-                    $file->get_itemid())) .
+                    $file->get_itemid()]) .
                     $file->get_filepath() . $file->get_filename(), true);
                 $fileurl = $temp;
             }
-            if(!empty($fileurl) && !empty($filename))
-            {
+            if (!empty($fileurl) && !empty($filename)) {
                 $icon = $this->output->pix_icon('f/pdf', "PDF document", 'core', ['class' => 'icon']);
-                $annotatedfiles .= '<p><a href="' . $fileurl . '">' . $icon . $filename  . '</a></p>';
+                $annotatedfiles .= html_writer::tag('p', html_writer::link($fileurl, $icon . $filename));
             }
         }
         return $annotatedfiles;
     }
 
     /**
-     * @author Tausif Iqbal, Vishal Rao
      * Returns filename of any attached file.
+     * @author Tausif Iqbal, Vishal Rao
      * @param question_attempt $qa the question attempt to display.
      * @param question_display_options $options controls what should and should
      *      not be displayed. Used to get the context.
+     * @return array the list of filenames of attachments
+     * Updated by Nideesh N, VM Sreeram.
+     * Removed slot id  from annotated file name because we are adding it in filerecord.
+     * Changed from get_mimetype() to get_mimetype_description()
      */
     public function get_filenames(question_attempt $qa, question_display_options $options) {
         $files = $qa->get_last_qt_files('attachments', $options->context->id);
-        $names = array();
+        $filenames = [];
         foreach ($files as $file) {
             $temp = $qa->get_response_file_url($file);
             $url = (explode("?", $temp))[0];
-            $name = (explode("/", $url));
-            $name = end($name);
-            $name = urldecode($name);
-            // check if format is not PDF
-            // then change the filename as originalFileName_topdf.pdf
-            $temp_name = explode('.', $name);
-            $mime = explode(' ',get_mimetype_description($file))[0];
-            if($mime != "PDF" && $temp_name[1] != "pdf")
-            {
-                $name = ($temp_name)[0] . "_topdf.pdf";
+            // Check if format is not PDF.
+            // Then change the filename as originalFileName_topdf.pdf.
+            [$filename, $format] = helper::get_filename_format($url);
+            $mime = get_mimetype_description($file);
+            $mime = explode(' ', $mime)[0];
+            if ($mime != "PDF" || $format != "pdf") {
+                $filename = (explode('.', $filename))[0] . "_topdf.pdf";
             }
-            $names[] = $name;
+            $filenames[] = $filename;
         }
-        return $names;
+        return $filenames;
     }
 
     /**
@@ -206,40 +205,34 @@ class qtype_essayannotate_renderer extends qtype_renderer {
      * @param question_attempt $qa the question attempt to display.
      * @param question_display_options $options controls what should and should
      *      not be displayed. Used to get the context.
+     * Updated by Nideesh N, VM Sreeram
+     * Changes to add annotate button adjacent to each attahchment
+     * Passing control to annotator.php when button is clicked
+     * Making sure that annotate button is shown only to teachers
      */
     public function files_read_only(question_attempt $qa, question_display_options $options) {
-        global $CFG,$PAGE;
+        global $CFG;
         $files = $qa->get_last_qt_files('attachments', $options->context->id);
         $filelist = [];
 
         $step = $qa->get_last_step_with_qt_var('attachments');
-        
-        $fileNum = 0;
-        
+
+        $filenum = 0;
+        $attemptid = optional_param('attempt', null, PARAM_INT);
+        $slot = optional_param('slot', null, PARAM_INT);
         foreach ($files as $file) {
-            $fileNum++;
+            $filenum++;
             $out = html_writer::link($qa->get_response_file_url($file),
                 $this->output->pix_icon(file_file_icon($file), get_mimetype_description($file),
                     'moodle', array('class' => 'icon')) . ' ' . s($file->get_filename()));
 
-            // Display `Annotate` button to teachers only in comment.php and not in review.php
-            if(has_capability('mod/quiz:grade',$PAGE->context) &&
-                $options->manualcomment == question_display_options::EDITABLE)
-            {
-                $attemptid = optional_param('attempt', null, PARAM_INT);
-                $slot = optional_param('slot', null, PARAM_INT);
-                
-                $mime = explode(' ',get_mimetype_description($file))[0];
-                $onclick = ' ';
-                $annotate = get_string('annotate_button_label', 'qtype_essayannotate');
-                if ($mime === 'Image' || $mime === 'Text' || $mime === "PDF") {
-                    $onclick = "annotate($attemptid,$slot,$fileNum)";
-                } else {
-                    $annotate = get_string('unsupported_file','qtype_essayannotate');
-                }
-                // $PAGE->requires->js_call_amd('qtype_essayannotate/annotatebutton','init',[$attemptid,$slot,$fileNum]);
-
-                $out .= '<button type="button" name = "Annotate" class="btn btn-primary annotate-btn" style="margin: 5px; padding: 4px;" onclick="'. $onclick.'" >' . $annotate . '</button>';
+            // Display Annotate button to teachers only in comment.php and not in review.php
+            if (has_capability('mod/quiz:grade', $this->page->context) &&
+                $options->manualcomment == question_display_options::EDITABLE) {
+                $url = new moodle_url("$CFG->wwwroot" . get_string('annotator_url', 'qtype_essayannotate'),
+                                ["attempt" => $attemptid, "slot" => $slot, "fileno" => $filenum]);
+                $out .= html_writer::link($url, get_string('annotate_button_label', 'qtype_essayannotate'),
+                                ['class' => 'btn btn-secondary qtype_essayannotate_annotatebtn']);
             }
             if (!empty($CFG->enableplagiarism)) {
                 require_once($CFG->libdir . '/plagiarismlib.php');
@@ -263,11 +256,6 @@ class qtype_essayannotate_renderer extends qtype_renderer {
             'aria-labelledby' => $labelbyid,
             'class' => 'list-unstyled m-0',
         ]);
-        
-        // Click handler for `Annotate` button [TODO]
-        $baseurl = new moodle_url('/');
-        $baseurl = $baseurl->out(false);
-        $output .= '<script type="text/javascript" src="'. $baseurl .'/question/type/essayannotate/js/annotatebutton.js"></script>';    
         return $output;
     }
 

@@ -17,74 +17,74 @@
 /**
  * This page allows the teacher to annotate file of a particular question.
  *
- * @package    qtype
- * @subpackage essayannotate
+ * @package    qtype_essayannotate
  * @copyright  2024 IIT Palakkad
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 /**
- * @author Tausif Iqbal, Vishal Rao (IIT Palakkad)
- * @link {https://github.com/TausifIqbal/moodle_quiz_annotator}
- *
- * @updatedby Asha Jose, Parvathy S Kumar (IIT Palakkad)
- * @link {https://github.com/Parvathy-S-Kumar/Moodle_Quiz_PDF_Annotator}
- *
- * @updatedby Nideesh N, VM Sreeram (IIT Palakkad)
+ * @author Nideesh N, VM Sreeram,
+ * Asha Jose, Parvathy S Kumar,
+ * Tausif Iqbal, Vishal Rao (IIT Palakkad)
+ * First version @link {https://github.com/TausifIqbal/moodle_quiz_annotator/blob/main/3.6/mod/quiz/annotator.php}
+ * Second version @link {https://github.com/Parvathy-S-Kumar/Moodle_Quiz_PDF_Annotator/blob/main/src/common/mod/quiz/annotator.php}
+ * This file is the third version, the changes from the previous version are as follows:
  * Changed code to follow security guidelines such as require_login, require_capability, escaping shell cmds before execution.
- * Used Mustache template to render HTML output. 
  * Updated the logic for checking filetype is PDF by using mimetype and extension.
  * Updated itemid as the step id of the first annotation step.
  * Added logic to create `essayPDF` directory within temp directory of moodledata to store temporary files.
+ * Changed the name of dummy file to include attemptid and slot number to allow
+ * concurrent annotation of different files by different users.
+ * Used Mustache template to render HTML output.
+ * Removed script tags and using js_call_amd to load javascript
  */
 
-require_once('annotatorMustacheConfig.php');
 require_once('../../../../config.php');
+require_once('annotatorMustacheConfig.php');
 require_once('../classes/helper.php');
 require_once('../../../../mod/quiz/locallib.php');
 require_login();
 
-global $USER,$PAGE;
+global $USER, $PAGE;
 
-// The $tempPath is the path to the subdirectory essayPDF created in moodle's temp directory 
-$tempPath = $CFG->tempdir ."/essayPDF";
+// The $temppath is the path to the subdirectory essayPDF created in moodle's temp directory
+$temppath = $CFG->tempdir . get_string('essayPDF_path', 'qtype_essayannotate');
 
 $attemptid = required_param('attempt', PARAM_INT);
 $slot = required_param('slot', PARAM_INT);
 $fileno = required_param('fileno', PARAM_INT);
 $cmid = optional_param('cmid', null, PARAM_INT);
-$dummyFile= $tempPath ."/dummy".$attemptid."$".$slot."$".$USER->id.".pdf";
-if($cmid == null){
-    $result = helper::getCmid($attemptid) ;
+$dummyfile = $temppath . get_string('dummy_path', 'qtype_essayannotate') . $attemptid . "$" . $slot . "$" . $USER->id . ".pdf";
+if ($cmid == null) {
+    $result = helper::getcmid($attemptid);
     if ($result) {
         $cmid = $result->cmid;
     } else {
-        throw new moodle_exception('Some error occurred.');
+        throw new moodle_exception('generic_error', 'qtype_essayannotate');
     }
 }
 
-$PAGE->set_url('/question/type/essayannotate/annotator/annotator.php', array('attempt' => $attemptid, 'slot' => $slot, 'fileno' => $fileno));
+$PAGE->set_url(get_string('annotator_url', 'qtype_essayannotate'), ['attempt' => $attemptid, 'slot' => $slot, 'fileno' => $fileno]);
+$PAGE->set_pagelayout('popup');
 
 if (!empty($cmid)) {
     $cm = get_coursemodule_from_id('quiz', $cmid);
     $context = context_module::instance($cm->id);
     $PAGE->set_context($context);
     $PAGE->set_cm($cm);
-}
-else 
-{
-    throw new moodle_exception('Some error occurred.');
+} else {
+    throw new moodle_exception('generic_error', 'qtype_essayannotate');
 }
 
 require_capability('mod/quiz:grade', $PAGE->context);
 
 // Try to create the subdirectory essayPDF if not exists
-if(!is_dir($tempPath) && !mkdir($tempPath,0777,true)){
-    throw new moodle_exception("Cannot create directory");
+if (!is_dir($temppath) && !mkdir($temppath, 0777, true)) {
+    throw new moodle_exception('mkdir_fail', 'qtype_essayannotate');
 }
 $attemptobj = quiz_create_attempt_handling_errors($attemptid, $cmid);
 $attemptobj->preload_all_attempt_step_users();
-$que_for_commenting = $attemptobj->render_question_for_commenting($slot);
+$attemptobj->render_question_for_commenting($slot);
 
 // We need $qa and $options to get all files submitted by student
 $qa = $attemptobj->get_question_attempt($slot);
@@ -96,41 +96,47 @@ $fileurl = "";
 $currfileno = 0;
 foreach ($files as $file) {
     $currfileno = $currfileno + 1;
-    if($currfileno == $fileno)
-    {
+    if ($currfileno == $fileno) {           // this is the file we want
         $out = $qa->get_response_file_url($file);
         $url = (explode("?", $out))[0];     // remove '?forcedownload=1' from the end of the url
         $fileurl = $url;
-        $originalFile = $file;              // storing it; in case the file is not PDF, we need the original file to create PDF from it
+        // Storing it; in case the file is not PDF, we need the original file to create PDF from it
+        $originalfile = $file;
         break;
     }
 }
 
-$attemptid = $attemptobj->get_attemptid();
+$attemptid = (string)$attemptid;
 $contextid = $options->context->id;
-$filename = explode("/", $fileurl);
-$filename = end($filename);
-$filename = urldecode($filename);
 $component = 'question';
 $filearea = 'response_attachments';
-$filepath = '/';
 $usageid = $qa->get_usage_id();
-// itemid is required for saving the file. Annotation step id is used as itemid so that it gets marked for backup.  
+$filepath = '/';
+[$filename, $format] = helper::get_filename_format($fileurl);
+
+// itemid is required for saving the file. Annotation step id is used as itemid so that it gets marked for backup.
 $itemid = helper::get_first_annotation_comment_step($qa)->get_id();
 
 // If an annotation step does not exist, itemid will be null
-if ($itemid == null)
+if ($itemid == null) {
     $itemid = $attemptid;
-
-$canProceed=true;
+}
+$canproceed = true;
 
 // Checking if file is not PDF
-$format = explode(".", $filename);
-$format = end($format);
 $ispdf = true;
-$mime = explode(' ',get_mimetype_description($file))[0];
-if($mime !== "PDF" && $format !== "pdf")
-{
+// Copy file to the temp directory of moodledata
+$filetoconvertraw = $temppath . "/" . $originalfile->get_filename();
+$filetoconvert = escapeshellcmd($filetoconvertraw);
+$originalfile->copy_content_to($filetoconvert);
+
+// Get the mime-type of the original file
+$tempmime = mime_content_type($filetoconvert);
+$mime = (explode("/", $tempmime))[0];
+if ($mime == "application") {
+    $mime = (explode("/", $tempmime))[1];
+}
+if ($mime !== "pdf" || $format !== "pdf") {
     $ispdf = false;
     $filename = (explode(".", $filename))[0] . "_topdf.pdf";
 }
@@ -138,70 +144,40 @@ if($mime !== "PDF" && $format !== "pdf")
 $fs = get_file_storage();
 
 // Check if the annotated PDF exists in database
-$doesExists = $fs->file_exists($contextid, $component, $filearea, $itemid, $filepath, $filename);
+$doesexists = $fs->file_exists($contextid, $component, $filearea, $itemid, $filepath, $filename);
 
 // If exists, then update $fileurl to the url of this file
-if($doesExists === true)
-{
+if ($doesexists === true) {
+    unlink($filetoconvert);
     $file = $fs->get_file($contextid, $component, $filearea, $itemid, $filepath, $filename);
-    $file->copy_content_to($dummyFile);
-    
-    // Create url of this file
-    $url = file_encode_url(new moodle_url('/pluginfile.php'), '/' . implode('/', array(
-        $file->get_contextid(),
-        $file->get_component(),
-        $file->get_filearea(),
-        $qa->get_usage_id(),
-        $qa->get_slot(),
-        $file->get_itemid())) .
-        $file->get_filepath() . $file->get_filename(), true);
-    
-    $url = (explode("?", $url))[0];     // remove '?forcedownload=1' from the end of the url
-    $fileurl = $url;                    // now update $fileurl
-} else if($ispdf == false)
-{
+    $file->copy_content_to($dummyfile);
+    $fileurl = helper::create_fileurl($qa, $file);
+} else if ($ispdf == false) {
     // Annotated PDF doesn't exists and the original file is not a PDF file
     // So we need to create PDF first and update fileurl to this PDF file
 
-    // Copy non-PDF file to the temp directory of moodledata
-    $fileToConvert=$tempPath . "/" . $originalFile->get_filename();
-    $fileToConvert = escapeshellcmd($fileToConvert);
-    $originalFile->copy_content_to($fileToConvert);
-    
-    // Get the mime-type of the original file
-    $mime = mime_content_type($fileToConvert);
-    $mime = (explode("/", $mime))[0];
-
     // Convert that file into PDF, based on mime type
-    
     $convert = get_config('qtype_essayannotate', 'imagemagickpath');
-    
-    if($mime === "image")
-        $command = $convert." '" . $fileToConvert ."'  -page a4 " .$dummyFile;
-    else if($mime=="text")
-    {
-        $command = $convert." TEXT:'" . $fileToConvert ."' " .$dummyFile;
-    }
-    else
-    {
-        $canProceed=false;
-        echo("Unsupported File");
-        return;
+
+    if ($mime === "image") {
+        $command = $convert." '" . $filetoconvertraw ."'  -page a4 " .$dummyfile;
+    } else if ($mime == "text") {
+        $command = $convert." TEXT:'" . $filetoconvertraw ."' " .$dummyfile;
+    } else {
+        $canproceed = false;
+        unlink($filetoconvert);
+        throw new moodle_exception('unsupported_file', 'qtype_essayannotate');
     }
 
-    if($canProceed == true)
-    {
+    if ($canproceed == true) {
         // Execute the commands of imagemagick(Convert texts and images to PDF)
         $safecommand = escapeshellcmd($command);
-        $shellOutput = shell_exec($safecommand);
-   
-        $command = "rm '" . $fileToConvert . "'";
-        $safecommand = escapeshellcmd($command);
-        $shellOutput = shell_exec($safecommand);
+        $shelloutput = shell_exec($safecommand);
+
+        unlink($filetoconvert);
 
         // Create a PDF file in moodle database from the above created PDF file
-        $temppath = $dummyFile;
-        $fileinfo = array(
+        $fileinfo = [
             'contextid' => $contextid,
             'component' => $component,
             'filearea' => $filearea,
@@ -209,59 +185,39 @@ if($doesExists === true)
             'slot' => $slot,
             'itemid' => $itemid,
             'filepath' => $filepath,
-            'filename' => $filename);
+            'filename' => $filename];
 
-        $fs->create_file_from_pathname($fileinfo, $temppath);
+        $fs->create_file_from_pathname($fileinfo, $dummyfile);
 
         // Now update fileurl to this newly created PDF file
         $file = $fs->get_file($contextid, $component, $filearea, $itemid, $filepath, $filename);
-        // Create url of this file
-        $url = file_encode_url(new moodle_url('/pluginfile.php'), '/' . implode('/', array(
-            $file->get_contextid(),
-            $file->get_component(),
-            $file->get_filearea(),
-            $qa->get_usage_id(),
-            $qa->get_slot(),
-            $file->get_itemid())) .
-            $file->get_filepath() . $file->get_filename(), true);
-        $url = (explode("?", $url))[0];     // remove '?forcedownload=1' from the end of the url
-        $fileurl = $url;                    // now update $fileurl
+        $fileurl = helper::create_fileurl($qa, $file);
     }
+} else {
+    unlink($filetoconvert);
+    $originalfile->copy_content_to($dummyfile);
 }
-else   
-{
-    $originalFile->copy_content_to($dummyFile);
-} 
 
 // Checking if creation of dummyfile was unsuccessful
-if(!(file_exists($dummyFile)))
-{
-    $canProceed=false;
-    throw new Exception("Permission  Denied");
-}  
-
-if($canProceed == true) 
-{
-    // Render the annotator UI
-    $mustache = new Mustache_Engine;
-    $data = new annotatorMustacheConfig();
-    $template = file_get_contents('../templates/annotator.mustache');
-    echo $mustache->render($template, $data);    
+if (!(file_exists($dummyfile))) {
+    $canproceed = false;
+    throw new moodle_exception('permission_denied', 'qtype_essayannotate');
 }
 
-?>
-<!-- assigning php variable to javascript variable so that
-     we can use these in javascript file
- -->
-<script type="text/javascript">
-    var fileurl = "<?= $fileurl ?>"
-    var contextid = "<?= $contextid ?>";
-    var attemptid = "<?= $attemptid ?>";
-    var filename = "<?= $filename ?>"; 
-    var filearea = "<?= $filearea ?>"; 
-    var filepath = "<?= $filepath ?>"; 
-    var component = "<?= $component ?>"; 
-    var usageid = "<?= $usageid ?>"; 
-    var slot = "<?= $slot ?>"; 
-</script>
-<script type="text/javascript" src="./clickhandlers.js"></script>
+if ($canproceed == true) {
+    $contextid = strval($contextid);
+    $slot = strval($slot);
+    // Render the annotator UI
+    $mustache = new Mustache_Engine;
+    $data = get_annotator_mustache_config();
+
+    // calling init function of pdfannotate.js and clickhandlers.js for setting the necessary parameters
+    $PAGE->requires->js_call_amd('qtype_essayannotate/pdfannotate', 'init', [$contextid, $attemptid, $filename, $usageid, $slot]);
+    $PAGE->requires->js_call_amd('qtype_essayannotate/clickhandlers', 'init', [$fileurl]);
+
+    $output = $PAGE->get_renderer('qtype_essayannotate');
+    echo $output->header();
+    echo $output->render_from_template('qtype_essayannotate/annotator', $data);
+    echo $output->footer();
+}
+
