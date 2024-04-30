@@ -220,11 +220,7 @@ if (file_exists($tempfile)) {
 
         // Adding the annotation step to keep track of annotations in Response History
         // In Response History, a new entry is added
-        $submitteddata = ["-comment" => get_string('annotated_file', 'qtype_essayannotate') .
-                         $filename . get_string('user', 'qtype_essayannotate') .
-                         $USER->firstname . " " . $USER->lastname .
-                         get_string('time', 'qtype_essayannotate') .
-                         date("'Y-m-d H:i:s'", time()) . "."];
+        $submitteddata = ["-comment" => get_string('annotated_file', 'qtype_essayannotate') . $filename];
         add_question_attempt_step($quba, $slot, $submitteddata);
 
         // Updating $qa after the step is saved
