@@ -43,7 +43,6 @@ Background:
       | user    | filepath                                        | filename  |
       | student | question/type/essayannotate/tests/fixtures/blank.pdf | blank.pdf |
       | student | question/type/essayannotate/tests/fixtures/blank.png | blank.png |
-      | student | question/type/essayannotate/tests/fixtures/blank.zip | blank.zip |
 
 @javascript
 Scenario: Student uploads a pdf file and teacher is able to annotate 
@@ -67,11 +66,11 @@ Scenario: Student uploads a pdf file and teacher is able to annotate
     And I follow "Review attempt"
     And I follow "Make comment or override mark"
     Then The document should open in a new tab
-    And I press "Annotate"
+    And I follow "Annotate"
     And I wait for the complete PDF to load
     And I annotate the pdf 
     And I press "Save"
-    And I should see "file has been saved"
+    And I should see "File has been saved"
     And I switch to main window 
     And I reload the page 
     And I follow "Make comment or override mark"
@@ -84,6 +83,8 @@ Scenario: Student uploads a pdf file and teacher is able to annotate
     And I reload the page
     And I wait "3" seconds
     And I should see "Corrected Documents"
+    And I should see "Commented: Annotated file: blank.pdf" 
+    And I should see "Commented: Teacher has started grading"
     And I wait "3" seconds
     And I log out 
 
@@ -114,11 +115,11 @@ Scenario: Student uploads a png file and teacher is able to annotate
     And I follow "Review attempt"
     And I follow "Make comment or override mark"
     Then The document should open in a new tab
-    And I press "Annotate"
+    And I follow "Annotate"
     And I wait for the complete PDF to load
     And I annotate the pdf 
     And I press "Save"
-    And I should see "file has been saved"
+    And I should see "File has been saved"
     And I switch to main window 
     And I reload the page 
     And I follow "Make comment or override mark"
@@ -131,6 +132,8 @@ Scenario: Student uploads a png file and teacher is able to annotate
     And I reload the page
     And I wait "3" seconds
     And I should see "Corrected Documents"
+    And I should see "Commented: Annotated file: blank_topdf.pdf" 
+    And I should see "Commented: Teacher has started grading"
     And I wait "3" seconds
     And I log out 
 
@@ -162,11 +165,11 @@ Scenario: Student can see the annotated file only after the question is graded
     And I follow "Review attempt"
     And I follow "Make comment or override mark"
     Then The document should open in a new tab
-    And I press "Annotate"
+    And I follow "Annotate"
     And I wait for the complete PDF to load
     And I annotate the pdf 
     And I press "Save"
-    And I should see "file has been saved"
+    And I should see "File has been saved"
     And I switch to main window 
     And I log out
 

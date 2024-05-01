@@ -64,11 +64,11 @@ Scenario: Backup and restore a course with quiz attempt containing essayannotate
     And I follow "Review attempt"
     And I follow "Make comment or override mark"
     Then The document should open in a new tab
-    And I press "Annotate"
+    And I follow "Annotate"
     And I wait for the complete PDF to load
     And I annotate the pdf 
     And I press "Save"
-    And I should see "file has been saved"
+    And I should see "File has been saved"
     And I switch to main window 
     And I follow "Make comment or override mark"
     Then The document should open in a new tab
