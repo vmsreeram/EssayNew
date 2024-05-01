@@ -1,5 +1,42 @@
+The essay annotate question type is an extension to [essay question type](https://docs.moodle.org/404/en/Essay_question_type) that supports annotation of the uploaded files. PDF and file types with mime as image and text are supported.
+
 # Installation steps
-> TODO
+- Installing the plugin
+  <details>
+  <summary>Using GUI</summary>
+
+  - Download the repository as a ZIP file by navigating to `Code` > `Local` > `Download ZIP` in the homepage of the repository, or using this [link](https://github.com/vmsreeram/essayannotate/archive/refs/heads/main.zip).
+  - Login to Moodle as Admin
+  - Navigate to `Site administration` > `Plugins` > `Install plugins`
+  - Upload the ZIP file to `ZIP package` section.
+  - Expand `Show more...`
+  - Choose `Plugin type` as `Question type (qtype)`.
+  - Rename the root directory to `essayannotate`.
+  - Click on `Install plugin from ZIP file` and follow the prompted steps.
+  </details>
+  
+  <details>
+  <summary>Manually</summary>
+
+  - Get the contents of the repo by either
+    - Download the repository as a ZIP file by navigating to `Code` > `Local` > `Download ZIP` in the homepage of the repository, or using this [link](https://github.com/vmsreeram/essayannotate/archive/refs/heads/main.zip). Then unzip the repo, and rename the folder name to `essayannotate`.
+    - Cloning this repo. Then rename the folder name to `essayannotate`.
+  - Move this folder into the  `question/type` folder on your Moodle site, to create a new folder at `question/type/essayannotate`.
+  - Login to Moodle as Admin 
+  - Follow the prompted steps to install the plugin. If install/upgrade does not begin automatically, you can initiate it manually by navigating to the following link: `Administration` > `Site administration` > `Notifications`
+  </details>
+
+- Once installation is successful, you will be prompted to enter the paths to `convert` and `ghostscript`. You can install convert from [here](https://imagemagick.org/script/download.php) and ghostscript from [here](https://docs.bitnami.com/google/apps/resourcespace/configuration/install-ghostscript/). You can get the paths to `convert` and `gs` by using [`which`](https://en.wikipedia.org/wiki/Which_(command)).
+- Update `rights="none"` to `rights="read|write"` in `/etc/ImageMagick-6/policy.xml` for `pattern="PDF"`.
+
+  ```xml
+  <!-- disable ghostscript format types -->
+  <policy domain="coder" rights="none" pattern="PS" />
+  <policy domain="coder" rights="none" pattern="EPS" />
+  <policy domain="coder" rights="none" pattern="PDF" />  <!------- Here!! -->
+  <policy domain="coder" rights="none" pattern="XPS" />
+  ```
+</details>
 
 # The Team
 | Project Mentor     |  Email ID              |
