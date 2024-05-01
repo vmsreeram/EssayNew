@@ -19,7 +19,7 @@ The essay annotate question type is an extension to [essay question type](https:
   <summary>Manually</summary>
 
   - Get the contents of the repo by either
-    - Download the repository as a ZIP file by navigating to `Code` > `Local` > `Download ZIP` in the homepage of the repository, or using this [link](https://github.com/vmsreeram/essayannotate/archive/refs/heads/main.zip). Then unzip the repo, and rename the folder name to `essayannotate`.
+    - Downloading the repository as a ZIP file by navigating to `Code` > `Local` > `Download ZIP` in the homepage of the repository, or using this [link](https://github.com/vmsreeram/essayannotate/archive/refs/heads/main.zip). Then unzip the repo, and rename the folder name to `essayannotate`.
     - Cloning this repo. Then rename the folder name to `essayannotate`.
   - Move this folder into the  `question/type` folder on your Moodle site, to create a new folder at `question/type/essayannotate`.
   - Login to Moodle as Admin 
