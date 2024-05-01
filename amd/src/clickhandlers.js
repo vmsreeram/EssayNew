@@ -126,6 +126,9 @@ define(['jquery', 'qtype_essayannotate/pdfannotate'], function($, PDFAnnotate) {
                 scale: 1.5,
                 pageImageCompression: "SLOW", // FAST, MEDIUM, SLOW(Helps to control the new PDF file size)
             });
+            if(typeof window !== 'undefined') {
+                window.pdf = pdf;
+            }
             $(function () {
                 $('.color-tool').click(function () {
                     $('.color-tool.active').removeClass('active');
