@@ -121,7 +121,6 @@ $itemid = helper::get_first_annotation_comment_step($qa)->get_id();
 if ($itemid == null) {
     $itemid = $attemptid;
 }
-$canproceed = true;
 
 // Checking if file is not PDF
 $ispdf = true;
@@ -136,7 +135,11 @@ $mime = (explode("/", $tempmime))[0];
 if ($mime == "application") {
     $mime = (explode("/", $tempmime))[1];
 }
-if ($mime !== "pdf" || $format !== "pdf") {
+if ($mime === "pdf" && $format !== "pdf") {
+    unlink($filetoconvert);
+    throw new moodle_exception('unsupported_file', 'qtype_essayannotate');
+}
+if ($mime !== "pdf") {
     $ispdf = false;
     $filename = (explode(".", $filename))[0] . "_topdf.pdf";
 }
@@ -164,35 +167,32 @@ if ($doesexists === true) {
     } else if ($mime == "text") {
         $command = $convert." TEXT:'" . $filetoconvertraw ."' " .$dummyfile;
     } else {
-        $canproceed = false;
         unlink($filetoconvert);
         throw new moodle_exception('unsupported_file', 'qtype_essayannotate');
     }
 
-    if ($canproceed == true) {
-        // Execute the commands of imagemagick(Convert texts and images to PDF)
-        $safecommand = escapeshellcmd($command);
-        $shelloutput = shell_exec($safecommand);
+    // Execute the commands of imagemagick(Convert texts and images to PDF)
+    $safecommand = escapeshellcmd($command);
+    $shelloutput = shell_exec($safecommand);
 
-        unlink($filetoconvert);
+    unlink($filetoconvert);
 
-        // Create a PDF file in moodle database from the above created PDF file
-        $fileinfo = [
-            'contextid' => $contextid,
-            'component' => $component,
-            'filearea' => $filearea,
-            'usage' => $usageid,
-            'slot' => $slot,
-            'itemid' => $itemid,
-            'filepath' => $filepath,
-            'filename' => $filename];
+    // Create a PDF file in moodle database from the above created PDF file
+    $fileinfo = [
+        'contextid' => $contextid,
+        'component' => $component,
+        'filearea' => $filearea,
+        'usage' => $usageid,
+        'slot' => $slot,
+        'itemid' => $itemid,
+        'filepath' => $filepath,
+        'filename' => $filename];
 
-        $fs->create_file_from_pathname($fileinfo, $dummyfile);
+    $fs->create_file_from_pathname($fileinfo, $dummyfile);
 
-        // Now update fileurl to this newly created PDF file
-        $file = $fs->get_file($contextid, $component, $filearea, $itemid, $filepath, $filename);
-        $fileurl = helper::create_fileurl($qa, $file);
-    }
+    // Now update fileurl to this newly created PDF file
+    $file = $fs->get_file($contextid, $component, $filearea, $itemid, $filepath, $filename);
+    $fileurl = helper::create_fileurl($qa, $file);
 } else {
     unlink($filetoconvert);
     $originalfile->copy_content_to($dummyfile);
@@ -200,24 +200,20 @@ if ($doesexists === true) {
 
 // Checking if creation of dummyfile was unsuccessful
 if (!(file_exists($dummyfile))) {
-    $canproceed = false;
     throw new moodle_exception('permission_denied', 'qtype_essayannotate');
 }
 
-if ($canproceed == true) {
-    $contextid = strval($contextid);
-    $slot = strval($slot);
-    // Render the annotator UI
-    $mustache = new Mustache_Engine;
-    $data = get_annotator_mustache_config();
+$contextid = strval($contextid);
+$slot = strval($slot);
+// Render the annotator UI
+$data = get_annotator_mustache_config();
 
-    // calling init function of pdfannotate.js and clickhandlers.js for setting the necessary parameters
-    $PAGE->requires->js_call_amd('qtype_essayannotate/pdfannotate', 'init', [$contextid, $attemptid, $filename, $usageid, $slot]);
-    $PAGE->requires->js_call_amd('qtype_essayannotate/clickhandlers', 'init', [$fileurl]);
+// calling init function of pdfannotate.js and clickhandlers.js for setting the necessary parameters
+$PAGE->requires->js_call_amd('qtype_essayannotate/pdfannotate', 'init', [$contextid, $attemptid, $filename, $usageid, $slot]);
+$PAGE->requires->js_call_amd('qtype_essayannotate/clickhandlers', 'init', [$fileurl]);
 
-    $output = $PAGE->get_renderer('qtype_essayannotate');
-    echo $output->header();
-    echo $output->render_from_template('qtype_essayannotate/annotator', $data);
-    echo $output->footer();
-}
+$output = $PAGE->get_renderer('qtype_essayannotate');
+echo $output->header();
+echo $output->render_from_template('qtype_essayannotate/annotator', $data);
+echo $output->footer();
 
