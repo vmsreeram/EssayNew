@@ -1,44 +1,63 @@
-The essay annotate question type is an extension to [essay question type](https://docs.moodle.org/404/en/Essay_question_type) that supports annotation of the uploaded files. PDF and file types with mime as image and text are supported.
+## About the plugin
+The essay annotate question type is an extension to [essay question type](https://docs.moodle.org/404/en/Essay_question_type) that allows the teacher to annotate the files uploaded as attachments by the student in an answer. The file types supported include PDF and those with mime type image or text such as `.png`, `.jpeg`, `.py`, `.c`, `.cpp`, and `.txt`.
 
-# Installation steps
-- Installing the plugin
-  <details>
-  <summary>Using GUI</summary>
+## Dependencies
+- [ImageMagick](https://imagemagick.org/)
+- [GhostScript](https://www.ghostscript.com/)
 
-  - Download the repository as a ZIP file by navigating to `Code` > `Local` > `Download ZIP` in the homepage of the repository, or using this [link](https://github.com/vmsreeram/essayannotate/archive/refs/heads/main.zip).
-  - Login to Moodle as Admin
-  - Navigate to `Site administration` > `Plugins` > `Install plugins`
-  - Upload the ZIP file to `ZIP package` section.
-  - Expand `Show more...`
-  - Choose `Plugin type` as `Question type (qtype)`.
-  - Rename the root directory to `essayannotate`.
-  - Click on `Install plugin from ZIP file` and follow the prompted steps.
-  </details>
-  
-  <details>
-  <summary>Manually</summary>
+## Supported versions
+> TODO
 
-  - Get the contents of the repo by either
-    - Downloading the repository as a ZIP file by navigating to `Code` > `Local` > `Download ZIP` in the homepage of the repository, or using this [link](https://github.com/vmsreeram/essayannotate/archive/refs/heads/main.zip). Then unzip the repo, and rename the folder name to `essayannotate`.
-    - Cloning this repo. Then rename the folder name to `essayannotate`.
-  - Move this folder into the  `question/type` folder on your Moodle site, to create a new folder at `question/type/essayannotate`.
-  - Login to Moodle as Admin 
-  - Follow the prompted steps to install the plugin. If install/upgrade does not begin automatically, you can initiate it manually by navigating to the following link: `Administration` > `Site administration` > `Notifications`
-  </details>
+## Installation steps
+1. Installing the plugin
+      <details>
+      <summary>Using GUI</summary>
+    
+      - Download the repository as a ZIP file by navigating to `Code` > `Local` > `Download ZIP` in the homepage of the repository, or using this [link](https://github.com/vmsreeram/essayannotate/archive/refs/heads/main.zip).
+      - Login to Moodle as Admin
+      - Navigate to `Site administration` > `Plugins` > `Install plugins`
+      - Upload the ZIP file to `ZIP package` section.
+      - Expand `Show more...`
+      - Choose `Plugin type` as `Question type (qtype)`.
+      - Rename the root directory to `essayannotate`.
+      - Click on `Install plugin from ZIP file` and follow the prompted steps.
+      </details>
+      
+      <details>
+      <summary>Manually</summary>
+    
+      - Get the contents of the repo by either
+        - Downloading the repository as a ZIP file by navigating to `Code` > `Local` > `Download ZIP` in the homepage of the repository, or using this [link](https://github.com/vmsreeram/essayannotate/archive/refs/heads/main.zip). Then unzip the repo, and rename the folder name to `essayannotate`.
+        - Cloning this repo. Then rename the folder name to `essayannotate`.
+      - Move this folder into the  `question/type` folder on your Moodle site, to create a new folder at `question/type/essayannotate`.
+      - Login to Moodle as Admin 
+      - Follow the prompted steps to install the plugin. If install/upgrade does not begin automatically, you can initiate it manually by navigating to the following link: `Administration` > `Site administration` > `Notifications`
+      </details>
 
-- Once installation is successful, you will be prompted to enter the paths to `convert` and `ghostscript`. You can install convert from [here](https://imagemagick.org/script/download.php) and ghostscript from [here](https://docs.bitnami.com/google/apps/resourcespace/configuration/install-ghostscript/). You can get the paths to `convert` and `gs` by using [`which`](https://en.wikipedia.org/wiki/Which_(command)).
-- Update `rights="none"` to `rights="read|write"` in `/etc/ImageMagick-6/policy.xml` for `pattern="PDF"`.
+2. Installing the dependencies (if required)
+   - Install ImageMagick from [here](https://imagemagick.org/script/download.php).
+   - Install GhostScript from [here](https://ghostscript.com/releases/gsdnld.html). 
 
-  ```xml
-  <!-- disable ghostscript format types -->
-  <policy domain="coder" rights="none" pattern="PS" />
-  <policy domain="coder" rights="none" pattern="EPS" />
-  <policy domain="coder" rights="none" pattern="PDF" />  <!------- Here!! -->
-  <policy domain="coder" rights="none" pattern="XPS" />
-  ```
+2. Configuring the settings
+   - Once installation is successful, you will be prompted to enter ImageMagick Path and GhostScript Path. You can get these by running `which convert` and `which gs` respectively.
+   - Replace the following line in `/etc/ImageMagick-xx/policy.xml` (`xx` is the version number).
+
+      ```xml
+       <policy domain="coder" rights="none" pattern="PDF" />
+      ```
+      
+       with
+     
+      ```xml
+       <policy domain="coder" rights="read|write" pattern="PDF" />
+      ```
+     To check ImageMagick is working, convert a png file to a pdf, in terminal run `convert file.png file.pdf`.
+
 </details>
 
-# The Team
+## The Team
+This work has been completed as part of three Undergraduate Major Projects at [IIT Palakkad](https://www.iitpkd.ac.in/) over the years 2021-22, 2022-23, and 2023-24.
+
 | Project Mentor     |  Email ID              |
 |--------------------|------------------------|
 | [Dr. Jasine Babu](https://www.iitpkd.ac.in/people/jasine)    | jasine@iitpkd.ac.in    |
@@ -82,5 +101,12 @@ The essay annotate question type is an extension to [essay question type](https:
   </tr>
 </table>
 
-Special thanks to Mr. Sumesh K S (Technical Supdt.) & Mr. Neeraj Patil for helping us in testing.
+Special thanks to Mr. Sumesh K S (Technical Supdt.) & Mr. Neeraj Patil (BTech 2022) for their support in testing. 
 
+## Third party code used
+- [Fabric JS](https://fabricjs.com/): Javascript Canvas Library, SVG-to-Canvas (and canvas-to-SVG) Parser
+- [FPDF](https://www.fpdf.org/): FPDF is a PHP class which allows to generate PDF files with pure PHP
+- [FPDI](https://www.setasign.com/products/fpdi/about/): Collection of PHP classes facilitating developers to read pages from existing PDF documents and use them as templates in FPDF
+- [Alpha PDF](http://www.fpdf.org/en/script/script74.php): The AlphaPDF is an extended class on FPDI that is used for setting transparency.
+- [PDF JS](https://mozilla.github.io/pdf.js/): PDF.js is a Portable Document Format (PDF) viewer that is built with HTML5
+- [PDF JS Annotations](https://github.com/RavishaHesh/PDFJsAnnotations): Wrapper for PDF JS to add annotations. We have done suitable modifications to this code.
