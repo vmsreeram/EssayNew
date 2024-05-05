@@ -135,7 +135,9 @@ $mime = (explode("/", $tempmime))[0];
 if ($mime == "application") {
     $mime = (explode("/", $tempmime))[1];
 }
-if ($mime === "pdf" && $format !== "pdf") {
+if (($mime === "pdf" && $format !== "pdf") ||
+    ($mime !== "pdf" && $format === "pdf")) {
+    // Reject the file if there is inconsistency in mime and format for PDF.
     unlink($filetoconvert);
     throw new moodle_exception('unsupported_file', 'qtype_essayannotate');
 }
