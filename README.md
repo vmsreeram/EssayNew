@@ -3,7 +3,7 @@ The essay annotate question type is an extension to [essay question type](https:
 
 ## Dependencies
 - [ImageMagick](https://imagemagick.org/)
-- [GhostScript](https://www.ghostscript.com/)
+- [Ghostscript](https://www.ghostscript.com/)
 
 ## Supported versions
 > TODO
@@ -36,10 +36,10 @@ The essay annotate question type is an extension to [essay question type](https:
 
 2. Installing the dependencies (if required)
    - Install ImageMagick from [here](https://imagemagick.org/script/download.php).
-   - Install GhostScript from [here](https://ghostscript.com/releases/gsdnld.html). 
+   - Install Ghostscript from [here](https://ghostscript.com/releases/gsdnld.html).
 
 2. Configuring the settings
-   - Once installation is successful, you will be prompted to enter ImageMagick Path and GhostScript Path. You can get these by running `which convert` and `which gs` respectively.
+   - Once installation is successful, you will be prompted to enter ImageMagick Path and Ghostscript Path. You can get these by running `which convert` and `which gs` respectively.
    - Replace the following line in `/etc/ImageMagick-xx/policy.xml` (`xx` is the version number).
 
       ```xml

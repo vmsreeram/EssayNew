@@ -75,8 +75,8 @@ function convert_pdf_version($file, $essaypdfpath, $attemptid, $slot) {
             // Filename contains attemptid, slot, userid so that multiple files can be annotated simultaneously
             $srcfilenew = $essaypdfpath . "/newdummy" . $attemptid . "$" . $slot . "$" . $USER->id . ".pdf";
             $srcfile = $file;
-            // Using GhostScript convert the pdf version to 1.4
-            // Getting GhostScript path from settings page of plugin
+            // Using Ghostscript convert the pdf version to 1.4
+            // Getting Ghostscript path from settings page of plugin
             $gspath = get_config('qtype_essayannotate', 'ghostscriptpath');
             $command = $gspath . get_string('gs_cmd', 'qtype_essayannotate') . $srcfilenew . '" "' . $srcfile . '"'.'  2>&1';
             $safecommand = escapeshellcmd($command);

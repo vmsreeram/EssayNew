@@ -90,8 +90,8 @@ $string['imagemagickpath_desc'] = 'Enter the path to your ImageMagick installati
                                     '    to <br>' .
                                     '    &lt;policy domain="coder" rights="read|write" pattern="PDF" /&gt;' .
                                     '<br><br>';
-$string['ghostscriptpath'] = 'GhostScript Path';
-$string['ghostscriptpath_desc'] = 'Enter the path to your GhostScript installation.';
+$string['ghostscriptpath'] = 'Ghostscript Path';
+$string['ghostscriptpath_desc'] = 'Enter the path to your Ghostscript installation.';
 $string['annotationstep_default_comment'] =  'Teacher has started grading';
 $string['annotated_file'] = 'Annotated file: ';
 $string['user'] = ', user: ';
@@ -105,7 +105,7 @@ $string['annotator_url'] = '/question/type/essayannotate/annotator/annotator.php
 $string['generic_error'] = 'Some error occurred.';
 $string['mkdir_fail'] = 'Cannot create directory';
 $string['gs_cmd'] = ' -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dNOPAUSE -dBATCH -sOutputFile="';
-$string['gs_fail'] = 'PDF conversion using GhostScript failed';
+$string['gs_fail'] = 'PDF conversion using Ghostscript failed';
 $string['essayPDF_path'] = '/essayPDF';
 $string['dummy_path'] = '/dummy';
 $string['pdf_version_error'] = 'PDF Version incompatible';
