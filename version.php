@@ -27,6 +27,6 @@ defined('MOODLE_INTERNAL') || die();
 $plugin->component = 'qtype_essayannotate';
 $plugin->version   = 2024042800;
 
-$plugin->requires  = 2022111800;
+$plugin->requires  = 2022041900;
 
 $plugin->maturity  = MATURITY_RC;
