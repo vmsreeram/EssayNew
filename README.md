@@ -6,7 +6,7 @@ The essay annotate question type is an extension to [essay question type](https:
 - [Ghostscript](https://www.ghostscript.com/)
 
 ## Supported versions
-> TODO
+> Moodle version 4.0 to 4.4
 
 ## Installation steps
 1. Installing the plugin
