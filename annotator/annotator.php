@@ -131,6 +131,11 @@ $originalfile->copy_content_to($filetoconvert);
 
 // Get the mime-type of the original file
 $tempmime = mime_content_type($filetoconvert);
+
+if ($tempmime == false) {
+    throw new moodle_exception('permission_denied', 'qtype_essayannotate');
+}
+
 $mime = (explode("/", $tempmime))[0];
 if ($mime == "application") {
     $mime = (explode("/", $tempmime))[1];
