@@ -43,26 +43,26 @@ define("ADJUSTPAGESIZE", false);
  * @return $pdf the fpdi object that has information related to pdf file and annotations.
  */
 function build_annotated_file($file, $json) {
-    // Get the page orientation
+    // Get the page orientation.
     $orientation = $json["page_setup"]['orientation'];
     $orientation = ($orientation == "portrait") ? 'p' : 'l';
 
-    // FPDI class defined in alphapdf.php
+    // FPDI class defined in alphapdf.php.
     $pdf = new AlphaPDF($orientation);
     $pagecount = $pdf->setSourceFile($file);
-    // Take the pages of PDF one-by-one and annotate them
+    // Take the pages of PDF one-by-one and annotate them.
     for ($i = 1; $i <= $pagecount; $i++) {
-        // Functions from FPDI
+        // Functions from FPDI.
         $template = $pdf->importPage($i);
         $size = $pdf->getTemplateSize($template);
         $pdf->addPage();
         $pdf->useTemplate($template, XOFFSET, YOFFSET, $size['width'], $size['height'], ADJUSTPAGESIZE);
         $currpage = $json["pages"][$i - 1];
 
-        if (count((array)$currpage) == 0) { // To check whether the current page has no annotations
+        if (count((array)$currpage) == 0) { // To check whether the current page has no annotations.
             continue;
         }
-        // Number of objects in the current page
+        // Number of objects in the current page.
         $objnum = count((array)$currpage[0]["objects"]);
 
         for ($j = 0; $j < $objnum; $j++) {
@@ -91,13 +91,13 @@ function build_annotated_file($file, $json) {
 function draw_path($arr, $pdf) {
     $list = parser_path($arr);
     $stroke = process_color(end($list));
-    $pdf->SetDrawColor($stroke[0], $stroke[1], $stroke[2]);   // r g b of stroke color
+    $pdf->SetDrawColor($stroke[0], $stroke[1], $stroke[2]);   // R G B of stroke color.
     $pdf->SetLineWidth(BRUSHSIZE);
     for ($k = 0; $k < count($list) - 2; $k++) {
-        $pdf->Line($list[$k][0],                      // x1
-        $list[$k][1],                                 // y1
-        $list[$k + 1][0],                             // x2
-        $list[$k + 1][1]);                            // y2
+        $pdf->Line($list[$k][0],                      // X1.
+        $list[$k][1],                                 // Y1.
+        $list[$k + 1][0],                             // X2.
+        $list[$k + 1][1]);                            // Y2.
     }
 }
 
@@ -112,13 +112,13 @@ function draw_path($arr, $pdf) {
 function insert_text($arr, $pdf) {
     $list = parser_text($arr);
     $color = process_color($list[5]);
-    $pdf->SetTextColor($color[0], $color[1], $color[2]);       // r g b
+    $pdf->SetTextColor($color[0], $color[1], $color[2]);       // R G B.
     $pdf->SetFont(FONTTYPE);
-    // converting fabricjs font size to that of fpdf
+    // Converting fabricjs font size to that of fpdf.
     $pdf->SetFontSize($list[6] / FONTRATIO);
-    $pdf->text($list[0],                                       // x
-    $list[1] + $list[3],                                       // y  ( base + height)
-    $list[4]);                                                 // text content
+    $pdf->text($list[0],                                       // X.
+    $list[1] + $list[3],                                       // Y  ( base + height).
+    $list[4]);                                                 // Text content.
 }
 
 /**
@@ -132,12 +132,12 @@ function insert_text($arr, $pdf) {
 function draw_rect($arr, $pdf) {
     $list = parser_rectangle($arr);
     $fill = process_color($list[4]);
-    $pdf->SetFillColor($fill[0], $fill[1], $fill[2]);              // r g b
-    $pdf->SetAlpha(OPACITY);                  // for highlighting
-    $pdf->Rect($list[0],                      // x
-    $list[1],                                 // y
-    $list[2],                                 // width
-    $list[3], 'F');                           // height
-    // F refers to syle fill
-    $pdf->SetAlpha(FULLOPACITY);              // setting the opacity back to 1.
+    $pdf->SetFillColor($fill[0], $fill[1], $fill[2]);              // R G B.
+    $pdf->SetAlpha(OPACITY);                  // For highlighting.
+    $pdf->Rect($list[0],                      // X.
+    $list[1],                                 // Y.
+    $list[2],                                 // Width.
+    $list[3], 'F');                           // Height.
+    // F refers to syle fill.
+    $pdf->SetAlpha(FULLOPACITY);              // Setting the opacity back to 1.
 }

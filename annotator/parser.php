@@ -31,7 +31,7 @@ require_login();
 
 defined('MOODLE_INTERNAL') || die();
 
-define("RATIO", 0.238); // Ratio to convert FabricJS objects to FPDF objects
+define("RATIO", 0.238); // Ratio to convert FabricJS objects to FPDF objects.
 /**
  * for finding corresponding size of fpdf object given a fabricjs object
  * @param float $fabricjsunit variable corresponding to FabricJS distance unit(px)
@@ -51,25 +51,25 @@ function normalize($fabricjsunit) {
  * @return $list deserialized data for the path in FPDF line format
  */
 function parser_path($arrpath) {
-    // stored as a set of points (x and y coordinates)
+    // Stored as a set of points (x and y coordinates).
     $list = [];
     $len = count($arrpath["path"]);
     for ($i = 0; $i < $len - 1; $i++) {
-        // First and Last array elements are dummy values
+        // First and Last array elements are dummy values.
         if ($i == 0 || $i == $len - 2) {
             continue;
         }
 
         $temp = [];
-        array_push($temp, normalize($arrpath["path"][$i][1]));  // x1
-        array_push($temp, normalize($arrpath["path"][$i][2]));  // y1
+        array_push($temp, normalize($arrpath["path"][$i][1]));  // X1.
+        array_push($temp, normalize($arrpath["path"][$i][2]));  // Y1.
         array_push($list, $temp);
         $temp = [];
-        array_push($temp, normalize($arrpath["path"][$i][3]));  // x2
-        array_push($temp, normalize($arrpath["path"][$i][4]));  // y2
+        array_push($temp, normalize($arrpath["path"][$i][3]));  // X2.
+        array_push($temp, normalize($arrpath["path"][$i][4]));  // Y2.
         array_push($list, $temp);
     }
-    array_push($list, $arrpath["stroke"]);                       // stroke color
+    array_push($list, $arrpath["stroke"]);                       // Stroke color.
     return $list;
 }
 
@@ -83,10 +83,10 @@ function parser_path($arrpath) {
  */
 function parser_text($arrtext) {
     $list = [];
-    // left and top refers to x and y coordinates of top left corner
+    // Left and top refers to x and y coordinates of top left corner.
     array_push($list, normalize($arrtext["left"]), normalize($arrtext["top"]),
                 normalize($arrtext["width"]), normalize($arrtext["height"]));
-    // text refers to the content and fill is the color of the text
+    // Text refers to the content and fill is the color of the text.
     array_push($list, $arrtext["text"], $arrtext["fill"]);
     array_push($list, $arrtext["fontSize"]);
     return $list;
@@ -103,8 +103,8 @@ function parser_text($arrtext) {
  */
 function parser_rectangle($arrrect) {
     $list = [];
-    // scaleX and scaleY is 1 if the rectangle is not transformed
-    // during transformation, width and height remains same but the scaleX and scaleY change
+    // scaleX and scaleY is 1 if the rectangle is not transformed.
+    // During transformation, width and height remains same but the scaleX and scaleY change.
     $width = (normalize($arrrect["width"])) * ($arrrect["scaleX"]);
     $height = (normalize($arrrect["height"])) * ($arrrect["scaleY"]);
     array_push($list, normalize($arrrect["left"]), normalize($arrrect["top"]), $width, $height);
@@ -128,7 +128,7 @@ function process_color($colorstring) {
     if ($colorstring == "red"
         || $colorstring == get_string('rgba_red', 'qtype_essayannotate')
         || $colorstring == get_string('rgb_red', 'qtype_essayannotate')) {
-        $rgb = [251, 17, 17];              // converting string to rgb
+        $rgb = [251, 17, 17];              // Converting string to rgb.
     } else if ($colorstring == "green"
         || $colorstring == get_string('rgba_green', 'qtype_essayannotate')
         || $colorstring == get_string('rgb_green', 'qtype_essayannotate')) {
@@ -147,7 +147,7 @@ function process_color($colorstring) {
         $rgb = [255, 255, 0];
     } else {
         $rgb = [];
-        list($r, $g, $b) = sscanf($colorstring, "#%02x%02x%02x"); // hexadecimal format
+        list($r, $g, $b) = sscanf($colorstring, "#%02x%02x%02x"); // Hexadecimal format.
         $rgb = [$r, $g, $b];
     }
     return $rgb;

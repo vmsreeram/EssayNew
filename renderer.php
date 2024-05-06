@@ -226,7 +226,7 @@ class qtype_essayannotate_renderer extends qtype_renderer {
                 $this->output->pix_icon(file_file_icon($file), get_mimetype_description($file),
                     'moodle', array('class' => 'icon')) . ' ' . s($file->get_filename()));
 
-            // Display Annotate button to teachers only in comment.php and not in review.php
+            // Display Annotate button to teachers only in comment.php and not in review.php .
             if (has_capability('mod/quiz:grade', $this->page->context) &&
                 $options->manualcomment == question_display_options::EDITABLE) {
                 $url = new moodle_url("$CFG->wwwroot" . get_string('annotator_url', 'qtype_essayannotate'),
