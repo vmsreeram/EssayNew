@@ -193,7 +193,7 @@ class qtype_essayannotate_renderer extends qtype_renderer {
             $mime = get_mimetype_description($file);
             $mime = explode(' ', $mime)[0];
             if ($mime != "PDF" || $format != "pdf") {
-                $filename = (explode('.', $filename))[0] . "_topdf.pdf";
+                $filename = $filename . "_topdf.pdf";
             }
             $filenames[] = $filename;
         }

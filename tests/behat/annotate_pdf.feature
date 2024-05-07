@@ -132,7 +132,7 @@ Scenario: Student uploads a png file and teacher is able to annotate
     And I reload the page
     And I wait "3" seconds
     And I should see "Corrected Documents"
-    And I should see "Commented: Annotated file: blank_topdf.pdf" 
+    And I should see "Commented: Annotated file: blank.png_topdf.pdf" 
     And I should see "Commented: Teacher has started grading"
     And I wait "3" seconds
     And I log out 

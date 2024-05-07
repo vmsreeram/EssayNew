@@ -148,7 +148,7 @@ if (($mime === "pdf" && $format !== "pdf") ||
 }
 if ($mime !== "pdf") {
     $ispdf = false;
-    $filename = (explode(".", $filename))[0] . "_topdf.pdf";
+    $filename = $filename . "_topdf.pdf";
 }
 
 $fs = get_file_storage();
