@@ -45,10 +45,10 @@
 
 require_once('../../../../config.php');
 require_once('../../../../mod/quiz/locallib.php');
-require_once('../classes/helper.php');
 require(__DIR__ . '/annotatedfilebuilder.php');
 require(__DIR__ . '/parser.php');
 require(__DIR__ . '/alphapdf.php');
+use qtype_essayannotate\helper;
 
 
 /**

@@ -41,9 +41,9 @@
 
 require_once('../../../../config.php');
 require_once('annotatorMustacheConfig.php');
-require_once('../classes/helper.php');
 require_once('../../../../mod/quiz/locallib.php');
 require_login();
+use qtype_essayannotate\helper;
 
 global $USER, $PAGE;
 

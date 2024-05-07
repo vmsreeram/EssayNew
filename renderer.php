@@ -38,7 +38,7 @@
  */
 
 defined('MOODLE_INTERNAL') || die();
-require_once('classes/helper.php');
+use qtype_essayannotate\helper;
 
 /**
  * Generates the output for essayannotate questions.

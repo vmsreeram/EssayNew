@@ -23,6 +23,9 @@
  * @author     Nideesh N, VM Sreeram
  */
 
+namespace qtype_essayannotate;
+use question_attempt_step_read_only;
+use moodle_url;
 /**
  * Class with helper functions for qtype_essayannotate plugin
  */
