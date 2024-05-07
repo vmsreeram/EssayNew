@@ -114,7 +114,7 @@ $usageid = $qa->get_usage_id();
 $filepath = '/';
 [$filename, $format] = helper::get_filename_format($fileurl);
 
-// itemid is required for saving the file. Annotation step id is used as itemid so that it gets marked for backup.
+// The variable itemid is required for saving the file. Annotation step id is used as itemid so that it gets marked for backup.
 $itemid = helper::get_first_annotation_comment_step($qa)->get_id();
 
 // If an annotation step does not exist, itemid will be null.
