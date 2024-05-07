@@ -1,12 +1,12 @@
 ## About the plugin
-The essay annotate question type is an extension to [essay question type](https://docs.moodle.org/404/en/Essay_question_type) that allows the teacher to annotate the files uploaded as attachments by the student in an answer. The file types supported include PDF and those with mime type image or text such as `.png`, `.jpeg`, `.py`, `.c`, `.cpp`, and `.txt`.
+The essay annotate question type is an extension to [essay question type](https://docs.moodle.org/404/en/Essay_question_type) that allows the teacher to annotate the files uploaded as attachments by the student in an answer. The file types supported include PDF and those with mime type image or text such as `.png`, `.jpeg`, `.py`, `.c`, `.cpp`, and `.txt`. The user documentation can be found in the [Wiki section](https://github.com/vmsreeram/moodle-qtype_essayannotate/wiki).
 
 ## Dependencies
 - [ImageMagick](https://imagemagick.org/)
 - [Ghostscript](https://www.ghostscript.com/)
 
 ## Supported versions
-> Moodle version 4.0 to 4.4
+Moodle version 4.0 to 4.4
 
 ## Installation steps
 1. Installing the plugin
@@ -52,6 +52,7 @@ The essay annotate question type is an extension to [essay question type](https:
        <policy domain="coder" rights="read|write" pattern="PDF" />
       ```
      To check ImageMagick is working, convert a png file to a pdf, in terminal run `convert file.png file.pdf`.
+    - Create a directory `essayPDF` with write permission to the user running the Moodle server in the `temp` dir of Moodle data.
 
 </details>
 
@@ -110,3 +111,10 @@ Special thanks to Mr. Sumesh K S (Technical Supdt.) & Mr. Neeraj Patil (BTech 20
 - [Alpha PDF](http://www.fpdf.org/en/script/script74.php): The AlphaPDF is an extended class on FPDI that is used for setting transparency.
 - [PDF JS](https://mozilla.github.io/pdf.js/): PDF.js is a Portable Document Format (PDF) viewer that is built with HTML5
 - [PDF JS Annotations](https://github.com/RavishaHesh/PDFJsAnnotations): Wrapper for PDF JS to add annotations. We have done suitable modifications to this code.
+
+## Icon
+The icon <img width = "20" src="pix/icon.svg"> for this plugin is taken from [svgrepo.com](https://www.svgrepo.com/svg/501452/annotate)
+```
+LICENSE: MIT License
+AUTHOR: instructure-ui
+```
