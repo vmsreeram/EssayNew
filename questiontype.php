@@ -40,6 +40,16 @@ class qtype_essayannotate extends question_type {
         return true;
     }
 
+    public function extra_question_fields() {
+        return array($this->plugin_name().'_options', // DB table name
+                     'responseformat', 'responserequired', 'responsefieldlines',
+                     'attachments', 'attachmentsrequired',
+                     'graderinfo', 'graderinfoformat',
+                     'responsetemplate', 'responsetemplateformat',
+                     'minwordlimit', 'maxwordlimit',
+                     'maxbytes', 'filetypeslist');
+    }
+
     public function response_file_areas() {
         return array('attachments', 'answer');
     }
@@ -253,5 +263,37 @@ class qtype_essayannotate extends question_type {
         $qo->responsetemplate['format'] = $format->trans_format($format->getpath($question,
                 array('#', 'responsetemplate', 0, '@', 'format'), $format->get_format($qo->questiontextformat)));
         return $qo;
+    }
+
+    public function export_to_xml($question, qformat_xml $format, $extra=null) {
+        $extraquestionfields = $this->extra_question_fields();
+        if (!is_array($extraquestionfields)) {
+            return false;
+        }
+
+        // Omit table name.
+        array_shift($extraquestionfields);
+        $expout='';
+        foreach ($extraquestionfields as $field) {
+            $exportedvalue = $format->xml_escape($question->options->$field);
+            $expout .= "    <{$field}>{$exportedvalue}</{$field}>\n";
+        }
+
+        $extraanswersfields = $this->extra_answer_fields();
+        if (is_array($extraanswersfields)) {
+            array_shift($extraanswersfields);
+        }
+        foreach ($question->options->answers as $answer) {
+            $extra = '';
+            if (is_array($extraanswersfields)) {
+                foreach ($extraanswersfields as $field) {
+                    $exportedvalue = $format->xml_escape($answer->$field);
+                    $extra .= "      <{$field}>{$exportedvalue}</{$field}>\n";
+                }
+            }
+
+            $expout .= $format->write_answer($answer, $extra);
+        }
+        return $expout;
     }
 }
