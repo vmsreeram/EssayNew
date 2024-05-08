@@ -207,4 +207,51 @@ class qtype_essayannotate extends question_type {
         $fs = get_file_storage();
         $fs->delete_area_files($contextid, 'qtype_essayannotate', 'graderinfo', $questionid);
     }
+
+    /**
+     * Imports question from the Moodle XML format
+     *
+     * @param array $data
+     * @param qtype_essayannote $question (or null)
+     * @param qformat_xml $format
+     * @param string $extra (optional, default=null)
+     * @return object New question object
+     */
+    public function import_from_xml($data, $question, qformat_xml $format, $extra=null) {
+        $questiontype = $format->getpath($data, array('@', 'type'), '');
+        if ($questiontype != 'essayannotate') {
+            return false;
+        }
+
+        $qo = $format->import_headers($data);
+        $qo->qtype = $questiontype;
+
+        $qo->responseformat = $format->getpath($question,
+                array('#', 'responseformat', 0, '#'), 'editor');
+        $qo->responsefieldlines = $format->getpath($question,
+                array('#', 'responsefieldlines', 0, '#'), 15);
+        $qo->responserequired = $format->getpath($question,
+                array('#', 'responserequired', 0, '#'), 1);
+        $qo->minwordlimit = $format->getpath($question,
+                array('#', 'minwordlimit', 0, '#'), null);
+        $qo->minwordenabled = !empty($qo->minwordlimit);
+        $qo->maxwordlimit = $format->getpath($question,
+                array('#', 'maxwordlimit', 0, '#'), null);
+        $qo->maxwordenabled = !empty($qo->maxwordlimit);
+        $qo->attachments = $format->getpath($question,
+                array('#', 'attachments', 0, '#'), 0);
+        $qo->attachmentsrequired = $format->getpath($question,
+                array('#', 'attachmentsrequired', 0, '#'), 0);
+        $qo->filetypeslist = $format->getpath($question,
+                array('#', 'filetypeslist', 0, '#'), null);
+        $qo->maxbytes = $format->getpath($question,
+                array('#', 'maxbytes', 0, '#'), null);
+        $qo->graderinfo = $format->import_text_with_files($question,
+                array('#', 'graderinfo', 0), '', $format->get_format($qo->questiontextformat));
+        $qo->responsetemplate['text'] = $format->getpath($question,
+                array('#', 'responsetemplate', 0, '#', 'text', 0, '#'), '', true);
+        $qo->responsetemplate['format'] = $format->trans_format($format->getpath($question,
+                array('#', 'responsetemplate', 0, '@', 'format'), $format->get_format($qo->questiontextformat)));
+        return $qo;
+    }
 }
