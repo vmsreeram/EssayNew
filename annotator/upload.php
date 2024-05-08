@@ -153,7 +153,7 @@ function add_question_attempt_step($quba, $slot, $submitteddata) {
 }
 
 require_login();
-// Getting all the data from pdfannotate.js
+// Getting all the data from pdfannotate.js.
 $annotations = required_param('data', PARAM_RAW);                 // Changed id to data.
 $contextid = required_param('contextid', PARAM_INT);
 $attemptid = required_param('attemptid', PARAM_INT);

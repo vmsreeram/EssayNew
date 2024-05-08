@@ -117,7 +117,7 @@ class qtype_essayannotate_renderer extends qtype_renderer {
         }
         $result .= html_writer::tag('div', $files, array('class' => 'attachments'));
 
-        // Displaying the Corrected Documents
+        // Displaying the Corrected Documents.
         if (!empty($annotatedfiles)) {
             $result .= html_writer::tag('hr', '', ['style' => 'height:1px;border:none;color:#333;background-color:#333;']);
             $result .= html_writer::tag('p', html_writer::tag('b', get_string('corrected_documents', 'qtype_essayannotate')));
