@@ -15,9 +15,9 @@ Feature: Test creating an essayannotate question
       | user    | course | role           |
       | teacher | C1     | editingteacher |
   @javascript
-  Scenario: Create an essayannotate new question with Response format set to 'HTML editor'
+  Scenario: Create an essayannotate question with Response format set to 'HTML editor'
     When I am on the "Course 1" "core_question > course question bank" page logged in as teacher
-    And I add a "essayannotate new" question filling the form with:
+    And I add a "Essay annotate" question filling the form with:
       | Question name            | essayannotate-001                      |
       | Question text            | Write an essayannotate with 500 words. |
       | General feedback         | This is general feedback       |
@@ -26,7 +26,7 @@ Feature: Test creating an essayannotate question
 
   Scenario: Create an essayannotate question with Response format set to 'HTML editor with the file picker'
     When I am on the "Course 1" "core_question > course question bank" page logged in as teacher
-    And I add a "essayannotate" question filling the form with:
+    And I add a "Essay annotate" question filling the form with:
       | Question name            | essayannotate-002                      |
       | Question text            | Write an essayannotate with 500 words. |
       | General feedback         | This is general feedback       |
@@ -36,7 +36,7 @@ Feature: Test creating an essayannotate question
   @javascript
   Scenario: Create an essayannotate question for testing some default options
     When I am on the "Course 1" "core_question > course question bank" page logged in as teacher
-    And I add a "essayannotate" question filling the form with:
+    And I add a "Essay annotate" question filling the form with:
       | Question name          | essayannotate-003                      |
       | Question text          | Write an essayannotate with 500 words. |
       | General feedback       | This is general feedback       |

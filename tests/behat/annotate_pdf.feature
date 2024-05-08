@@ -67,7 +67,7 @@ Scenario: Student uploads a pdf file and teacher is able to annotate
     And I follow "Make comment or override mark"
     Then The document should open in a new tab
     And I follow "Annotate"
-    And I wait for the complete PDF to load
+    And I wait "3" seconds
     And I annotate the pdf 
     And I press "Save"
     And I should see "File has been saved"
@@ -116,7 +116,7 @@ Scenario: Student uploads a png file and teacher is able to annotate
     And I follow "Make comment or override mark"
     Then The document should open in a new tab
     And I follow "Annotate"
-    And I wait for the complete PDF to load
+    And I wait "3" seconds
     And I annotate the pdf 
     And I press "Save"
     And I should see "File has been saved"
@@ -166,7 +166,7 @@ Scenario: Student can see the annotated file only after the question is graded
     And I follow "Make comment or override mark"
     Then The document should open in a new tab
     And I follow "Annotate"
-    And I wait for the complete PDF to load
+    And I wait "3" seconds
     And I annotate the pdf 
     And I press "Save"
     And I should see "File has been saved"

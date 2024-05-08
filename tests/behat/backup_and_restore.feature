@@ -1,7 +1,7 @@
 @qtype @qtype_essayannotate
-Feature: Test duplicating a quiz containing an essayannotate question
+Feature: Test duplicating a quiz containing an Essay annotate question
   As a teacher
-  In order re-use my courses containing essayannotate questions
+  In order re-use my courses containing Essay annotate questions
   I need to be able to backup and restore them
 
   Background:
@@ -23,9 +23,11 @@ Feature: Test duplicating a quiz containing an essayannotate question
       | essayannotate-001 | 1 |
       | essayannotate-002 | 1 |
       | essayannotate-003 | 1 |
+    And the following config values are set as admin:
+      | enableasyncbackup | 0 |
 
   @javascript
-  Scenario: Backup and restore a course containing 3 essayannotate questions
+  Scenario: Backup and restore a course containing 3 Essay annotate questions
     When I am on the "Course 1" course page logged in as admin
     And I backup "Course 1" course using this options:
       | Confirmation | Filename | test_backup.mbz |
