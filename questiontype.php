@@ -265,6 +265,14 @@ class qtype_essayannotate extends question_type {
         return $qo;
     }
 
+    /**
+     * Exports question to XML format
+     *
+     * @param object $question
+     * @param qformat_xml $format
+     * @param string $extra (optional, default=null)
+     * @return string XML representation of question
+     */
     public function export_to_xml($question, qformat_xml $format, $extra=null) {
         $extraquestionfields = $this->extra_question_fields();
         if (!is_array($extraquestionfields)) {
@@ -295,5 +303,47 @@ class qtype_essayannotate extends question_type {
             $expout .= $format->write_answer($answer, $extra);
         }
         return $expout;
+    }
+
+
+    /**
+     * Exports question to GIFT format
+     *
+     * @param object $question
+     * @param qformat_gift $format
+     * @param string $extra (optional, default=null)
+     * @return string GIFT representation of question
+     */
+    public function export_to_gift($question, qformat_gift $format, $extra=null) {
+        $expout = '';
+        $expout .= $format->write_name($question->name);
+        $expout .= $format->write_questiontext($question->questiontext, $question->questiontextformat);
+        $expout .= "{";
+        $expout .= $format->write_general_feedback($question, '');
+        $expout .= "}\n";
+        return $expout;
+    }
+
+    /**
+     * Import question from GIFT format
+     *
+     * @param array $lines
+     * @param object $question
+     * @param qformat_gift $format
+     * @param string $extra (optional, default=null)
+     * @return object Question instance
+     */
+    public function import_from_gift($lines,$question, qformat_gift $format, $data) {
+        $question->qtype = 'essayannotate';
+        $question->responseformat = 'editor';
+        $question->responserequired = 1;
+        $question->responsefieldlines = 15;
+        $question->attachments = 0;
+        $question->attachmentsrequired = 0;
+        $question->graderinfo = array(
+                'text' => '', 'format' => FORMAT_HTML, 'files' => array());
+        $question->responsetemplate = array(
+                'text' => '', 'format' => FORMAT_HTML);
+        return $question;   
     }
 }
