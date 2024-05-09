@@ -228,7 +228,7 @@ class qtype_essayannotate extends question_type {
      * @return object New question object
      */
     public function import_from_xml($data, $question, qformat_xml $format, $extra=null) {
-        $questiontype = $format->getpath($data, array('@', 'type'), '');
+        $questiontype = $format->getpath($data, ['@', 'type'], '');
         if ($questiontype != 'essayannotate') {
             return false;
         }
@@ -237,31 +237,31 @@ class qtype_essayannotate extends question_type {
         $qo->qtype = $questiontype;
 
         $qo->responseformat = $format->getpath($question,
-                array('#', 'responseformat', 0, '#'), 'editor');
+                ['#', 'responseformat', 0, '#'], 'editor');
         $qo->responsefieldlines = $format->getpath($question,
-                array('#', 'responsefieldlines', 0, '#'), 15);
+                ['#', 'responsefieldlines', 0, '#'], 15);
         $qo->responserequired = $format->getpath($question,
-                array('#', 'responserequired', 0, '#'), 1);
+                ['#', 'responserequired', 0, '#'], 1);
         $qo->minwordlimit = $format->getpath($question,
-                array('#', 'minwordlimit', 0, '#'), null);
+                ['#', 'minwordlimit', 0, '#'], null);
         $qo->minwordenabled = !empty($qo->minwordlimit);
         $qo->maxwordlimit = $format->getpath($question,
-                array('#', 'maxwordlimit', 0, '#'), null);
+                ['#', 'maxwordlimit', 0, '#'], null);
         $qo->maxwordenabled = !empty($qo->maxwordlimit);
         $qo->attachments = $format->getpath($question,
-                array('#', 'attachments', 0, '#'), 0);
+                ['#', 'attachments', 0, '#'], 0);
         $qo->attachmentsrequired = $format->getpath($question,
-                array('#', 'attachmentsrequired', 0, '#'), 0);
+                ['#', 'attachmentsrequired', 0, '#'], 0);
         $qo->filetypeslist = $format->getpath($question,
-                array('#', 'filetypeslist', 0, '#'), null);
+                ['#', 'filetypeslist', 0, '#'], null);
         $qo->maxbytes = $format->getpath($question,
-                array('#', 'maxbytes', 0, '#'), null);
+                ['#', 'maxbytes', 0, '#'], null);
         $qo->graderinfo = $format->import_text_with_files($question,
-                array('#', 'graderinfo', 0), '', $format->get_format($qo->questiontextformat));
+                ['#', 'graderinfo', 0], '', $format->get_format($qo->questiontextformat));
         $qo->responsetemplate['text'] = $format->getpath($question,
-                array('#', 'responsetemplate', 0, '#', 'text', 0, '#'), '', true);
+                ['#', 'responsetemplate', 0, '#', 'text', 0, '#'], '', true);
         $qo->responsetemplate['format'] = $format->trans_format($format->getpath($question,
-                array('#', 'responsetemplate', 0, '@', 'format'), $format->get_format($qo->questiontextformat)));
+                ['#', 'responsetemplate', 0, '@', 'format'], $format->get_format($qo->questiontextformat)));
         return $qo;
     }
 
@@ -281,7 +281,7 @@ class qtype_essayannotate extends question_type {
 
         // Omit table name.
         array_shift($extraquestionfields);
-        $expout='';
+        $expout = '';
         foreach ($extraquestionfields as $field) {
             $exportedvalue = $format->xml_escape($question->options->$field);
             $expout .= "    <{$field}>{$exportedvalue}</{$field}>\n";
@@ -333,17 +333,17 @@ class qtype_essayannotate extends question_type {
      * @param string $extra (optional, default=null)
      * @return object Question instance
      */
-    public function import_from_gift($lines,$question, qformat_gift $format, $data) {
+    public function import_from_gift($lines, $question, qformat_gift $format, $data) {
         $question->qtype = 'essayannotate';
         $question->responseformat = 'editor';
         $question->responserequired = 1;
         $question->responsefieldlines = 15;
         $question->attachments = 0;
         $question->attachmentsrequired = 0;
-        $question->graderinfo = array(
-                'text' => '', 'format' => FORMAT_HTML, 'files' => array());
-        $question->responsetemplate = array(
-                'text' => '', 'format' => FORMAT_HTML);
-        return $question;   
+        $question->graderinfo = [
+                'text' => '', 'format' => FORMAT_HTML, 'files' => []];
+        $question->responsetemplate = [
+                'text' => '', 'format' => FORMAT_HTML];
+        return $question;
     }
 }

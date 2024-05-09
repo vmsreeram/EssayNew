@@ -92,7 +92,7 @@ $string['imagemagickpath_desc'] = 'Enter the path to your ImageMagick installati
                                     '<br><br>';
 $string['ghostscriptpath'] = 'Ghostscript Path';
 $string['ghostscriptpath_desc'] = 'Enter the path to your Ghostscript installation.';
-$string['annotationstep_default_comment'] =  'Teacher has started grading';
+$string['annotationstep_default_comment'] = 'Teacher has started grading';
 $string['annotated_file'] = 'Annotated file: ';
 $string['user'] = ', user: ';
 $string['time'] = ', time: ';
