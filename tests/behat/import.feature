@@ -25,6 +25,6 @@ Feature: Test importing essayannotate questions
     And I should see "Importing 1 questions from file"
     And I should see "Write an essayannotate with 500 words."
     And I press "Continue"
-    And I should see "essayannotate-001"
-    And I choose "Edit question" action for "essayannotate-001" in the question bank
+    And I should see "essaya-001"
+    And I choose "Edit question" action for "essaya-001" in the question bank
     And the field "id_maxwordlimit" matches value "20"

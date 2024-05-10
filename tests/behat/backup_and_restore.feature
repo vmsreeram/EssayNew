@@ -13,14 +13,14 @@ Feature: Test duplicating a quiz containing an Essay annotate question
       | Course       | C1        | Test questions |
     And the following "questions" exist:
       | questioncategory | qtype     | name      | template         |
-      | Test questions   | essayannotate     | essayannotate-001 | editor           |
+      | Test questions   | essayannotate     | essaya-001 | editor           |
       | Test questions   | essayannotate     | essayannotate-002 | editorfilepicker |
       | Test questions   | essayannotate     | essayannotate-003 | plain            |
     And the following "activities" exist:
       | activity   | name      | course | idnumber |
       | quiz       | Test quiz | C1     | quiz1    |
     And quiz "Test quiz" contains the following questions:
-      | essayannotate-001 | 1 |
+      | essaya-001 | 1 |
       | essayannotate-002 | 1 |
       | essayannotate-003 | 1 |
     And the following config values are set as admin:
@@ -35,12 +35,12 @@ Feature: Test duplicating a quiz containing an Essay annotate question
       | Schema | Course name       | Course 2 |
       | Schema | Course short name | C2       |
     And I am on the "Course 2" "core_question > course question bank" page
-    Then I should see "essayannotate-001"
+    Then I should see "essaya-001"
     And I should see "essayannotate-002"
     And I should see "essayannotate-003"
-    And I choose "Edit question" action for "essayannotate-001" in the question bank
+    And I choose "Edit question" action for "essaya-001" in the question bank
     Then the following fields match these values:
-      | Question name              | essayannotate-001                                               |
+      | Question name              | essaya-001                                               |
       | Question text              | Please write a story about a frog.                      |
       | General feedback           | I hope your story had a beginning, a middle and an end. |
       | Response format            | HTML editor                                             |

@@ -245,31 +245,31 @@ class qtype_essayannotate extends question_type {
         $qo = $format->import_headers($data);
         $qo->qtype = $questiontype;
 
-        $qo->responseformat = $format->getpath($question,
+        $qo->responseformat = $format->getpath($data,
                 ['#', 'responseformat', 0, '#'], 'editor');
-        $qo->responsefieldlines = $format->getpath($question,
+        $qo->responsefieldlines = $format->getpath($data,
                 ['#', 'responsefieldlines', 0, '#'], 15);
-        $qo->responserequired = $format->getpath($question,
+        $qo->responserequired = $format->getpath($data,
                 ['#', 'responserequired', 0, '#'], 1);
-        $qo->minwordlimit = $format->getpath($question,
+        $qo->minwordlimit = $format->getpath($data,
                 ['#', 'minwordlimit', 0, '#'], null);
         $qo->minwordenabled = !empty($qo->minwordlimit);
-        $qo->maxwordlimit = $format->getpath($question,
+        $qo->maxwordlimit = $format->getpath($data,
                 ['#', 'maxwordlimit', 0, '#'], null);
         $qo->maxwordenabled = !empty($qo->maxwordlimit);
-        $qo->attachments = $format->getpath($question,
+        $qo->attachments = $format->getpath($data,
                 ['#', 'attachments', 0, '#'], 0);
-        $qo->attachmentsrequired = $format->getpath($question,
+        $qo->attachmentsrequired = $format->getpath($data,
                 ['#', 'attachmentsrequired', 0, '#'], 0);
-        $qo->filetypeslist = $format->getpath($question,
+        $qo->filetypeslist = $format->getpath($data,
                 ['#', 'filetypeslist', 0, '#'], null);
-        $qo->maxbytes = $format->getpath($question,
+        $qo->maxbytes = $format->getpath($data,
                 ['#', 'maxbytes', 0, '#'], null);
-        $qo->graderinfo = $format->import_text_with_files($question,
+        $qo->graderinfo = $format->import_text_with_files($data,
                 ['#', 'graderinfo', 0], '', $format->get_format($qo->questiontextformat));
-        $qo->responsetemplate['text'] = $format->getpath($question,
+        $qo->responsetemplate['text'] = $format->getpath($data,
                 ['#', 'responsetemplate', 0, '#', 'text', 0, '#'], '', true);
-        $qo->responsetemplate['format'] = $format->trans_format($format->getpath($question,
+        $qo->responsetemplate['format'] = $format->trans_format($format->getpath($data,
                 ['#', 'responsetemplate', 0, '@', 'format'], $format->get_format($qo->questiontextformat)));
         return $qo;
     }

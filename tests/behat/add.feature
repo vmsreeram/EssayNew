@@ -18,11 +18,11 @@ Feature: Test creating an essayannotate question
   Scenario: Create an essayannotate question with Response format set to 'HTML editor'
     When I am on the "Course 1" "core_question > course question bank" page logged in as teacher
     And I add a "Essay annotate" question filling the form with:
-      | Question name            | essayannotate-001                      |
+      | Question name            | essaya-001                      |
       | Question text            | Write an essayannotate with 500 words. |
       | General feedback         | This is general feedback       |
       | Response format          | HTML editor                    |
-    Then I should see "essayannotate-001"
+    Then I should see "essaya-001"
 
   Scenario: Create an essayannotate question with Response format set to 'HTML editor with the file picker'
     When I am on the "Course 1" "core_question > course question bank" page logged in as teacher

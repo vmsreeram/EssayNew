@@ -19,7 +19,7 @@ Feature: Test exporting essayannotate questions
       | Course       | C1        | Test questions |
     And the following "questions" exist:
       | questioncategory | qtype | name      | template         |
-      | Test questions   | essayannotate | essayannotate-001 | editor           |
+      | Test questions   | essayannotate | essaya-001 | editor           |
       | Test questions   | essayannotate | essayannotate-002 | editorfilepicker |
       | Test questions   | essayannotate | essayannotate-003 | plain            |
 
