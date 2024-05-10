@@ -17,8 +17,7 @@
 /**
  * essayannotate question definition class.
  *
- * @package    qtype
- * @subpackage essayannotate
+ * @package    qtype_essayannotate
  * @copyright  2009 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

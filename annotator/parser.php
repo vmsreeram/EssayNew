@@ -103,7 +103,7 @@ function parser_text($arrtext) {
  */
 function parser_rectangle($arrrect) {
     $list = [];
-    // scaleX and scaleY is 1 if the rectangle is not transformed.
+    // The variables scaleX and scaleY is 1 if the rectangle is not transformed.
     // During transformation, width and height remains same but the scaleX and scaleY change.
     $width = (normalize($arrrect["width"])) * ($arrrect["scaleX"]);
     $height = (normalize($arrrect["height"])) * ($arrrect["scaleY"]);

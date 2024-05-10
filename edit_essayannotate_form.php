@@ -17,8 +17,7 @@
 /**
  * Defines the editing form for the essayannotate question type.
  *
- * @package    qtype
- * @subpackage essayannotate
+ * @package    qtype_essayannotate
  * @copyright  2007 Jamie Pratt me@jamiep.org
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

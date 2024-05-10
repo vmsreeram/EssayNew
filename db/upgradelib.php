@@ -17,9 +17,8 @@
 /**
  * Upgrade library code for the essayannotate question type.
  *
- * @package    qtype
- * @subpackage essayannotate
- * @copyright  2024 IIT Palakkad 
+ * @package    qtype_essayannotate
+ * @copyright  2024 IIT Palakkad
  * @copyright  based on work done by 2010 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

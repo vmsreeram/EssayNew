@@ -17,10 +17,13 @@
 /**
  * Question type class for the essayannotate question type.
  *
- * @package    qtype
- * @subpackage essayannotate
- * @copyright  2005 Mark Nielsen
+ * @package    qtype_essayannotate
+ * @copyright  2024 IIT Palakkad
+ * @copyright  based on work done by 2005 Mark Nielsen
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ *
+ * updatedby   Nideesh N, VM Sreeram
+ * Added functions for importing and exporting in XML format.
  */
 
 
@@ -40,6 +43,10 @@ class qtype_essayannotate extends question_type {
         return true;
     }
 
+    /**
+     * Extra fields to add to the question table.
+     * This function overrides the function with the same name in question/type/questiontypebase.php.
+     */
     public function extra_question_fields() {
         return array($this->plugin_name().'_options', // DB table name
                      'responseformat', 'responserequired', 'responsefieldlines',
@@ -222,10 +229,12 @@ class qtype_essayannotate extends question_type {
      * Imports question from the Moodle XML format
      *
      * @param array $data
-     * @param qtype_essayannote $question (or null)
+     * @param qtype_essayannotate $question (or null)
      * @param qformat_xml $format
      * @param string $extra (optional, default=null)
      * @return object New question object
+     * 
+     * Modified from import_essay function of question/format/xml/format.php
      */
     public function import_from_xml($data, $question, qformat_xml $format, $extra=null) {
         $questiontype = $format->getpath($data, ['@', 'type'], '');
@@ -272,6 +281,8 @@ class qtype_essayannotate extends question_type {
      * @param qformat_xml $format
      * @param string $extra (optional, default=null)
      * @return string XML representation of question
+     * 
+     * Modified from export_to_xml function of question/type/questiontypebase.php.
      */
     public function export_to_xml($question, qformat_xml $format, $extra=null) {
         $extraquestionfields = $this->extra_question_fields();
@@ -303,47 +314,5 @@ class qtype_essayannotate extends question_type {
             $expout .= $format->write_answer($answer, $extra);
         }
         return $expout;
-    }
-
-
-    /**
-     * Exports question to GIFT format
-     *
-     * @param object $question
-     * @param qformat_gift $format
-     * @param string $extra (optional, default=null)
-     * @return string GIFT representation of question
-     */
-    public function export_to_gift($question, qformat_gift $format, $extra=null) {
-        $expout = '';
-        $expout .= $format->write_name($question->name);
-        $expout .= $format->write_questiontext($question->questiontext, $question->questiontextformat);
-        $expout .= "{";
-        $expout .= $format->write_general_feedback($question, '');
-        $expout .= "}\n";
-        return $expout;
-    }
-
-    /**
-     * Import question from GIFT format
-     *
-     * @param array $lines
-     * @param object $question
-     * @param qformat_gift $format
-     * @param string $extra (optional, default=null)
-     * @return object Question instance
-     */
-    public function import_from_gift($lines, $question, qformat_gift $format, $data) {
-        $question->qtype = 'essayannotate';
-        $question->responseformat = 'editor';
-        $question->responserequired = 1;
-        $question->responsefieldlines = 15;
-        $question->attachments = 0;
-        $question->attachmentsrequired = 0;
-        $question->graderinfo = [
-                'text' => '', 'format' => FORMAT_HTML, 'files' => []];
-        $question->responsetemplate = [
-                'text' => '', 'format' => FORMAT_HTML];
-        return $question;
     }
 }
