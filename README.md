@@ -113,7 +113,7 @@ Special thanks to Mr. Sumesh K S (Technical Supdt.) & Mr. Neeraj Patil (BTech 20
 - [PDF JS Annotations](https://github.com/RavishaHesh/PDFJsAnnotations): Wrapper for PDF JS to add annotations. We have done suitable modifications to this code.
 
 ## Icon
-The icon <img width = "20" src="pix/icon.svg"> for this plugin is taken from [svgrepo.com](https://www.svgrepo.com/svg/501452/annotate)
+The icon <img width = "20" src="pix/icon.svg"> for this plugin is taken from [svgrepo.com](https://www.svgrepo.com/svg/501452/annotate).
 ```
 LICENSE: MIT License
 AUTHOR: instructure-ui
