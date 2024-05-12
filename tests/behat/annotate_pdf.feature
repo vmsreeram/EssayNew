@@ -1,38 +1,30 @@
-@qtype @qtype_essayannotate@_file_upload
-Feature: The essayannotate new question in a quiz can be annotated by teacher after submission of quiz by student 
-    As a teacher 
-    I need to use the PDF editor to annotate the submitted file for the essayannotate new question 
+@qtype @qtype_essayannotate @_file_upload
+Feature: The essayannotate new question in a quiz can be annotated by teacher after submission of quiz by student
+  As a teacher
+  I need to use the PDF editor to annotate the submitted file for the essayannotate new question
 
-    
-Background:
+  Background:
     Given the following "users" exist:
       | username |
       | teacher  |
       | student  |
-
-    And path to gs and covert is set 
-    
+    And path to gs and covert is set
     And the following "courses" exist:
       | fullname | shortname | category |
       | Course 1 | C1        | 0        |
-
     And the following "course enrolments" exist:
       | user    | course | role           |
       | teacher | C1     | editingteacher |
       | student | C1     | student        |
-
     And the following "question categories" exist:
       | contextlevel | reference | name           |
       | Course       | C1        | Test questions |
-
     And the following "questions" exist:
       | questioncategory | qtype       | name  | questiontext    | defaultmark | template |
       | Test questions   | essayannotate       | TF1   | First question  | 20          | editorfilepicker |
-
     And the following "activities" exist:
       | activity   | name   | intro              | course | idnumber | grade |
       | quiz       | Quiz 1 | Quiz 1 description | C1     | quiz1    | 20    |
-
     And quiz "Quiz 1" contains the following questions:
       | question | page |
       | TF1      | 1    |
@@ -44,9 +36,8 @@ Background:
       | student | question/type/essayannotate/tests/fixtures/blank.pdf | blank.pdf |
       | student | question/type/essayannotate/tests/fixtures/blank.png | blank.png |
 
-@javascript
-Scenario: Student uploads a pdf file and teacher is able to annotate 
-    
+  @javascript
+  Scenario: Student uploads a pdf file and teacher is able to annotate
     When I log in as "student"
     And I am on the "Quiz 1" "quiz activity" page
     And I press "Attempt quiz"
@@ -68,34 +59,34 @@ Scenario: Student uploads a pdf file and teacher is able to annotate
     Then The document should open in a new tab
     And I follow "Annotate"
     And I wait "3" seconds
-    And I annotate the pdf 
+    And I annotate the pdf
     And I press "Save"
     And I should see "File has been saved"
-    And I switch to main window 
-    And I reload the page 
+    And I switch to main window
+    And I reload the page
     And I follow "Make comment or override mark"
     Then The document should open in a new tab
     And I set the field "Mark" to "10"
     And I wait "3" seconds
-    And I press "Save" 
-    And I switch to main window 
+    And I press "Save"
+    And I switch to main window
     And I wait "5" seconds
     And I reload the page
     And I wait "3" seconds
     And I should see "Corrected Documents"
-    And I should see "Commented: Annotated file: blank.pdf" 
+    And I should see "Commented: Annotated file: blank.pdf"
     And I should see "Commented: Teacher has started grading"
     And I wait "3" seconds
-    And I log out 
+    And I log out
 
     And I log in as "student"
-    And I am on the "Quiz 1" "quiz activity" page 
+    And I am on the "Quiz 1" "quiz activity" page
     And I follow "Review"
     And I wait "5" seconds
     And I should see "Corrected Documents"
-    
-@javascript
-Scenario: Student uploads a png file and teacher is able to annotate 
+
+  @javascript
+  Scenario: Student uploads a png file and teacher is able to annotate
     When I log in as "student"
     And I am on the "Quiz 1" "quiz activity" page
     And I press "Attempt quiz"
@@ -117,35 +108,34 @@ Scenario: Student uploads a png file and teacher is able to annotate
     Then The document should open in a new tab
     And I follow "Annotate"
     And I wait "3" seconds
-    And I annotate the pdf 
+    And I annotate the pdf
     And I press "Save"
     And I should see "File has been saved"
-    And I switch to main window 
-    And I reload the page 
+    And I switch to main window
+    And I reload the page
     And I follow "Make comment or override mark"
     Then The document should open in a new tab
     And I set the field "Mark" to "10"
     And I wait "3" seconds
-    And I press "Save" 
-    And I switch to main window 
+    And I press "Save"
+    And I switch to main window
     And I wait "5" seconds
     And I reload the page
     And I wait "3" seconds
     And I should see "Corrected Documents"
-    And I should see "Commented: Annotated file: blank.png_topdf.pdf" 
+    And I should see "Commented: Annotated file: blank.png_topdf.pdf"
     And I should see "Commented: Teacher has started grading"
     And I wait "3" seconds
-    And I log out 
+    And I log out
 
     And I log in as "student"
-    And I am on the "Quiz 1" "quiz activity" page 
+    And I am on the "Quiz 1" "quiz activity" page
     And I follow "Review"
     And I wait "5" seconds
     And I should see "Corrected Documents"
 
 @javascript
 Scenario: Student can see the annotated file only after the question is graded
-
     When I log in as "student"
     And I am on the "Quiz 1" "quiz activity" page
     And I press "Attempt quiz"
@@ -167,14 +157,14 @@ Scenario: Student can see the annotated file only after the question is graded
     Then The document should open in a new tab
     And I follow "Annotate"
     And I wait "3" seconds
-    And I annotate the pdf 
+    And I annotate the pdf
     And I press "Save"
     And I should see "File has been saved"
-    And I switch to main window 
+    And I switch to main window
     And I log out
 
     And I log in as "student"
-    And I am on the "Quiz 1" "quiz activity" page 
+    And I am on the "Quiz 1" "quiz activity" page
     And I follow "Review"
     And I wait "5" seconds
     And I should not see "Corrected Documents"
@@ -186,12 +176,12 @@ Scenario: Student can see the annotated file only after the question is graded
     Then The document should open in a new tab
     And I set the field "Mark" to "10"
     And I wait "3" seconds
-    And I press "Save" 
-    And I switch to main window 
-    And I log out 
+    And I press "Save"
+    And I switch to main window
+    And I log out
 
     And I log in as "student"
-    And I am on the "Quiz 1" "quiz activity" page 
+    And I am on the "Quiz 1" "quiz activity" page
     And I follow "Review"
     And I wait "5" seconds
     And I should see "Corrected Documents"

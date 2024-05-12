@@ -14,15 +14,15 @@ Feature: Test duplicating a quiz containing an Essay annotate question
     And the following "questions" exist:
       | questioncategory | qtype     | name      | template         |
       | Test questions   | essayannotate     | essaya-001 | editor           |
-      | Test questions   | essayannotate     | essayannotate-002 | editorfilepicker |
-      | Test questions   | essayannotate     | essayannotate-003 | plain            |
+      | Test questions   | essayannotate     | essaya-002 | editorfilepicker |
+      | Test questions   | essayannotate     | essaya-003 | plain            |
     And the following "activities" exist:
       | activity   | name      | course | idnumber |
       | quiz       | Test quiz | C1     | quiz1    |
     And quiz "Test quiz" contains the following questions:
       | essaya-001 | 1 |
-      | essayannotate-002 | 1 |
-      | essayannotate-003 | 1 |
+      | essaya-002 | 1 |
+      | essaya-003 | 1 |
     And the following config values are set as admin:
       | enableasyncbackup | 0 |
 
@@ -36,8 +36,8 @@ Feature: Test duplicating a quiz containing an Essay annotate question
       | Schema | Course short name | C2       |
     And I am on the "Course 2" "core_question > course question bank" page
     Then I should see "essaya-001"
-    And I should see "essayannotate-002"
-    And I should see "essayannotate-003"
+    And I should see "essaya-002"
+    And I should see "essaya-003"
     And I choose "Edit question" action for "essaya-001" in the question bank
     Then the following fields match these values:
       | Question name              | essaya-001                                               |
@@ -46,17 +46,17 @@ Feature: Test duplicating a quiz containing an Essay annotate question
       | Response format            | HTML editor                                             |
       | Require text               | Require the student to enter text                       |
     And I press "Cancel"
-    And I choose "Edit question" action for "essayannotate-002" in the question bank
+    And I choose "Edit question" action for "essaya-002" in the question bank
     Then the following fields match these values:
-      | Question name              | essayannotate-002                                               |
+      | Question name              | essaya-002                                               |
       | Question text              | Please write a story about a frog.                      |
       | General feedback           | I hope your story had a beginning, a middle and an end. |
       | Response format            | HTML editor with file picker                            |
       | Require text               | Require the student to enter text                       |
     And I press "Cancel"
-    And I choose "Edit question" action for "essayannotate-003" in the question bank
+    And I choose "Edit question" action for "essaya-003" in the question bank
     Then the following fields match these values:
-      | Question name              | essayannotate-003                                               |
+      | Question name              | essaya-003                                               |
       | Question text              | Please write a story about a frog.                      |
       | General feedback           | I hope your story had a beginning, a middle and an end. |
       | Response format            | Plain text                                              |

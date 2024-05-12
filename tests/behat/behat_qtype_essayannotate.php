@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * This page consists of data for annotator.mustache.
+ * Behat steps definitions for essay annotate.
  *
  * @package    qtype_essayannotate
  * @subpackage essayannotate

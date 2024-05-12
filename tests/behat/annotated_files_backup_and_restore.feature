@@ -1,37 +1,30 @@
-@qtype @qtype_essayannotate @_file_upload
-Feature: The essayannotate new question in a quiz can be annotated by teacher after submission of quiz by student 
-    As a teacher 
-    I need to be able to backup and restore the annotated files
+@qtype @qtype_essayannotate @_file_backup_restore
+Feature: The essayannotate new question in a quiz can be annotated by teacher after submission of quiz by student
+  As a teacher
+  I need to be able to backup and restore the annotated files
 
-Background:
+  Background:
     Given the following "users" exist:
       | username |
       | teacher  |
       | student  |
-
-    And path to gs and covert is set 
-
+    And path to gs and covert is set
     And the following "courses" exist:
       | fullname | shortname | category |
       | Course 1 | C1        | 0        |
-
     And the following "course enrolments" exist:
       | user    | course | role           |
       | teacher | C1     | editingteacher |
       | student | C1     | student        |
-
     And the following "question categories" exist:
       | contextlevel | reference | name           |
       | Course       | C1        | Test questions |
-
     And the following "questions" exist:
       | questioncategory | qtype       | name  | questiontext    | defaultmark | template |
       | Test questions   | essayannotate       | TF1   | First question  | 20          | editorfilepicker |
-
     And the following "activities" exist:
       | activity   | name   | intro              | course | idnumber | grade |
       | quiz       | Quiz 1 | Quiz 1 description | C1     | quiz1    | 20    |
-
     And quiz "Quiz 1" contains the following questions:
       | question | page |
       | TF1      | 1    |
@@ -42,9 +35,8 @@ Background:
       | user    | filepath                                        | filename  |
       | student | question/type/essayannotate/tests/fixtures/blank.pdf | blank.pdf |
 
-@javascript
-Scenario: Backup and restore a course with quiz attempt containing essayannotate question and annotated pdf 
-
+  @javascript
+  Scenario: Backup and restore a course with quiz attempt containing essayannotate question and annotated pdf
     When I log in as "student"
     And I am on the "Quiz 1" "quiz activity" page
     And I press "Attempt quiz"
@@ -65,22 +57,23 @@ Scenario: Backup and restore a course with quiz attempt containing essayannotate
     And I follow "Make comment or override mark"
     Then The document should open in a new tab
     And I follow "Annotate"
-    And I annotate the pdf 
+    And I wait "3" seconds
+    And I annotate the pdf
     And I press "Save"
     And I should see "File has been saved"
-    And I switch to main window 
+    And I switch to main window
     And I follow "Make comment or override mark"
     Then The document should open in a new tab
     And I set the field "Mark" to "10"
     And I wait "3" seconds
-    And I press "Save" 
-    And I switch to main window 
+    And I press "Save"
+    And I switch to main window
     And I wait "5" seconds
     And I reload the page
     And I wait "3" seconds
     And I should see "Corrected Documents"
     And I wait "3" seconds
-    And I log out 
+    And I log out
 
     When I am on the "Course 1" course page logged in as admin
     And I backup "Course 1" course using this options:
