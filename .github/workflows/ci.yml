@@ -50,6 +50,21 @@ jobs:
           # If you try to use code coverage with "none", it will fallback to phpdbg (which has known problems).
           coverage: none
 
+      - uses: actions/checkout@v2
+      
+      - name: Install ghostscript
+        run: sudo apt install ghostscript
+
+      - name: Install ImageMagick
+        run: sudo apt install imagemagick
+
+      - name: Change ImageMagick security policy
+        run: |
+          DQT='"' 
+          SRC="rights=${DQT}none${DQT} pattern=${DQT}PDF${DQT}"
+          RPL="rights=${DQT}read\|write${DQT} pattern=${DQT}PDF${DQT}"
+          sudo sed -i "s/$SRC/$RPL/" /etc/ImageMagick-6/policy.xml
+
       - name: Initialise moodle-plugin-ci
         run: |
           composer create-project -n --no-dev --prefer-dist moodlehq/moodle-plugin-ci ci ^4
