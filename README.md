@@ -77,7 +77,7 @@ This work has been completed as part of three Undergraduate Major Projects at [I
     <td><a href="https://www.linkedin.com/in/nideesh-n-22497a128/">Nideesh N</a></td>
     <td>nideeshnagarajan@gmail.com</td>
     <td rowspan=2>2023-24</td>
-    <td rowspan=2><a href="https://github.com/vmsreeram/essayannotate">github.com/vmsreeram/essayannotate</a></td>
+    <td rowspan=2><a href="https://github.com/vmsreeram/moodle-qtype_essayannotate">https://github.com/vmsreeram/moodle-qtype_essayannotate</a></td>
   </tr>
   <tr>
     <td><a href="https://www.linkedin.com/in/vm-sreeram/">VM Sreeram</a></td>
