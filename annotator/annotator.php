@@ -26,8 +26,8 @@
  * @author Nideesh N, VM Sreeram,
  * Asha Jose, Parvathy S Kumar,
  * Tausif Iqbal, Vishal Rao (IIT Palakkad)
- * First version @link {https://github.com/TausifIqbal/moodle_quiz_annotator/blob/main/3.6/mod/quiz/annotator.php}
- * Second version @link {https://github.com/Parvathy-S-Kumar/Moodle_Quiz_PDF_Annotator/blob/main/src/common/mod/quiz/annotator.php}
+ * First version {@link https://github.com/TausifIqbal/moodle_quiz_annotator/blob/main/3.6/mod/quiz/annotator.php}
+ * Second version {@link https://github.com/Parvathy-S-Kumar/Moodle_Quiz_PDF_Annotator/blob/main/src/common/mod/quiz/annotator.php}
  * This file is the third version, the changes from the previous version are as follows:
  * Changed code to follow security guidelines such as require_login, require_capability, escaping shell cmds before execution.
  * Updated the logic for checking filetype is PDF by using mimetype and extension.
