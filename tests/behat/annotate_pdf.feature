@@ -109,6 +109,7 @@ Feature: The essayannotate new question in a quiz can be annotated by teacher af
     And I wait "3" seconds
     And I annotate the pdf
     And I press "Save"
+    And I should see "Not able to save the file"
     And I switch to main window
     And I reload the page
     And I follow "Make comment or override mark"
