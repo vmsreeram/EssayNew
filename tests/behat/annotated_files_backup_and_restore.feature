@@ -1,5 +1,5 @@
-@qtype @qtype_essayannotate @_file_backup_restore
-Feature: The essayannotate new question in a quiz can be annotated by teacher after submission of quiz by student
+@qtype @qtype_essayannotate @_file_upload
+Feature: Annotated files can be backed up and restored
   As a teacher
   I need to be able to backup and restore the annotated files
 
