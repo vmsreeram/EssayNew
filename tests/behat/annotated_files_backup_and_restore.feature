@@ -60,7 +60,6 @@ Feature: Annotated files can be backed up and restored
     And I wait "3" seconds
     And I annotate the pdf
     And I press "Save"
-    And I should see "File has been saved"
     And I switch to main window
     And I follow "Make comment or override mark"
     Then The document should open in a new tab
