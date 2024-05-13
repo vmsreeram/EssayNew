@@ -112,34 +112,34 @@ define(['jquery', 'qtype_essayannotate/pdfannotate'], function($, PDFAnnotate) {
      * @param {PDFAnnotate} pdf - The PDFAnnotate instance.
      */
     function savePDF(event, pdf) {
-        document.getElementById('savebtn').setAttribute("disabled","true");
+        document.getElementById('savebtn').setAttribute("disabled", "true");
         event.preventDefault();
         pdf.savePdf(); // Changes made by Asha and Parvathy: Removed a parameter of the function
     }
 
-    //Change the color and font size to currently selected color and font size respectively in the UI
+    // Change the color and font size to currently selected color and font size respectively in the UI
 
     return {
         init: function(fileurl) {
             var pdf = new PDFAnnotate.PDFAnnotate("pdf-container", fileurl, {
-                ready: function() {},
+                ready: function() {}, // eslint-disable-line no-empty-function
                 scale: 1.5,
                 pageImageCompression: "SLOW", // FAST, MEDIUM, SLOW(Helps to control the new PDF file size)
             });
-            if(typeof window !== 'undefined') {
+            if (typeof window !== 'undefined') {
                 window.pdf = pdf;
             }
-            $(function () {
-                $('.color-tool').click(function () {
+            $(function() {
+                $('.color-tool').click(function() {
                     $('.color-tool.active').removeClass('active');
                     $(this).addClass('active');
                     var color = $(this).get(0).style.backgroundColor;
                     pdf.setColor(color);
                 });
 
-                $('#font-size').change(function () {
-                    var font_size = $(this).val();
-                    pdf.setFontSize(font_size);
+                $('#font-size').change(function() {
+                    var fontSize = $(this).val();
+                    pdf.setFontSize(fontSize);
                 });
             });
 
