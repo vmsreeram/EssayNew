@@ -82,6 +82,7 @@ require_capability('mod/quiz:grade', $PAGE->context);
 if (!is_dir($temppath) && !mkdir($temppath, 0777, true)) {
     throw new moodle_exception('mkdir_fail', 'qtype_essayannotate');
 }
+
 $attemptobj = quiz_create_attempt_handling_errors($attemptid, $cmid);
 $attemptobj->preload_all_attempt_step_users();
 $attemptobj->render_question_for_commenting($slot);
