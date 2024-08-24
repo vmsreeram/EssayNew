@@ -63,11 +63,7 @@ $string['graderinfoheader'] = 'Grader information';
 $string['gs_cmd'] = ' -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dNOPAUSE -dBATCH -sOutputFile="';
 $string['gs_fail'] = 'PDF conversion using Ghostscript failed';
 $string['imagemagickpath'] = 'ImageMagick Path';
-$string['imagemagickpath_desc'] = 'Enter the path to your ImageMagick installation.' . '<br><br><u><b>Note:</b></u> Alter policy.xml file of imagemagick, change <br>' .
-                                '    &lt;policy domain="coder" rights="none" pattern="PDF" /&gt; <br>' .
-                                '    to <br>' .
-                                '    &lt;policy domain="coder" rights="read|write" pattern="PDF" /&gt;' .
-                                '<br><br>';
+$string['imagemagickpath_desc'] = 'Enter the path to your ImageMagick installation.<br><br><u><b>Note:</b></u> Alter policy.xml file of imagemagick, change <br>    &lt;policy domain="coder" rights="none" pattern="PDF" /&gt; <br>    to <br>    &lt;policy domain="coder" rights="read|write" pattern="PDF" /&gt;<br><br>';
 $string['maxbytes'] = 'Maximum file size';
 $string['maxwordlimit'] = 'Maximum word limit';
 $string['maxwordlimit_help'] = 'If the response requires that students enter text, this is the maximum number of words that each student will be allowed to submit.';
