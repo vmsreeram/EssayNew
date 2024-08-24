@@ -229,7 +229,7 @@ class qtype_essayannotate_renderer extends qtype_renderer {
             // Display Annotate button to teachers only in comment.php and not in review.php .
             if (has_capability('mod/quiz:grade', $this->page->context) &&
                 $options->manualcomment == question_display_options::EDITABLE) {
-                $url = new moodle_url("$CFG->wwwroot" . get_string('annotator_url', 'qtype_essayannotate'),
+                $url = new moodle_url("$CFG->wwwroot" . '/question/type/essayannotate/annotator/annotator.php',
                                 ["attempt" => $attemptid, "slot" => $slot, "fileno" => $filenum]);
                 $out .= html_writer::link($url, get_string('annotate_button_label', 'qtype_essayannotate'),
                                 ['class' => 'btn btn-secondary qtype_essayannotate_annotatebtn']);

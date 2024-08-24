@@ -64,7 +64,7 @@ if ($cmid == null) {
     }
 }
 
-$PAGE->set_url(get_string('annotator_url', 'qtype_essayannotate'), ['attempt' => $attemptid, 'slot' => $slot, 'fileno' => $fileno]);
+$PAGE->set_url('/question/type/essayannotate/annotator/annotator.php', ['attempt' => $attemptid, 'slot' => $slot, 'fileno' => $fileno]);
 $PAGE->set_pagelayout('popup');
 
 if (!empty($cmid)) {

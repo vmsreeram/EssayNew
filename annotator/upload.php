@@ -78,7 +78,7 @@ function convert_pdf_version($file, $essaypdfpath, $attemptid, $slot) {
             // Using Ghostscript convert the pdf version to 1.4.
             // Getting Ghostscript path from settings page of plugin.
             $gspath = get_config('qtype_essayannotate', 'ghostscriptpath');
-            $command = $gspath . get_string('gs_cmd', 'qtype_essayannotate') . $srcfilenew . '" "' . $srcfile . '"'.'  2>&1';
+            $command = $gspath . ' -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dNOPAUSE -dBATCH -sOutputFile="' . $srcfilenew . '" "' . $srcfile . '"'.'  2>&1';
             $safecommand = escapeshellcmd($command);
             $shelloutput = shell_exec($safecommand);
 

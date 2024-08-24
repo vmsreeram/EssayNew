@@ -126,24 +126,24 @@ function process_color($colorstring) {
         $rgb = [0, 0, 0];
     }
     if ($colorstring == "red"
-        || $colorstring == get_string('rgba_red', 'qtype_essayannotate')
-        || $colorstring == get_string('rgb_red', 'qtype_essayannotate')) {
+        || $colorstring == 'rgba(251, 17, 17, 0.3)'
+        || $colorstring == 'rgb(251, 17, 17)') {
         $rgb = [251, 17, 17];              // Converting string to rgb.
     } else if ($colorstring == "green"
-        || $colorstring == get_string('rgba_green', 'qtype_essayannotate')
-        || $colorstring == get_string('rgb_green', 'qtype_essayannotate')) {
+        || $colorstring == 'rgba(13, 93, 13, 0.3)'
+        || $colorstring == 'rgb(13, 93, 13)') {
         $rgb = [13, 93, 13];
     } else if ($colorstring == "blue"
-        || $colorstring == get_string('rgba_blue', 'qtype_essayannotate')
-        || $colorstring == get_string('rgb_blue', 'qtype_essayannotate')) {
+        || $colorstring == 'rgba(2, 2, 182, 0.3)'
+        || $colorstring == 'rgb(2, 2, 182)') {
         $rgb = [2, 2, 182];
     } else if ($colorstring == "black"
-        || $colorstring == get_string('rgba_black', 'qtype_essayannotate')
-        || $colorstring == get_string('rgb_black', 'qtype_essayannotate')) {
+        || $colorstring == 'rgba(0, 0, 0, 0.3)'
+        || $colorstring == 'rgb(0, 0, 0)') {
         $rgb = [0, 0, 0];
     } else if ($colorstring == "yellow"
-        || $colorstring == get_string('rgba_yellow', 'qtype_essayannotate')
-        || $colorstring == get_string('rgb_yellow', 'qtype_essayannotate')) {
+        || $colorstring == 'rgba(255, 255, 0, 0.3)'
+        || $colorstring == 'rgb(255, 255, 0)') {
         $rgb = [255, 255, 0];
     } else {
         $rgb = [];
