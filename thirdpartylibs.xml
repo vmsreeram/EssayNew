@@ -43,4 +43,16 @@
         <description>The AlphaPDF is an extended class on FPDI that is used for setting transparency.</description>
         <license>MIT</license>
   </library>
+  <library>
+        <location>amd/src/clickhandlers.js</location>
+        <name>PDFJsAnnotations</name>
+        <description>Wrapper for PDF JS to add annotations.</description>
+        <license>MIT</license>
+  </library>
+  <library>
+        <location>amd/src/pdfannotate.js</location>
+        <name>PDFJsAnnotations</name>
+        <description>Wrapper for PDF JS to add annotations.</description>
+        <license>MIT</license>
+  </library>
 </libraries>
