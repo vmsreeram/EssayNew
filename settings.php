@@ -26,19 +26,9 @@
 defined('MOODLE_INTERNAL') || die();
 
 if ($ADMIN->fulltree) {
-    $settings->add(new admin_setting_configtext(
-        'qtype_essayannotate/imagemagickpath',
-        get_string('imagemagickpath', 'qtype_essayannotate'),
-        get_string('imagemagickpath_desc', 'qtype_essayannotate'),
-        'convert',
-        PARAM_TEXT
-    ));
+    $settings->add(new admin_setting_configexecutable('qtype_essayannotate/imagemagickpath',
+        new lang_string('imagemagickpath', 'qtype_essayannotate'), new lang_string('imagemagickpath_desc', 'qtype_essayannotate'), 'convert'));
 
-    $settings->add(new admin_setting_configtext(
-        'qtype_essayannotate/ghostscriptpath',
-        get_string('ghostscriptpath', 'qtype_essayannotate'),
-        get_string('ghostscriptpath_desc', 'qtype_essayannotate'),
-        'gs',
-        PARAM_TEXT
-    ));
+    $settings->add(new admin_setting_configexecutable('qtype_essayannotate/ghostscriptpath',
+        new lang_string('ghostscriptpath', 'qtype_essayannotate'), new lang_string('ghostscriptpath_desc', 'qtype_essayannotate'), 'gs'));
 }
