@@ -35,6 +35,7 @@
  *  Followed Moodle coding conventions by adding language strings.
  *  Updated itemid as the attemptid of the first annotation step.
  *  Show Annotate button to teachers adjacent to the file attachments.
+ *  Removed usage of deprecated function file_encode_url
  */
 
 defined('MOODLE_INTERNAL') || die();
@@ -152,14 +153,15 @@ class qtype_essayannotate_renderer extends qtype_renderer {
             $doesexists = $fs->file_exists($contextid, $component, $filearea, $itemid, $filepath, $filename);
             if ($doesexists === true) {
                 $file = $fs->get_file($contextid, $component, $filearea, $itemid, $filepath, $filename);
-                $temp = file_encode_url(new moodle_url('/pluginfile.php'), '/' . implode('/', [
+                $urlpath = '/' . implode('/', [
                     $file->get_contextid(),
                     $file->get_component(),
                     $file->get_filearea(),
                     $qa->get_usage_id(),
                     $qa->get_slot(),
                     $file->get_itemid()]) .
-                    $file->get_filepath() . $file->get_filename(), true);
+                    $file->get_filepath() . $file->get_filename();
+                $temp = moodle_url::make_file_url(new moodle_url('/pluginfile.php'), $urlpath, true)->__toString();
                 $fileurl = $temp;
             }
             if (!empty($fileurl) && !empty($filename)) {

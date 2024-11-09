@@ -21,6 +21,7 @@
  * @copyright  2024 IIT Palakkad
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @author     Nideesh N, VM Sreeram
+ *   Removed usage of deprecated function file_encode_url
  */
 
 namespace qtype_essayannotate;
@@ -78,15 +79,15 @@ class helper {
      */
     public static function create_fileurl($qa, $file) {
         // Create url of this file.
-        $url = file_encode_url(new moodle_url('/pluginfile.php'), '/' . implode('/', [
+        $urlpath = '/' . implode('/', [
             $file->get_contextid(),
             $file->get_component(),
             $file->get_filearea(),
             $qa->get_usage_id(),
             $qa->get_slot(),
             $file->get_itemid()]) .
-            $file->get_filepath() . $file->get_filename(), true);
-        $url = (explode("?", $url))[0];     // Remove '?forcedownload=1' from the end of the url.
+            $file->get_filepath() . $file->get_filename();
+        $url = moodle_url::make_file_url(new moodle_url('/pluginfile.php'), $urlpath)->__toString();
         return $url;
     }
 
