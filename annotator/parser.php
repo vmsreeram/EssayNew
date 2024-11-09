@@ -31,14 +31,14 @@ require_login();
 
 defined('MOODLE_INTERNAL') || die();
 
-define("RATIO", 0.238); // Ratio to convert FabricJS objects to FPDF objects.
+define("qtype_essayannotate_RATIO", 0.238); // Ratio to convert FabricJS objects to FPDF objects.
 /**
  * for finding corresponding size of fpdf object given a fabricjs object
  * @param float $fabricjsunit variable corresponding to FabricJS distance unit(px)
  * @return $fpdfunit corresponding distance unit value in FPDF
  */
 function normalize($fabricjsunit) {
-    $fpdfunit = RATIO * $fabricjsunit;
+    $fpdfunit = qtype_essayannotate_RATIO * $fabricjsunit;
     return $fpdfunit;
 }
 
