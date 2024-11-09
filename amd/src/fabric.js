@@ -11883,7 +11883,7 @@ fabric.PatternBrush = fabric.util.createClass(fabric.PencilBrush, /** @lends fab
      * @type String
      * @default
      */
-    containerClass:         'canvas-container',
+    containerClass:         'qtype_essayannotate_canvas-container',
 
     /**
      * When true, object detection happens on per-pixel basis rather than on per-bounding-box
