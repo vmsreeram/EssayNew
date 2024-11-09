@@ -35,7 +35,7 @@ require_login();
  */
 function get_annotator_mustache_config() {
     $annotatormustacheconfig = new stdClass();
-    $annotatormustacheconfig->page_title = 'PDF Annotation And Drawing Markup Plugin Example.';
+    $annotatormustacheconfig->page_title = get_string('annotator_page_title', 'qtype_essayannotate');
 
     $annotatormustacheconfig->font_sizes = [
         ['value' => '10'],

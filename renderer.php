@@ -165,7 +165,7 @@ class qtype_essayannotate_renderer extends qtype_renderer {
                 $fileurl = $temp;
             }
             if (!empty($fileurl) && !empty($filename)) {
-                $icon = $this->output->pix_icon('f/pdf', "PDF document", 'core', ['class' => 'icon']);
+                $icon = $this->output->pix_icon('f/pdf', get_string('pdf_icon_alt_txt', 'qtype_essayannotate'), 'core', ['class' => 'icon']);
                 $annotatedfiles .= html_writer::tag('p', html_writer::link($fileurl, $icon . $filename));
             }
         }
