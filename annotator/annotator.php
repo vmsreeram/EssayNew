@@ -38,6 +38,7 @@
  * Used Mustache template to render HTML output.
  * Removed script tags and using js_call_amd to load javascript
  * Removed usage of mkdir to Moodle function make_temp_directory
+ * Removed get_string usage in paths and changed to use helper functions
  */
 
 require_once('../../../../config.php');
@@ -49,13 +50,13 @@ use qtype_essayannotate\helper;
 global $USER, $PAGE;
 
 // The $temppath is the path to the subdirectory essayPDF created in moodle's temp directory.
-$temppath = $CFG->tempdir . '/essayPDF';
+$temppath = $CFG->tempdir . '/' . helper::get_essayPDF_path();
 
 $attemptid = required_param('attempt', PARAM_INT);
 $slot = required_param('slot', PARAM_INT);
 $fileno = required_param('fileno', PARAM_INT);
 $cmid = optional_param('cmid', null, PARAM_INT);
-$dummyfile = $temppath . '/dummy' . $attemptid . "$" . $slot . "$" . $USER->id . ".pdf";
+$dummyfile = $temppath . '/' . helper::get_dummy_path() . $attemptid . "$" . $slot . "$" . $USER->id . ".pdf";
 if ($cmid == null) {
     $result = helper::getcmid($attemptid);
     if ($result) {
@@ -80,7 +81,7 @@ if (!empty($cmid)) {
 require_capability('mod/quiz:grade', $PAGE->context);
 
 // Try to create the subdirectory essayPDF if not exists.
-if (!is_dir($temppath) && !make_temp_directory('essayPDF', false)) {
+if (!is_dir($temppath) && !make_temp_directory(helper::get_essayPDF_path(), false)) {
     throw new moodle_exception('mkdir_fail', 'qtype_essayannotate');
 }
 $attemptobj = quiz_create_attempt_handling_errors($attemptid, $cmid);

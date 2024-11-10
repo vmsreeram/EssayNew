@@ -22,6 +22,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @author     Nideesh N, VM Sreeram
  *   Removed usage of deprecated function file_encode_url
+ *   Added helper functions for retrieving hardcoded repeated paths
  */
 
 namespace qtype_essayannotate;
@@ -104,5 +105,23 @@ class helper {
         $format = explode(".", $filename);
         $format = end($format);
         return [$filename, $format];
+    }
+
+    /**
+     * Retrieves the dummy path.
+     *
+     * @return string The dummy path.
+     */
+    public static function get_dummy_path() {
+        return 'dummy';
+    }
+
+    /**
+     * Retrieves the essayPDF path.
+     *
+     * @return string The essayPDF path.
+     */
+    public static function get_essayPDF_path() {
+        return 'essayPDF';
     }
 }

@@ -23,6 +23,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * Updated By  Nideesh N, VM Sreeram (IIT Palakkad)
  * Added language string for alt text of PDF icon
+ * Removed usage of paths from language file
  */
 
 $string['acceptedfiletypes'] = 'Accepted file types';

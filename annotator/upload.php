@@ -41,6 +41,7 @@
  * Then save it temporarily in 'essayPDF' subdirectory in Moodle's temp directory.
  *
  * Then create new file in databse using this temporary file.
+ * Removed get_string usage in paths and changed to use helper functions
  */
 
 require_once('../../../../config.php');
@@ -187,8 +188,8 @@ require_capability('mod/quiz:grade', $PAGE->context);
 $json = json_decode($annotations, true);
 
 // Referencing the file from the temp directory.
-$essaypdfpath = $CFG->tempdir . '/essayPDF';
-$file = $essaypdfpath . '/dummy' . $attemptid . "$" . $slot . "$" . $USER->id . ".pdf";
+$essaypdfpath = $CFG->tempdir . '/' . helper::get_essayPDF_path();
+$file = $essaypdfpath . '/' . helper::get_dummy_path() . $attemptid . "$" . $slot . "$" . $USER->id . ".pdf";
 $tempfile = $essaypdfpath . '/outputmoodle' . $attemptid . "$" . $slot . "$" . $USER->id . ".pdf";
 
 if (file_exists($file)) {
