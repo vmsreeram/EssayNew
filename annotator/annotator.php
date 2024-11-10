@@ -26,8 +26,8 @@
  * @author Nideesh N, VM Sreeram,
  * Asha Jose, Parvathy S Kumar,
  * Tausif Iqbal, Vishal Rao (IIT Palakkad)
- * First version @link {https://github.com/TausifIqbal/moodle_quiz_annotator/blob/main/3.6/mod/quiz/annotator.php}
- * Second version @link {https://github.com/Parvathy-S-Kumar/Moodle_Quiz_PDF_Annotator/blob/main/src/common/mod/quiz/annotator.php}
+ * First version {@link https://github.com/TausifIqbal/moodle_quiz_annotator/blob/main/3.6/mod/quiz/annotator.php}
+ * Second version {@link https://github.com/Parvathy-S-Kumar/Moodle_Quiz_PDF_Annotator/blob/main/src/common/mod/quiz/annotator.php}
  * This file is the third version, the changes from the previous version are as follows:
  * Changed code to follow security guidelines such as require_login, require_capability, escaping shell cmds before execution.
  * Updated the logic for checking filetype is PDF by using mimetype and extension.
@@ -84,6 +84,7 @@ require_capability('mod/quiz:grade', $PAGE->context);
 if (!is_dir($temppath) && !make_temp_directory(helper::get_essaypdf_path(), false)) {
     throw new moodle_exception('mkdir_fail', 'qtype_essayannotate');
 }
+
 $attemptobj = quiz_create_attempt_handling_errors($attemptid, $cmid);
 $attemptobj->preload_all_attempt_step_users();
 $attemptobj->render_question_for_commenting($slot);

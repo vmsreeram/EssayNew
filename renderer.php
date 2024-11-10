@@ -28,7 +28,7 @@
  * Updated for question/type/essayannotate plugin
  * @author Nideesh N, VM Sreeram,
  * Tausif Iqbal, Vishal Rao (IIT Palakkad)
- * First version @link {https://github.com/TausifIqbal/moodle_quiz_annotator/blob/main/3.6/question/type/essay/renderer.php}
+ * First version {@link https://github.com/TausifIqbal/moodle_quiz_annotator/blob/main/3.6/question/type/essay/renderer.php}
  *  Added logic to get and display Corrected Documents
  * This file is the second version, the changes from the previous version are as follows:
  *  Corrected Documents shown to students if and only if qa is graded.
