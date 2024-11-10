@@ -61,6 +61,7 @@ Feature: The essayannotate new question in a quiz can be annotated by teacher af
     And I wait "3" seconds
     And I annotate the pdf
     And I press "Save"
+    And I wait "1" seconds
     And I should see "File has been saved"
     And I switch to main window
     And I reload the page
@@ -110,6 +111,7 @@ Feature: The essayannotate new question in a quiz can be annotated by teacher af
     And I wait "3" seconds
     And I annotate the pdf
     And I press "Save"
+    And I wait "1" seconds
     And I should see "File has been saved"
     And I switch to main window
     And I reload the page
@@ -159,6 +161,7 @@ Scenario: Student can see the annotated file only after the question is graded
     And I wait "3" seconds
     And I annotate the pdf
     And I press "Save"
+    And I wait "1" seconds
     And I should see "File has been saved"
     And I switch to main window
     And I log out
