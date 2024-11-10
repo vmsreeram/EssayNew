@@ -134,8 +134,8 @@ Feature: The essayannotate new question in a quiz can be annotated by teacher af
     And I wait "5" seconds
     And I should see "Corrected Documents"
 
-@javascript
-Scenario: Student can see the annotated file only after the question is graded
+  @javascript
+  Scenario: Student can see the annotated file only after the question is graded
     When I log in as "student"
     And I am on the "Quiz 1" "quiz activity" page
     And I press "Attempt quiz"
