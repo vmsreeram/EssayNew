@@ -50,7 +50,7 @@ use qtype_essayannotate\helper;
 global $USER, $PAGE;
 
 // The $temppath is the path to the subdirectory essayPDF created in moodle's temp directory.
-$temppath = $CFG->tempdir . '/' . helper::get_essayPDF_path();
+$temppath = $CFG->tempdir . '/' . helper::get_essaypdf_path();
 
 $attemptid = required_param('attempt', PARAM_INT);
 $slot = required_param('slot', PARAM_INT);
@@ -81,7 +81,7 @@ if (!empty($cmid)) {
 require_capability('mod/quiz:grade', $PAGE->context);
 
 // Try to create the subdirectory essayPDF if not exists.
-if (!is_dir($temppath) && !make_temp_directory(helper::get_essayPDF_path(), false)) {
+if (!is_dir($temppath) && !make_temp_directory(helper::get_essaypdf_path(), false)) {
     throw new moodle_exception('mkdir_fail', 'qtype_essayannotate');
 }
 $attemptobj = quiz_create_attempt_handling_errors($attemptid, $cmid);

@@ -121,7 +121,7 @@ class helper {
      *
      * @return string The essayPDF path.
      */
-    public static function get_essayPDF_path() {
+    public static function get_essaypdf_path() {
         return 'essayPDF';
     }
 }
