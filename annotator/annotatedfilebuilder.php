@@ -23,6 +23,8 @@
  * @copyright  2024 IIT Palakkad
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @author     Asha Jose, Parvathy S Kumar (IIT Palakkad)
+ * Updated by Nideesh N, VM Sreeram
+ *    Added prefix to the constants.
  */
 
 define("qtype_essayannotate_BRUSHSIZE", 0.50);

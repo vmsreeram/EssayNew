@@ -24,6 +24,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @author     Parvathy S Kumar, Asha Jose (IIT Palakkad)
  * Updated By  Nideesh N, VM Sreeram (IIT Palakkad)
+ *    Added prefix to the constant RATIO.
  */
 
 require_once('../../../../config.php');
