@@ -31,7 +31,6 @@ $string['annotate_button_label'] = 'Annotate';
 $string['annotated_file'] = 'Annotated file: ';
 $string['annotationstep_default_comment'] = 'Teacher has started grading';
 $string['annotator'] = 'Annotator';
-$string['annotator_page_title'] = 'PDF Annotation And Drawing Markup Plugin Example.';
 $string['answerfiles'] = 'Answer files';
 $string['answertext'] = 'Answer text';
 $string['attachedfiles'] = 'Attachments: {$a}';
