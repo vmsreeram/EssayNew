@@ -37,6 +37,7 @@
  * concurrent annotation of different files by different users.
  * Used Mustache template to render HTML output.
  * Removed script tags and using js_call_amd to load javascript
+ * Removed usage of mkdir to Moodle function make_temp_directory
  */
 
 require_once('../../../../config.php');
