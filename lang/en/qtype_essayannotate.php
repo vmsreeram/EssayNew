@@ -22,6 +22,7 @@
  * @copyright  based on work by Martin Dougiamas  {@link http://moodle.com}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * Updated By  Nideesh N, VM Sreeram (IIT Palakkad)
+ * Added language string for alt text of PDF icon
  */
 
 $string['acceptedfiletypes'] = 'Accepted file types';

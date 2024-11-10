@@ -36,6 +36,7 @@
  *  Updated itemid as the attemptid of the first annotation step.
  *  Show Annotate button to teachers adjacent to the file attachments.
  *  Removed usage of deprecated function file_encode_url
+ *  Using language string for alt text of PDF icon
  */
 
 defined('MOODLE_INTERNAL') || die();
