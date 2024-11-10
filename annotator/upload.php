@@ -187,8 +187,8 @@ require_capability('mod/quiz:grade', $PAGE->context);
 $json = json_decode($annotations, true);
 
 // Referencing the file from the temp directory.
-$essaypdfpath = $CFG->tempdir . get_string('essayPDF_path', 'qtype_essayannotate');
-$file = $essaypdfpath . get_string('dummy_path', 'qtype_essayannotate') . $attemptid . "$" . $slot . "$" . $USER->id . ".pdf";
+$essaypdfpath = $CFG->tempdir . '/essayPDF';
+$file = $essaypdfpath . '/dummy' . $attemptid . "$" . $slot . "$" . $USER->id . ".pdf";
 $tempfile = $essaypdfpath . '/outputmoodle' . $attemptid . "$" . $slot . "$" . $USER->id . ".pdf";
 
 if (file_exists($file)) {

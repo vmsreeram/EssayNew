@@ -48,13 +48,13 @@ use qtype_essayannotate\helper;
 global $USER, $PAGE;
 
 // The $temppath is the path to the subdirectory essayPDF created in moodle's temp directory.
-$temppath = $CFG->tempdir . get_string('essayPDF_path', 'qtype_essayannotate');
+$temppath = $CFG->tempdir . '/essayPDF';
 
 $attemptid = required_param('attempt', PARAM_INT);
 $slot = required_param('slot', PARAM_INT);
 $fileno = required_param('fileno', PARAM_INT);
 $cmid = optional_param('cmid', null, PARAM_INT);
-$dummyfile = $temppath . get_string('dummy_path', 'qtype_essayannotate') . $attemptid . "$" . $slot . "$" . $USER->id . ".pdf";
+$dummyfile = $temppath . '/dummy' . $attemptid . "$" . $slot . "$" . $USER->id . ".pdf";
 if ($cmid == null) {
     $result = helper::getcmid($attemptid);
     if ($result) {
