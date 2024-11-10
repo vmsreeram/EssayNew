@@ -79,7 +79,7 @@ if (!empty($cmid)) {
 require_capability('mod/quiz:grade', $PAGE->context);
 
 // Try to create the subdirectory essayPDF if not exists.
-if (!is_dir($temppath) && !mkdir($temppath, 0777, true)) {
+if (!is_dir($temppath) && !make_temp_directory('essayPDF', false)) {
     throw new moodle_exception('mkdir_fail', 'qtype_essayannotate');
 }
 $attemptobj = quiz_create_attempt_handling_errors($attemptid, $cmid);
