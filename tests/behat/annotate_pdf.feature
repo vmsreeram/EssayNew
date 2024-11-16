@@ -169,6 +169,7 @@ Scenario: Student can see the annotated file only after the question is graded
     And I switch to main window
     And I log out
 
+    And I wait "5" seconds
     And I log in as "student"
     And I am on the "Quiz 1" "quiz activity" page
     And I follow "Review"
@@ -186,6 +187,7 @@ Scenario: Student can see the annotated file only after the question is graded
     And I switch to main window
     And I log out
 
+    And I wait "5" seconds
     And I log in as "student"
     And I am on the "Quiz 1" "quiz activity" page
     And I follow "Review"
