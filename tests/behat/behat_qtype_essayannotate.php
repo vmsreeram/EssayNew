@@ -108,6 +108,18 @@ class behat_qtype_essayannotate extends behat_base {
     }
 
     /**
+     * Navigating to the new window from current window as comment.php opens in new window
+     *
+     * @Then /^The document should open in a child tab$/
+     */
+    public function document_should_open_in_child_tab() {
+        $session     = $this->getSession();
+        $windownames = $session->getWindowNames();
+        $numwindows = count((array)$windownames);
+        $session->switchToWindow($windownames[$numwindows-1]);
+    }
+    
+    /**
      * Switching back to review.php window from new window opened for annotation
      *
      * @Then /^I switch to main window$/

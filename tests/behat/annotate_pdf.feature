@@ -59,6 +59,7 @@ Feature: The essayannotate new question in a quiz can be annotated by teacher af
     Then The document should open in a new tab
     And I follow "Annotate"
     And I wait "3" seconds
+    Then The document should open in a child tab
     And I annotate the pdf
     And I press "Save"
     And I wait "1" seconds
@@ -109,6 +110,7 @@ Feature: The essayannotate new question in a quiz can be annotated by teacher af
     Then The document should open in a new tab
     And I follow "Annotate"
     And I wait "3" seconds
+    Then The document should open in a child tab
     And I annotate the pdf
     And I press "Save"
     And I wait "1" seconds
@@ -159,6 +161,7 @@ Scenario: Student can see the annotated file only after the question is graded
     Then The document should open in a new tab
     And I follow "Annotate"
     And I wait "3" seconds
+    Then The document should open in a child tab
     And I annotate the pdf
     And I press "Save"
     And I wait "1" seconds

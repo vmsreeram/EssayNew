@@ -58,6 +58,7 @@ Feature: Annotated files can be backed up and restored
     Then The document should open in a new tab
     And I follow "Annotate"
     And I wait "3" seconds
+    Then The document should open in a child tab
     And I annotate the pdf
     And I press "Save"
     And I wait "1" seconds
