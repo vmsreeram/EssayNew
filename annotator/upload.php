@@ -126,7 +126,16 @@ function get_max_bytes() {
     $maxupload = (int)(ini_get('upload_max_filesize'));
     $maxpost = (int)(ini_get('post_max_size'));
     $memorylimit = (int)(ini_get('memory_limit'));
-    $maxmb = min($maxupload, $maxpost, $memorylimit);
+    $maxmb = 0;
+
+    # If memory limit is -1, there is no limit
+    if ($memorylimit != -1) {
+        $maxmb = min($maxupload, $maxpost, $memorylimit);
+    }
+    else {
+        $maxmb = min($maxupload, $maxpost);
+    }
+
     $maxbytes = $maxmb * 1024 * 1024;
 
     $mdlmaxbytes = $CFG->maxbytes;
