@@ -26,8 +26,8 @@
  * @author Nideesh N, VM Sreeram,
  * Asha Jose, Parvathy S Kumar,
  * Tausif Iqbal, Vishal Rao (IIT Palakkad)
- * First version @link {https://github.com/TausifIqbal/moodle_quiz_annotator/blob/main/3.6/mod/quiz/upload.php}
- * Second version @link {https://github.com/Parvathy-S-Kumar/Moodle_Quiz_PDF_Annotator/blob/main/src/common/mod/quiz/upload.php}
+ * First version {@link https://github.com/TausifIqbal/moodle_quiz_annotator/blob/main/3.6/mod/quiz/upload.php}
+ * Second version {@link https://github.com/Parvathy-S-Kumar/Moodle_Quiz_PDF_Annotator/blob/main/src/common/mod/quiz/upload.php}
  * This file is the third version, the changes from the previous version are as follows:
  * Followed security guidelines such as require_login, require_capability, required_param
  * instead of $_POST, escaping shell cmds before execution.
@@ -139,9 +139,9 @@ function get_max_bytes() {
 /**
  * Processes a question attempt step and saves it to the database.
  *
- * @param $quba The question usage by activity object.
- * @param $slot The slot where the question attempt is being made.
- * @param $submitteddata The data submitted for the question attempt.
+ * @param question_usage_by_activity $quba The question usage by activity object.
+ * @param int $slot The slot where the question attempt is being made.
+ * @param array $submitteddata The data submitted for the question attempt.
  */
 function add_question_attempt_step($quba, $slot, $submitteddata) {
     global $DB;
