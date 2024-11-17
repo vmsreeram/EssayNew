@@ -116,9 +116,9 @@ class behat_qtype_essayannotate extends behat_base {
         $session     = $this->getSession();
         $windownames = $session->getWindowNames();
         $numwindows = count((array)$windownames);
-        $session->switchToWindow($windownames[$numwindows-1]);
+        $session->switchToWindow($windownames[$numwindows - 1]);
     }
-    
+
     /**
      * Switching back to review.php window from new window opened for annotation
      *

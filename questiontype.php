@@ -233,7 +233,7 @@ class qtype_essayannotate extends question_type {
      * @param qformat_xml $format
      * @param string $extra (optional, default=null)
      * @return object New question object
-     * 
+     *
      * Modified from import_essay function of question/format/xml/format.php
      */
     public function import_from_xml($data, $question, qformat_xml $format, $extra=null) {
@@ -281,7 +281,7 @@ class qtype_essayannotate extends question_type {
      * @param qformat_xml $format
      * @param string $extra (optional, default=null)
      * @return string XML representation of question
-     * 
+     *
      * Modified from export_to_xml function of question/type/questiontypebase.php.
      */
     public function export_to_xml($question, qformat_xml $format, $extra=null) {
