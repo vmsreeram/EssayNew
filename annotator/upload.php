@@ -192,6 +192,7 @@ $essaypdfpath = $CFG->tempdir . '/' . helper::get_essaypdf_path();
 $file = $essaypdfpath . '/' . helper::get_dummy_path() . $attemptid . "$" . $slot . "$" . $USER->id . ".pdf";
 $tempfile = $essaypdfpath . '/outputmoodle' . $attemptid . "$" . $slot . "$" . $USER->id . ".pdf";
 
+/* */ $fs = get_file_storage();
 if (file_exists($file)) {
     // Calling function to convert the PDF version above 1.4 to 1.4 for compatibility with fpdf.
     $file = convert_pdf_version($file, $essaypdfpath, $attemptid, $slot);
@@ -230,7 +231,7 @@ if (file_exists($tempfile)) {
 
         // Saving the annotated file with $itemid as stepid of annotation step so that it gets marked for backup.
         $itemid = helper::get_first_annotation_comment_step($qa)->get_id();
-        $fs = get_file_storage();
+        // $fs = get_file_storage();
         $fileinfo = [
             'contextid' => $contextid,
             'component' => $component,
