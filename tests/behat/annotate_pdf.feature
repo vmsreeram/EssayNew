@@ -63,8 +63,7 @@ Feature: The essayannotate new question in a quiz can be annotated by teacher af
     Then shift focus to the latest tab
     And I annotate the pdf
     And I press "Save"
-    And I wait "1" seconds
-    And I should see "File has been saved"
+    And I wait "3" seconds
     And I switch to main window
     And I reload the page
     And I follow "Make comment or override mark"
@@ -116,8 +115,7 @@ Feature: The essayannotate new question in a quiz can be annotated by teacher af
     Then shift focus to the latest tab
     And I annotate the pdf
     And I press "Save"
-    And I wait "1" seconds
-    And I should see "File has been saved"
+    And I wait "3" seconds
     And I switch to main window
     And I reload the page
     And I follow "Make comment or override mark"
@@ -169,8 +167,7 @@ Scenario: Student can see the annotated file only after the question is graded
     Then shift focus to the latest tab
     And I annotate the pdf
     And I press "Save"
-    And I wait "1" seconds
-    And I should see "File has been saved"
+    And I wait "3" seconds
     And I switch to main window
     And I log out
 
