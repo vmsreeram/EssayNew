@@ -74,8 +74,8 @@ class helper {
     /**
      * Create URL of the file based on the provided question attempt and file object.
      *
-     * @param $qa The question attempt object.
-     * @param $file The file object.
+     * @param question_attempt $qa The question attempt object.
+     * @param stored_file $file The file object.
      * @return string The URL of the file.
      */
     public static function create_fileurl($qa, $file) {
