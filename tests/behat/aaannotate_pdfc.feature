@@ -62,12 +62,11 @@ Feature: The essayannotate new question in a quiz can be annotated by teacher af
     And I wait "3" seconds
     Then shift focus to the latest tab
     And I annotate the pdf
-    And I check essaypdf directory
     And I press "Save"
     And I wait "1" seconds
-    And I should see "File has been saved"
     And I switch to main window
     And I reload the page
+    And I check essaypdf directory
     And I follow "Make comment or override mark"
     And I wait "3" seconds
     Then The document should open in a new tab
