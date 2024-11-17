@@ -193,6 +193,8 @@ $file = $essaypdfpath . '/' . helper::get_dummy_path() . $attemptid . "$" . $slo
 $tempfile = $essaypdfpath . '/outputmoodle' . $attemptid . "$" . $slot . "$" . $USER->id . ".pdf";
 
 /* */ $fs = get_file_storage();
+if ($fs == null)
+    throw new moodle_exception('pdf_version_error', 'qtype_essayannotate');
 if (file_exists($file)) {
     // Calling function to convert the PDF version above 1.4 to 1.4 for compatibility with fpdf.
     $file = convert_pdf_version($file, $essaypdfpath, $attemptid, $slot);
