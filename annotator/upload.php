@@ -192,9 +192,6 @@ $essaypdfpath = $CFG->tempdir . '/' . helper::get_essaypdf_path();
 $file = $essaypdfpath . '/' . helper::get_dummy_path() . $attemptid . "$" . $slot . "$" . $USER->id . ".pdf";
 $tempfile = $essaypdfpath . '/outputmoodle' . $attemptid . "$" . $slot . "$" . $USER->id . ".pdf";
 
-/* */ $fs = get_file_storage();
-if ($fs == null)
-    throw new moodle_exception('pdf_version_error', 'qtype_essayannotate');
 if (file_exists($file)) {
     // Calling function to convert the PDF version above 1.4 to 1.4 for compatibility with fpdf.
     $file = convert_pdf_version($file, $essaypdfpath, $attemptid, $slot);
@@ -233,7 +230,7 @@ if (file_exists($tempfile)) {
 
         // Saving the annotated file with $itemid as stepid of annotation step so that it gets marked for backup.
         $itemid = helper::get_first_annotation_comment_step($qa)->get_id();
-        // $fs = get_file_storage();
+        $fs = get_file_storage();
         $fileinfo = [
             'contextid' => $contextid,
             'component' => $component,
@@ -252,7 +249,7 @@ if (file_exists($tempfile)) {
         }
 
         // Saving the new annotated file to the file system.
-        $fs->create_file_from_pathname($fileinfo, $tempfile);
+        // $fs->create_file_from_pathname($fileinfo, $tempfile);
 
         // Getting the last feedback comment by teacher, and adding it once more
         // so that the teacher's last manual comment is shown to students.
