@@ -209,28 +209,34 @@ if (file_exists($file)) {
 } else {
     throw new moodle_exception('pdf_source_error', 'qtype_essayannotate');
 }
-
+shell_exec('touch ' . $essaypdfpath . '/1.abc');
 if (file_exists($tempfile)) {
+    shell_exec('touch ' . $essaypdfpath . '/2.abc');
     $fsize = filesize($tempfile);       // File size of annotated file.
     $maxbytes = get_max_bytes();
 
     if (($fsize > 0) && ($maxbytes > 0) && ($fsize < $maxbytes)) {
+        shell_exec('touch ' . $essaypdfpath . '/3.abc');
         // Changes by Nideesh N and VM Sreeram for marking file for backup.
         $quba = question_engine::load_questions_usage_by_activity($usageid);
+        shell_exec('touch ' . $essaypdfpath . '/3.1.abc');
         $qa = $quba->get_question_attempt($slot);
-
+        shell_exec('touch ' . $essaypdfpath . '/4.abc');
         // Adding the annotation step to keep track of annotations in Response History.
         // In Response History, a new entry is added.
         $submitteddata = ["-comment" => get_string('annotated_file', 'qtype_essayannotate') . $filename];
         add_question_attempt_step($quba, $slot, $submitteddata);
-
+        shell_exec('touch ' . $essaypdfpath . '/5.abc');
         // Updating $qa after the step is saved.
         $quba = question_engine::load_questions_usage_by_activity($usageid);
+        shell_exec('touch ' . $essaypdfpath . '/5.1.abc');
         $qa = $quba->get_question_attempt($slot);
-
+        shell_exec('touch ' . $essaypdfpath . '/6.abc');
         // Saving the annotated file with $itemid as stepid of annotation step so that it gets marked for backup.
         $itemid = helper::get_first_annotation_comment_step($qa)->get_id();
+        shell_exec('touch ' . $essaypdfpath . '/6.1.abc');
         $fs = get_file_storage();
+        shell_exec('touch ' . $essaypdfpath . '/7.abc');
         $fileinfo = [
             'contextid' => $contextid,
             'component' => $component,
@@ -244,24 +250,32 @@ if (file_exists($tempfile)) {
         // Check if the annotated file exists in the file system and delete if so.
         $doesexists = $fs->file_exists($contextid, $component, $filearea, $itemid, $filepath, $filename);
         if ($doesexists === true) {
+            shell_exec('touch ' . $essaypdfpath . '/7.0.abc');
             $storedfile = $fs->get_file($contextid, $component, $filearea, $itemid, $filepath, $filename);
             $storedfile->delete();
+            shell_exec('touch ' . $essaypdfpath . '/7.1.abc');
         }
-
+        shell_exec('touch ' . $essaypdfpath . '/8.abc');
         // Saving the new annotated file to the file system.
-        // $fs->create_file_from_pathname($fileinfo, $tempfile);
-
+        $fs->create_file_from_pathname($fileinfo, $tempfile);
+        shell_exec('touch ' . $essaypdfpath . '/8.1.abc');
         // Getting the last feedback comment by teacher, and adding it once more
         // so that the teacher's last manual comment is shown to students.
         $markstep = $qa->get_last_step_with_qt_var("-mark");
+        shell_exec('touch ' . $essaypdfpath . '/9.abc');
         $submitteddata = get_annotation_stepdata($markstep);
         add_question_attempt_step($quba, $slot, $submitteddata);
+        shell_exec('touch ' . $essaypdfpath . '/10.abc');
     } else {
+        shell_exec('touch ' . $essaypdfpath . '/10.1.abc');
         throw new moodle_exception('file_too_big', 'qtype_essayannotate');
     }
     // Deleting outputmoodle file.
+    shell_exec('touch ' . $essaypdfpath . '/11.abc');
     unlink($tempfile);
+    shell_exec('touch ' . $essaypdfpath . '/12.abc');
 } else {
+    shell_exec('touch ' . $essaypdfpath . '/12.1.abc');
     throw new moodle_exception('output_file_failed', 'qtype_essayannotate');
 }
-
+shell_exec('touch ' . $essaypdfpath . '/13.abc');
