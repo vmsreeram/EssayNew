@@ -56,15 +56,19 @@ Feature: The essayannotate new question in a quiz can be annotated by teacher af
     And I follow "Attempts: 1"
     And I follow "Review attempt"
     And I follow "Make comment or override mark"
+    And I wait "3" seconds
     Then The document should open in a new tab
     And I follow "Annotate"
     And I wait "3" seconds
+    Then shift focus to the latest tab
     And I annotate the pdf
     And I press "Save"
+    And I wait "1" seconds
     And I should see "File has been saved"
     And I switch to main window
     And I reload the page
     And I follow "Make comment or override mark"
+    And I wait "3" seconds
     Then The document should open in a new tab
     And I set the field "Mark" to "10"
     And I wait "3" seconds
@@ -105,15 +109,19 @@ Feature: The essayannotate new question in a quiz can be annotated by teacher af
     And I follow "Attempts: 1"
     And I follow "Review attempt"
     And I follow "Make comment or override mark"
+    And I wait "3" seconds
     Then The document should open in a new tab
     And I follow "Annotate"
     And I wait "3" seconds
+    Then shift focus to the latest tab
     And I annotate the pdf
     And I press "Save"
+    And I wait "1" seconds
     And I should see "File has been saved"
     And I switch to main window
     And I reload the page
     And I follow "Make comment or override mark"
+    And I wait "3" seconds
     Then The document should open in a new tab
     And I set the field "Mark" to "10"
     And I wait "3" seconds
@@ -134,8 +142,8 @@ Feature: The essayannotate new question in a quiz can be annotated by teacher af
     And I wait "5" seconds
     And I should see "Corrected Documents"
 
-@javascript
-Scenario: Student can see the annotated file only after the question is graded
+  @javascript
+  Scenario: Student can see the annotated file only after the question is graded
     When I log in as "student"
     And I am on the "Quiz 1" "quiz activity" page
     And I press "Attempt quiz"
@@ -154,15 +162,19 @@ Scenario: Student can see the annotated file only after the question is graded
     And I follow "Attempts: 1"
     And I follow "Review attempt"
     And I follow "Make comment or override mark"
+    And I wait "3" seconds
     Then The document should open in a new tab
     And I follow "Annotate"
     And I wait "3" seconds
+    Then shift focus to the latest tab
     And I annotate the pdf
     And I press "Save"
+    And I wait "1" seconds
     And I should see "File has been saved"
     And I switch to main window
     And I log out
 
+    And I wait "5" seconds
     And I log in as "student"
     And I am on the "Quiz 1" "quiz activity" page
     And I follow "Review"
@@ -173,6 +185,7 @@ Scenario: Student can see the annotated file only after the question is graded
     And I follow "Attempts: 1"
     And I follow "Review attempt"
     And I follow "Make comment or override mark"
+    And I wait "3" seconds
     Then The document should open in a new tab
     And I set the field "Mark" to "10"
     And I wait "3" seconds
@@ -180,6 +193,7 @@ Scenario: Student can see the annotated file only after the question is graded
     And I switch to main window
     And I log out
 
+    And I wait "5" seconds
     And I log in as "student"
     And I am on the "Quiz 1" "quiz activity" page
     And I follow "Review"

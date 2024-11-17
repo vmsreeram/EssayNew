@@ -23,16 +23,18 @@
  * @copyright  2024 IIT Palakkad
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @author     Asha Jose, Parvathy S Kumar (IIT Palakkad)
+ * Updated by Nideesh N, VM Sreeram
+ *    Added prefix to the constants.
  */
 
-define("BRUSHSIZE", 0.50);
-define("FONTTYPE", 'Times');
-define("OPACITY", 0.30);
-define("FULLOPACITY", 1);
-define("FONTRATIO", 1.6);
-define("XOFFSET", 1);
-define("YOFFSET", 1);
-define("ADJUSTPAGESIZE", false);
+define("QTYPE_ESSAYANNOTATE_BRUSHSIZE", 0.50);
+define("QTYPE_ESSAYANNOTATE_FONTTYPE", 'Times');
+define("QTYPE_ESSAYANNOTATE_OPACITY", 0.30);
+define("QTYPE_ESSAYANNOTATE_FULLOPACITY", 1);
+define("QTYPE_ESSAYANNOTATE_FONTRATIO", 1.6);
+define("QTYPE_ESSAYANNOTATE_XOFFSET", 1);
+define("QTYPE_ESSAYANNOTATE_YOFFSET", 1);
+define("QTYPE_ESSAYANNOTATE_ADJUSTPAGESIZE", false);
 
 /**
  * Takes file to annotate and the annotation data passed from upload.php and
@@ -56,7 +58,7 @@ function build_annotated_file($file, $json) {
         $template = $pdf->importPage($i);
         $size = $pdf->getTemplateSize($template);
         $pdf->addPage();
-        $pdf->useTemplate($template, XOFFSET, YOFFSET, $size['width'], $size['height'], ADJUSTPAGESIZE);
+        $pdf->useTemplate($template, QTYPE_ESSAYANNOTATE_XOFFSET, QTYPE_ESSAYANNOTATE_YOFFSET, $size['width'], $size['height'], QTYPE_ESSAYANNOTATE_ADJUSTPAGESIZE);
         $currpage = $json["pages"][$i - 1];
 
         if (count((array)$currpage) == 0) { // To check whether the current page has no annotations.
@@ -92,7 +94,7 @@ function draw_path($arr, $pdf) {
     $list = parser_path($arr);
     $stroke = process_color(end($list));
     $pdf->SetDrawColor($stroke[0], $stroke[1], $stroke[2]);   // R G B of stroke color.
-    $pdf->SetLineWidth(BRUSHSIZE);
+    $pdf->SetLineWidth(QTYPE_ESSAYANNOTATE_BRUSHSIZE);
     for ($k = 0; $k < count($list) - 2; $k++) {
         $pdf->Line($list[$k][0],                      // X1.
         $list[$k][1],                                 // Y1.
@@ -113,9 +115,9 @@ function insert_text($arr, $pdf) {
     $list = parser_text($arr);
     $color = process_color($list[5]);
     $pdf->SetTextColor($color[0], $color[1], $color[2]);       // R G B.
-    $pdf->SetFont(FONTTYPE);
+    $pdf->SetFont(QTYPE_ESSAYANNOTATE_FONTTYPE);
     // Converting fabricjs font size to that of fpdf.
-    $pdf->SetFontSize($list[6] / FONTRATIO);
+    $pdf->SetFontSize($list[6] / QTYPE_ESSAYANNOTATE_FONTRATIO);
     $pdf->text($list[0],                                       // X.
     $list[1] + $list[3],                                       // Y  ( base + height).
     $list[4]);                                                 // Text content.
@@ -133,11 +135,11 @@ function draw_rect($arr, $pdf) {
     $list = parser_rectangle($arr);
     $fill = process_color($list[4]);
     $pdf->SetFillColor($fill[0], $fill[1], $fill[2]);              // R G B.
-    $pdf->SetAlpha(OPACITY);                  // For highlighting.
+    $pdf->SetAlpha(QTYPE_ESSAYANNOTATE_OPACITY);                   // For highlighting.
     $pdf->Rect($list[0],                      // X.
     $list[1],                                 // Y.
     $list[2],                                 // Width.
     $list[3], 'F');                           // Height.
     // F refers to syle fill.
-    $pdf->SetAlpha(FULLOPACITY);              // Setting the opacity back to 1.
+    $pdf->SetAlpha(QTYPE_ESSAYANNOTATE_FULLOPACITY);               // Setting the opacity back to 1.
 }

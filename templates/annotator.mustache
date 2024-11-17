@@ -15,6 +15,23 @@
     along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 }}
 {{!
+    Annotator mustache template
+
+    @package    qtype_essayannotate
+    @copyright  2024 IIT Palakkad
+    @copyright  based on work by Ravisha Hesh
+    @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+
+    Originally taken from Ravisha Hesh : https://github.com/RavishaHesh/PDFJsAnnotations/tree/master
+    @author     Nideesh N, VM Sreeram (IIT Palakkad)
+    changes made by Tausif Iqbal and Vishal Rao
+    (added return to all the onclick callback function
+    and removed onclick function call from i tag and putted it outside)
+    changes made by Asha and Parvathy
+    (Background color of color-tool active changed to black)
+    changes made by Nideesh N and VM Sreeram
+    (Converted HTML format to Mustache for plugin, added messagebox)
+
     @template qtype_essayannotate/annotator
 
     Template for the qtype_essayannotate annotator.
@@ -76,20 +93,11 @@
         ]
     }
 }}
-<!-- 			
-    Originally taken from Ravisha Hesh : https://github.com/RavishaHesh/PDFJsAnnotations/tree/master
-    changes made by Tausif Iqbal and Vishal Rao
-    (added return to all the onclick callback function
-    and removed onclick function call from i tag and putted it outside)
-    changes made by Asha and Parvathy
-    (Background color of color-tool active changed to black)
-    changes made by Nideesh N and VM Sreeram
-    (Converted HTML format to Mustache for plugin, added messagebox)
--->
+
 <div id="essayannotator-annotator" class="annotator">
     <div class="qtype_essayannotate_toolbar">
         <div class="tool">
-            <label id="font-size-label" for=""> {{ font_size }} </label>
+            <label id="font-size-label"> {{ font_size }} </label>
             <select id="font-size" class="form-control">
                 {{# font_sizes }}
                     <option value="{{ value }}" {{# selected }}selected{{/ selected }}>{{ value }}</option>

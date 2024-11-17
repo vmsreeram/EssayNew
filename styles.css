@@ -30,13 +30,9 @@
 
 /* Styles */
 /* Originally taken from Ravisha Hesh : https://github.com/RavishaHesh/PDFJsAnnotations/tree/master */
-/* no changes made from the original file */
-body {
-    background-color: rgb(82, 86, 89);
-}
+/* removed background colour, prefixed class names */
 
-canvas,
-.canvas-container {
+.qtype_essayannotate_canvas-container {
     -webkit-box-shadow: 10px 10px 5px 0 rgba(0, 0, 0, 0.75);
     -moz-box-shadow: 10px 10px 5px 0 rgba(0, 0, 0, 0.75);
     box-shadow: 10px 10px 5px 0 rgba(0, 0, 0, 0.75);
@@ -53,7 +49,7 @@ canvas,
     top: 0;
     left: 0;
     z-index: 10;
-    margin-top: 0px;
+    margin-top: 0;
 }
 
 .qtype_essayannotate_pdf_container {
@@ -62,6 +58,7 @@ canvas,
     text-align: center;
 }
 
+.qtype_essayannotate_toolbar
 button:focus {
     outline: 0;
 }

@@ -26,8 +26,8 @@
  * @author Nideesh N, VM Sreeram,
  * Asha Jose, Parvathy S Kumar,
  * Tausif Iqbal, Vishal Rao (IIT Palakkad)
- * First version @link {https://github.com/TausifIqbal/moodle_quiz_annotator/blob/main/3.6/mod/quiz/upload.php}
- * Second version @link {https://github.com/Parvathy-S-Kumar/Moodle_Quiz_PDF_Annotator/blob/main/src/common/mod/quiz/upload.php}
+ * First version {@link https://github.com/TausifIqbal/moodle_quiz_annotator/blob/main/3.6/mod/quiz/upload.php}
+ * Second version {@link https://github.com/Parvathy-S-Kumar/Moodle_Quiz_PDF_Annotator/blob/main/src/common/mod/quiz/upload.php}
  * This file is the third version, the changes from the previous version are as follows:
  * Followed security guidelines such as require_login, require_capability, required_param
  * instead of $_POST, escaping shell cmds before execution.
@@ -41,6 +41,7 @@
  * Then save it temporarily in 'essayPDF' subdirectory in Moodle's temp directory.
  *
  * Then create new file in databse using this temporary file.
+ * Removed get_string usage in paths and changed to use helper functions
  */
 
 require_once('../../../../config.php');
@@ -125,7 +126,16 @@ function get_max_bytes() {
     $maxupload = (int)(ini_get('upload_max_filesize'));
     $maxpost = (int)(ini_get('post_max_size'));
     $memorylimit = (int)(ini_get('memory_limit'));
-    $maxmb = min($maxupload, $maxpost, $memorylimit);
+    $maxmb = 0;
+
+    # If memory limit is -1, there is no limit
+    if ($memorylimit != -1) {
+        $maxmb = min($maxupload, $maxpost, $memorylimit);
+    }
+    else {
+        $maxmb = min($maxupload, $maxpost);
+    }
+
     $maxbytes = $maxmb * 1024 * 1024;
 
     $mdlmaxbytes = $CFG->maxbytes;
@@ -138,9 +148,9 @@ function get_max_bytes() {
 /**
  * Processes a question attempt step and saves it to the database.
  *
- * @param $quba The question usage by activity object.
- * @param $slot The slot where the question attempt is being made.
- * @param $submitteddata The data submitted for the question attempt.
+ * @param question_usage_by_activity $quba The question usage by activity object.
+ * @param int $slot The slot where the question attempt is being made.
+ * @param array $submitteddata The data submitted for the question attempt.
  */
 function add_question_attempt_step($quba, $slot, $submitteddata) {
     global $DB;
@@ -187,8 +197,8 @@ require_capability('mod/quiz:grade', $PAGE->context);
 $json = json_decode($annotations, true);
 
 // Referencing the file from the temp directory.
-$essaypdfpath = $CFG->tempdir . get_string('essayPDF_path', 'qtype_essayannotate');
-$file = $essaypdfpath . get_string('dummy_path', 'qtype_essayannotate') . $attemptid . "$" . $slot . "$" . $USER->id . ".pdf";
+$essaypdfpath = $CFG->tempdir . '/' . helper::get_essaypdf_path();
+$file = $essaypdfpath . '/' . helper::get_dummy_path() . $attemptid . "$" . $slot . "$" . $USER->id . ".pdf";
 $tempfile = $essaypdfpath . '/outputmoodle' . $attemptid . "$" . $slot . "$" . $USER->id . ".pdf";
 
 if (file_exists($file)) {
@@ -217,7 +227,6 @@ if (file_exists($tempfile)) {
         // Changes by Nideesh N and VM Sreeram for marking file for backup.
         $quba = question_engine::load_questions_usage_by_activity($usageid);
         $qa = $quba->get_question_attempt($slot);
-
         // Adding the annotation step to keep track of annotations in Response History.
         // In Response History, a new entry is added.
         $submitteddata = ["-comment" => get_string('annotated_file', 'qtype_essayannotate') . $filename];
@@ -246,7 +255,6 @@ if (file_exists($tempfile)) {
             $storedfile = $fs->get_file($contextid, $component, $filearea, $itemid, $filepath, $filename);
             $storedfile->delete();
         }
-
         // Saving the new annotated file to the file system.
         $fs->create_file_from_pathname($fileinfo, $tempfile);
 
@@ -263,4 +271,3 @@ if (file_exists($tempfile)) {
 } else {
     throw new moodle_exception('output_file_failed', 'qtype_essayannotate');
 }
-

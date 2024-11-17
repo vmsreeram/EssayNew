@@ -24,6 +24,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @author     Parvathy S Kumar, Asha Jose (IIT Palakkad)
  * Updated By  Nideesh N, VM Sreeram (IIT Palakkad)
+ *    Added prefix to the constant RATIO.
  */
 
 require_once('../../../../config.php');
@@ -31,14 +32,14 @@ require_login();
 
 defined('MOODLE_INTERNAL') || die();
 
-define("RATIO", 0.238); // Ratio to convert FabricJS objects to FPDF objects.
+define("QTYPE_ESSAYANNOTATE_RATIO", 0.238); // Ratio to convert FabricJS objects to FPDF objects.
 /**
  * for finding corresponding size of fpdf object given a fabricjs object
  * @param float $fabricjsunit variable corresponding to FabricJS distance unit(px)
  * @return $fpdfunit corresponding distance unit value in FPDF
  */
 function normalize($fabricjsunit) {
-    $fpdfunit = RATIO * $fabricjsunit;
+    $fpdfunit = QTYPE_ESSAYANNOTATE_RATIO * $fabricjsunit;
     return $fpdfunit;
 }
 
@@ -98,7 +99,7 @@ function parser_text($arrtext) {
  * deserialize it, taking the relevant data to convert the Rect to an FPDF Rect object.
  * scaling factor is also taken into consideration while transforming.
  *
- * @param object $arrRect the array containing data related to a Rect object.
+ * @param object $arrrect the array containing data related to a Rect object.
  * @return $list deserialized data in FPDF Rect format
  */
 function parser_rectangle($arrrect) {
@@ -118,7 +119,7 @@ function parser_rectangle($arrrect) {
  * Given a string containing the color data in fabricJS format,
  * return the corresponding color values in [r,g,b]
  *
- * @param string $colorString the string containing color data
+ * @param string $colorstring the string containing color data
  * @return array $rgb colors in [r,g,b] format
  */
 function process_color($colorstring) {

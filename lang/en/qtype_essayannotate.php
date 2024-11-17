@@ -22,6 +22,8 @@
  * @copyright  based on work by Martin Dougiamas  {@link http://moodle.com}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * Updated By  Nideesh N, VM Sreeram (IIT Palakkad)
+ * Added language string for alt text of PDF icon
+ * Removed usage of paths from language file
  */
 
 $string['acceptedfiletypes'] = 'Accepted file types';
@@ -38,13 +40,11 @@ $string['attachmentsoptional'] = 'Attachments are optional';
 $string['attachmentsrequired'] = 'Require attachments';
 $string['attachmentsrequired_help'] = 'This option specifies the minimum number of attachments required for a response to be considered gradable.';
 $string['corrected_documents'] = 'Corrected Documents';
-$string['dummy_path'] = '/dummy';
 $string['err_maxminmismatch'] = 'Maximum word limit must be greater than minimum word limit';
 $string['err_maxwordlimit'] = 'Maximum word limit is enabled but is not set';
 $string['err_maxwordlimitnegative'] = 'Maximum word limit cannot be a negative number';
 $string['err_minwordlimit'] = 'Minimum word limit is enabled but is not set';
 $string['err_minwordlimitnegative'] = 'Minimum word limit cannot be a negative number';
-$string['essayPDF_path'] = '/essayPDF';
 $string['file_not_saved_message'] = 'Not able to save the file';
 $string['file_saved_message'] = 'File has been saved';
 $string['file_too_big'] = 'Too big file';
@@ -76,6 +76,7 @@ $string['mustrequirefewer'] = 'You cannot require more attachments than you allo
 $string['nlines'] = '{$a} lines';
 $string['nonexistentfiletypes'] = 'The following file types were not recognised: {$a}';
 $string['output_file_failed'] = 'Failed to create output file';
+$string['pdf_icon_alt_txt'] = 'PDF document';
 $string['pdf_source_error'] = 'Source PDF not found!';
 $string['pdf_version_error'] = 'PDF Version incompatible';
 $string['permission_denied'] = 'Cannot read file. Either the file does not exist or there is a permission problem.';

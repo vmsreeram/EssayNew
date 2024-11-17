@@ -108,6 +108,18 @@ class behat_qtype_essayannotate extends behat_base {
     }
 
     /**
+     * Navigating to the new window from current window as comment.php opens in new window
+     *
+     * @Then /^shift focus to the latest tab$/
+     */
+    public function shift_focus_to_latest_tab() {
+        $session     = $this->getSession();
+        $windownames = $session->getWindowNames();
+        $numwindows = count((array)$windownames);
+        $session->switchToWindow($windownames[$numwindows - 1]);
+    }
+
+    /**
      * Switching back to review.php window from new window opened for annotation
      *
      * @Then /^I switch to main window$/
@@ -117,5 +129,4 @@ class behat_qtype_essayannotate extends behat_base {
         $windownames = $session->getWindowNames();
         $session->switchToWindow($windownames[0]);
     }
-
 }

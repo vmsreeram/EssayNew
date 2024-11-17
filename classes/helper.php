@@ -21,6 +21,8 @@
  * @copyright  2024 IIT Palakkad
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @author     Nideesh N, VM Sreeram
+ *   Removed usage of deprecated function file_encode_url
+ *   Added helper functions for retrieving hardcoded repeated paths
  */
 
 namespace qtype_essayannotate;
@@ -72,21 +74,21 @@ class helper {
     /**
      * Create URL of the file based on the provided question attempt and file object.
      *
-     * @param $qa The question attempt object.
-     * @param $file The file object.
+     * @param question_attempt $qa The question attempt object.
+     * @param stored_file $file The file object.
      * @return string The URL of the file.
      */
     public static function create_fileurl($qa, $file) {
         // Create url of this file.
-        $url = file_encode_url(new moodle_url('/pluginfile.php'), '/' . implode('/', [
+        $urlpath = '/' . implode('/', [
             $file->get_contextid(),
             $file->get_component(),
             $file->get_filearea(),
             $qa->get_usage_id(),
             $qa->get_slot(),
             $file->get_itemid()]) .
-            $file->get_filepath() . $file->get_filename(), true);
-        $url = (explode("?", $url))[0];     // Remove '?forcedownload=1' from the end of the url.
+            $file->get_filepath() . $file->get_filename();
+        $url = moodle_url::make_file_url(new moodle_url('/pluginfile.php'), $urlpath)->__toString();
         return $url;
     }
 
@@ -103,5 +105,23 @@ class helper {
         $format = explode(".", $filename);
         $format = end($format);
         return [$filename, $format];
+    }
+
+    /**
+     * Retrieves the dummy path.
+     *
+     * @return string The dummy path.
+     */
+    public static function get_dummy_path() {
+        return 'dummy';
+    }
+
+    /**
+     * Retrieves the essayPDF path.
+     *
+     * @return string The essayPDF path.
+     */
+    public static function get_essaypdf_path() {
+        return 'essayPDF';
     }
 }

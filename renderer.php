@@ -28,13 +28,15 @@
  * Updated for question/type/essayannotate plugin
  * @author Nideesh N, VM Sreeram,
  * Tausif Iqbal, Vishal Rao (IIT Palakkad)
- * First version @link {https://github.com/TausifIqbal/moodle_quiz_annotator/blob/main/3.6/question/type/essay/renderer.php}
+ * First version {@link https://github.com/TausifIqbal/moodle_quiz_annotator/blob/main/3.6/question/type/essay/renderer.php}
  *  Added logic to get and display Corrected Documents
  * This file is the second version, the changes from the previous version are as follows:
  *  Corrected Documents shown to students if and only if qa is graded.
  *  Followed Moodle coding conventions by adding language strings.
  *  Updated itemid as the attemptid of the first annotation step.
  *  Show Annotate button to teachers adjacent to the file attachments.
+ *  Removed usage of deprecated function file_encode_url
+ *  Using language string for alt text of PDF icon
  */
 
 defined('MOODLE_INTERNAL') || die();
@@ -152,18 +154,19 @@ class qtype_essayannotate_renderer extends qtype_renderer {
             $doesexists = $fs->file_exists($contextid, $component, $filearea, $itemid, $filepath, $filename);
             if ($doesexists === true) {
                 $file = $fs->get_file($contextid, $component, $filearea, $itemid, $filepath, $filename);
-                $temp = file_encode_url(new moodle_url('/pluginfile.php'), '/' . implode('/', [
+                $urlpath = '/' . implode('/', [
                     $file->get_contextid(),
                     $file->get_component(),
                     $file->get_filearea(),
                     $qa->get_usage_id(),
                     $qa->get_slot(),
                     $file->get_itemid()]) .
-                    $file->get_filepath() . $file->get_filename(), true);
+                    $file->get_filepath() . $file->get_filename();
+                $temp = moodle_url::make_file_url(new moodle_url('/pluginfile.php'), $urlpath, true)->__toString();
                 $fileurl = $temp;
             }
             if (!empty($fileurl) && !empty($filename)) {
-                $icon = $this->output->pix_icon('f/pdf', "PDF document", 'core', ['class' => 'icon']);
+                $icon = $this->output->pix_icon('f/pdf', get_string('pdf_icon_alt_txt', 'qtype_essayannotate'), 'core', ['class' => 'icon']);
                 $annotatedfiles .= html_writer::tag('p', html_writer::link($fileurl, $icon . $filename));
             }
         }

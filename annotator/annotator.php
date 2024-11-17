@@ -26,8 +26,8 @@
  * @author Nideesh N, VM Sreeram,
  * Asha Jose, Parvathy S Kumar,
  * Tausif Iqbal, Vishal Rao (IIT Palakkad)
- * First version @link {https://github.com/TausifIqbal/moodle_quiz_annotator/blob/main/3.6/mod/quiz/annotator.php}
- * Second version @link {https://github.com/Parvathy-S-Kumar/Moodle_Quiz_PDF_Annotator/blob/main/src/common/mod/quiz/annotator.php}
+ * First version {@link https://github.com/TausifIqbal/moodle_quiz_annotator/blob/main/3.6/mod/quiz/annotator.php}
+ * Second version {@link https://github.com/Parvathy-S-Kumar/Moodle_Quiz_PDF_Annotator/blob/main/src/common/mod/quiz/annotator.php}
  * This file is the third version, the changes from the previous version are as follows:
  * Changed code to follow security guidelines such as require_login, require_capability, escaping shell cmds before execution.
  * Updated the logic for checking filetype is PDF by using mimetype and extension.
@@ -37,10 +37,12 @@
  * concurrent annotation of different files by different users.
  * Used Mustache template to render HTML output.
  * Removed script tags and using js_call_amd to load javascript
+ * Removed usage of mkdir to Moodle function make_temp_directory
+ * Removed get_string usage in paths and changed to use helper functions
  */
 
 require_once('../../../../config.php');
-require_once('annotatorMustacheConfig.php');
+require_once('annotatormustacheconfig.php');
 require_once('../../../../mod/quiz/locallib.php');
 require_login();
 use qtype_essayannotate\helper;
@@ -48,13 +50,13 @@ use qtype_essayannotate\helper;
 global $USER, $PAGE;
 
 // The $temppath is the path to the subdirectory essayPDF created in moodle's temp directory.
-$temppath = $CFG->tempdir . get_string('essayPDF_path', 'qtype_essayannotate');
+$temppath = $CFG->tempdir . '/' . helper::get_essaypdf_path();
 
 $attemptid = required_param('attempt', PARAM_INT);
 $slot = required_param('slot', PARAM_INT);
 $fileno = required_param('fileno', PARAM_INT);
 $cmid = optional_param('cmid', null, PARAM_INT);
-$dummyfile = $temppath . get_string('dummy_path', 'qtype_essayannotate') . $attemptid . "$" . $slot . "$" . $USER->id . ".pdf";
+$dummyfile = $temppath . '/' . helper::get_dummy_path() . $attemptid . "$" . $slot . "$" . $USER->id . ".pdf";
 if ($cmid == null) {
     $result = helper::getcmid($attemptid);
     if ($result) {
@@ -79,7 +81,7 @@ if (!empty($cmid)) {
 require_capability('mod/quiz:grade', $PAGE->context);
 
 // Try to create the subdirectory essayPDF if not exists.
-if (!is_dir($temppath) && !mkdir($temppath, 0777, true)) {
+if (!is_dir($temppath) && !make_temp_directory(helper::get_essaypdf_path(), false)) {
     throw new moodle_exception('mkdir_fail', 'qtype_essayannotate');
 }
 $attemptobj = quiz_create_attempt_handling_errors($attemptid, $cmid);
