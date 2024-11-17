@@ -110,9 +110,9 @@ class behat_qtype_essayannotate extends behat_base {
     /**
      * Navigating to the new window from current window as comment.php opens in new window
      *
-     * @Then /^The document should open in a child tab$/
+     * @Then /^shift focus to the latest tab$/
      */
-    public function document_should_open_in_child_tab() {
+    public function shift_focus_to_latest_tab() {
         $session     = $this->getSession();
         $windownames = $session->getWindowNames();
         $numwindows = count((array)$windownames);

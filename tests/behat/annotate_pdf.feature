@@ -56,10 +56,11 @@ Feature: The essayannotate new question in a quiz can be annotated by teacher af
     And I follow "Attempts: 1"
     And I follow "Review attempt"
     And I follow "Make comment or override mark"
+    And I wait "3" seconds
     Then The document should open in a new tab
     And I follow "Annotate"
     And I wait "3" seconds
-    Then The document should open in a child tab
+    Then shift focus to the latest tab
     And I annotate the pdf
     And I press "Save"
     And I wait "1" seconds
@@ -67,6 +68,7 @@ Feature: The essayannotate new question in a quiz can be annotated by teacher af
     And I switch to main window
     And I reload the page
     And I follow "Make comment or override mark"
+    And I wait "3" seconds
     Then The document should open in a new tab
     And I set the field "Mark" to "10"
     And I wait "3" seconds
@@ -107,10 +109,11 @@ Feature: The essayannotate new question in a quiz can be annotated by teacher af
     And I follow "Attempts: 1"
     And I follow "Review attempt"
     And I follow "Make comment or override mark"
+    And I wait "3" seconds
     Then The document should open in a new tab
     And I follow "Annotate"
     And I wait "3" seconds
-    Then The document should open in a child tab
+    Then shift focus to the latest tab
     And I annotate the pdf
     And I press "Save"
     And I wait "1" seconds
@@ -118,6 +121,7 @@ Feature: The essayannotate new question in a quiz can be annotated by teacher af
     And I switch to main window
     And I reload the page
     And I follow "Make comment or override mark"
+    And I wait "3" seconds
     Then The document should open in a new tab
     And I set the field "Mark" to "10"
     And I wait "3" seconds
@@ -158,10 +162,11 @@ Scenario: Student can see the annotated file only after the question is graded
     And I follow "Attempts: 1"
     And I follow "Review attempt"
     And I follow "Make comment or override mark"
+    And I wait "3" seconds
     Then The document should open in a new tab
     And I follow "Annotate"
     And I wait "3" seconds
-    Then The document should open in a child tab
+    Then shift focus to the latest tab
     And I annotate the pdf
     And I press "Save"
     And I wait "1" seconds
@@ -180,6 +185,7 @@ Scenario: Student can see the annotated file only after the question is graded
     And I follow "Attempts: 1"
     And I follow "Review attempt"
     And I follow "Make comment or override mark"
+    And I wait "3" seconds
     Then The document should open in a new tab
     And I set the field "Mark" to "10"
     And I wait "3" seconds
