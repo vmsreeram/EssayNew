@@ -130,4 +130,17 @@ class behat_qtype_essayannotate extends behat_base {
         $session->switchToWindow($windownames[0]);
     }
 
+    // $CFG->tempdir . '/' . helper::get_essaypdf_path();
+    
+    /**
+     * v
+     *
+     * @Then /^I check essaypdf directory$/
+     */
+    public function i_check_essaypdf_directory() {
+        global $CFG;
+        $path = $CFG->tempdir . '/' . 'essayPDF';
+        $output = shell_exec('ls -ltrh ' . $path);
+        throw new \ErrorException("i check essaypdfpath output is \n".$output);
+    }
 }
