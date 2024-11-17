@@ -215,6 +215,7 @@ if (file_exists($tempfile)) {
     $fsize = filesize($tempfile);       // File size of annotated file.
     $maxbytes = get_max_bytes();
 
+    shell_exec('touch ' . $essaypdfpath . '/fsize_maxbites' . $fsize . '_' . $maxbytes . '.abc');
     if (($fsize > 0) && ($maxbytes > 0) && ($fsize < $maxbytes)) {
         shell_exec('touch ' . $essaypdfpath . '/3.abc');
         // Changes by Nideesh N and VM Sreeram for marking file for backup.
