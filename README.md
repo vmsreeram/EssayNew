@@ -1,5 +1,5 @@
 ## About the plugin
-The essay annotate question type is an extension to [essay question type](https://docs.moodle.org/404/en/Essay_question_type) that allows the teacher to annotate the files uploaded as attachments by the student in an answer. The file types supported include PDF and those with mime type image or text such as `.png`, `.jpeg`, `.py`, `.c`, `.cpp`, and `.txt`. The user documentation can be found in the [Wiki section](https://github.com/vmsreeram/moodle-qtype_essayannotate/wiki).
+The essay annotate question type is an extension to [essay question type](https://docs.moodle.org/404/en/Essay_question_type) that allows the teacher to annotate the files uploaded as attachments by the student in an answer. The file types supported include PDF and those with mime type image (such as `.png` and `.jpeg`) and mime type text (such as `.py`, `.c`, `.cpp`, and `.txt`). The plugin requires the permission to execute external binary files on the Moodle server. The user documentation can be found in the [Wiki section](https://github.com/vmsreeram/moodle-qtype_essayannotate/wiki).
 
 Technical report and demo video can be found [here](https://github.com/vmsreeram/moodle-qtype_essayannotate-documentation).
 
