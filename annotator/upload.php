@@ -81,9 +81,9 @@ function convert_pdf_version($file, $essaypdfpath, $attemptid, $slot) {
             $gspath = get_config('qtype_essayannotate', 'ghostscriptpath');
             $command = $gspath . ' -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dNOPAUSE -dBATCH -sOutputFile="' . $srcfilenew . '" "' . $srcfile . '"'.'  2>&1';
             $safecommand = escapeshellcmd($command);
-            $shelloutput = shell_exec($safecommand);
+            $shelloutput = exec($safecommand);
 
-            if (is_null($shelloutput)) {
+            if ($shelloutput === false) {
                 throw new moodle_exception('gs_fail', 'qtype_essayannotate');
             }
             $file = $srcfilenew;

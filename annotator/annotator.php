@@ -182,10 +182,13 @@ if ($doesexists === true) {
 
     // Execute the commands of imagemagick(Convert texts and images to PDF).
     $safecommand = escapeshellcmd($command);
-    $shelloutput = shell_exec($safecommand);
+    $shelloutput = exec($safecommand);
 
     unlink($filetoconvert);
 
+    if ($shelloutput === false) {
+        throw new moodle_exception('imagemagick_fail', 'qtype_essayannotate');
+    }
     // Create a PDF file in moodle database from the above created PDF file.
     $fileinfo = [
         'contextid' => $contextid,
