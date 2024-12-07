@@ -49,118 +49,7 @@ require_once('../../../../mod/quiz/locallib.php');
 require(__DIR__ . '/annotatedfilebuilder.php');
 require(__DIR__ . '/parser.php');
 require(__DIR__ . '/alphapdf.php');
-use qtype_essayannotate\helper;
-
-
-/**
- * To convert PDF versions to 1.4 if the version is above it
- * since FPDI parser will only work for PDF versions upto 1.4.
- * Given a file and its path, the file converted to version 1.4 is returned,
- * if version is above it else, the original file is retured.
- *
- * @param string $file the path to the pdf file
- * @param string $essaypdfpath the path where the file exists
- * @param int $attemptid the attempt id
- * @param int $slot the slot id
- * @return $file the path to thepdf file after conversion (if necessary)
- */
-function convert_pdf_version($file, $essaypdfpath, $attemptid, $slot) {
-    global $USER;
-    $filepdf = fopen($file, "r");
-    if ($filepdf) {
-        $linefirst = fgets($filepdf);
-        preg_match_all('!\d+!', $linefirst, $matches);
-        // Save that number in a variable.
-        $pdfversion = implode('.', $matches[0]);
-        if ($pdfversion > "1.4") {
-            // Filename contains attemptid, slot, userid so that multiple files can be annotated simultaneously.
-            $srcfilenew = $essaypdfpath . "/newdummy" . $attemptid . "$" . $slot . "$" . $USER->id . ".pdf";
-            $srcfile = $file;
-            // Using Ghostscript convert the pdf version to 1.4.
-            // Getting Ghostscript path from settings page of plugin.
-            $gspath = get_config('qtype_essayannotate', 'ghostscriptpath');
-            $command = $gspath . ' -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dNOPAUSE -dBATCH -sOutputFile="' . $srcfilenew . '" "' . $srcfile . '"'.'  2>&1';
-            $safecommand = escapeshellcmd($command);
-            $shelloutput = exec($safecommand);
-
-            if ($shelloutput === false) {
-                throw new moodle_exception('gs_fail', 'qtype_essayannotate');
-            }
-            $file = $srcfilenew;
-            unlink($srcfile);          // To remove original dummy file.
-        }
-        fclose($filepdf);
-    }
-
-    return $file;
-}
-
-/**
- * Get the annotation step data based on the provided $markstep object.
- *
- * @param object $markstep The markstep object to retrieve data from.
- * @return array The array containing the submitted data.
- */
-function get_annotation_stepdata($markstep) {
-    $submitteddata = [];
-    if ($markstep->get_state() != question_state::$unprocessed) {
-        // So that the teacher's last manual comment is shown to students.
-        $submitteddata["-maxmark"] = $markstep->get_qt_var("-maxmark");
-        $submitteddata["-mark"] = $markstep->get_qt_var("-mark");
-        $submitteddata["-commentformat"] = $markstep->get_qt_var("-commentformat");
-        $submitteddata["-comment"] = $markstep->get_qt_var("-comment");
-    } else {
-        // So that the annotated step comment does not get revealed to students.
-        $submitteddata["-comment"] = get_string('annotationstep_default_comment', 'qtype_essayannotate');
-        $submitteddata["-mark"] = '';
-    }
-    return $submitteddata;
-}
-
-/**
- * Get the maximum number of bytes allowed for file uploads, considering various limits.
- * @return int The maximum number of bytes allowed for file uploads.
- */
-function get_max_bytes() {
-    global $CFG;
-    $maxupload = (int)(ini_get('upload_max_filesize'));
-    $maxpost = (int)(ini_get('post_max_size'));
-    $memorylimit = (int)(ini_get('memory_limit'));
-    $maxmb = 0;
-
-    # If memory limit is -1, there is no limit
-    if ($memorylimit != -1) {
-        $maxmb = min($maxupload, $maxpost, $memorylimit);
-    }
-    else {
-        $maxmb = min($maxupload, $maxpost);
-    }
-
-    $maxbytes = $maxmb * 1024 * 1024;
-
-    $mdlmaxbytes = $CFG->maxbytes;
-    if ($mdlmaxbytes > 0) {
-        $maxbytes = min($maxbytes, $mdlmaxbytes);
-    }
-    return $maxbytes;
-}
-
-/**
- * Processes a question attempt step and saves it to the database.
- *
- * @param question_usage_by_activity $quba The question usage by activity object.
- * @param int $slot The slot where the question attempt is being made.
- * @param array $submitteddata The data submitted for the question attempt.
- */
-function add_question_attempt_step($quba, $slot, $submitteddata) {
-    global $DB;
-    $quba->process_action($slot, $submitteddata);
-
-    // Saving the step to database.
-    $transaction = $DB->start_delegated_transaction();
-    question_engine::save_questions_usage_by_activity($quba);
-    $transaction->allow_commit();
-}
+require('../classes/helper.php');
 
 require_login();
 // Getting all the data from pdfannotate.js.
@@ -176,7 +65,7 @@ $filepath = '/';
 
 global $USER, $DB;
 
-$result = helper::getcmid($attemptid);
+$result = qtype_essayannotate_helper::getcmid($attemptid);
 
 if ($result) {
     $cmid = $result->cmid;
@@ -197,13 +86,13 @@ require_capability('mod/quiz:grade', $PAGE->context);
 $json = json_decode($annotations, true);
 
 // Referencing the file from the temp directory.
-$essaypdfpath = $CFG->tempdir . '/' . helper::get_essaypdf_path();
-$file = $essaypdfpath . '/' . helper::get_dummy_path() . $attemptid . "$" . $slot . "$" . $USER->id . ".pdf";
+$essaypdfpath = $CFG->tempdir . '/' . qtype_essayannotate_helper::get_essaypdf_path();
+$file = $essaypdfpath . '/' . qtype_essayannotate_helper::get_dummy_path() . $attemptid . "$" . $slot . "$" . $USER->id . ".pdf";
 $tempfile = $essaypdfpath . '/outputmoodle' . $attemptid . "$" . $slot . "$" . $USER->id . ".pdf";
 
 if (file_exists($file)) {
     // Calling function to convert the PDF version above 1.4 to 1.4 for compatibility with fpdf.
-    $file = convert_pdf_version($file, $essaypdfpath, $attemptid, $slot);
+    $file = qtype_essayannotate_helper::convert_pdf_version($file, $essaypdfpath, $attemptid, $slot);
 
     // Using FPDF and FPDI to annotate.
     if (file_exists($file)) {
@@ -221,7 +110,7 @@ if (file_exists($file)) {
 
 if (file_exists($tempfile)) {
     $fsize = filesize($tempfile);       // File size of annotated file.
-    $maxbytes = get_max_bytes();
+    $maxbytes = qtype_essayannotate_helper::get_max_bytes();
 
     if (($fsize > 0) && ($maxbytes > 0) && ($fsize < $maxbytes)) {
         // Changes by Nideesh N and VM Sreeram for marking file for backup.
@@ -230,14 +119,14 @@ if (file_exists($tempfile)) {
         // Adding the annotation step to keep track of annotations in Response History.
         // In Response History, a new entry is added.
         $submitteddata = ["-comment" => get_string('annotated_file', 'qtype_essayannotate') . $filename];
-        add_question_attempt_step($quba, $slot, $submitteddata);
+        qtype_essayannotate_helper::add_question_attempt_step($quba, $slot, $submitteddata);
 
         // Updating $qa after the step is saved.
         $quba = question_engine::load_questions_usage_by_activity($usageid);
         $qa = $quba->get_question_attempt($slot);
 
         // Saving the annotated file with $itemid as stepid of annotation step so that it gets marked for backup.
-        $itemid = helper::get_first_annotation_comment_step($qa)->get_id();
+        $itemid = qtype_essayannotate_helper::get_first_annotation_comment_step($qa)->get_id();
         $fs = get_file_storage();
         $fileinfo = [
             'contextid' => $contextid,
@@ -261,8 +150,8 @@ if (file_exists($tempfile)) {
         // Getting the last feedback comment by teacher, and adding it once more
         // so that the teacher's last manual comment is shown to students.
         $markstep = $qa->get_last_step_with_qt_var("-mark");
-        $submitteddata = get_annotation_stepdata($markstep);
-        add_question_attempt_step($quba, $slot, $submitteddata);
+        $submitteddata = qtype_essayannotate_helper::get_annotation_stepdata($markstep);
+        qtype_essayannotate_helper::add_question_attempt_step($quba, $slot, $submitteddata);
     } else {
         throw new moodle_exception('file_too_big', 'qtype_essayannotate');
     }
