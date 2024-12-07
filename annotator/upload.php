@@ -49,7 +49,7 @@ require_once('../../../../mod/quiz/locallib.php');
 require(__DIR__ . '/annotatedfilebuilder.php');
 require(__DIR__ . '/parser.php');
 require(__DIR__ . '/alphapdf.php');
-require('../classes/helper.php');
+require_once('../classes/helper.php');
 
 require_login();
 // Getting all the data from pdfannotate.js.
@@ -96,7 +96,7 @@ if (file_exists($file)) {
 
     // Using FPDF and FPDI to annotate.
     if (file_exists($file)) {
-        $pdf = build_annotated_file($file, $json);
+        $pdf = qtype_essayannotate_annotatedfilebuilder::build_annotated_file($file, $json);
         // Deleting dummy.pdf .
         unlink($file);
         // Creating output moodle file for loading into database.

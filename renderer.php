@@ -40,7 +40,7 @@
  */
 
 defined('MOODLE_INTERNAL') || die();
-require('classes/helper.php');
+require_once('classes/helper.php');
 
 /**
  * Generates the output for essayannotate questions.

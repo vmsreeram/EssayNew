@@ -44,7 +44,7 @@
 require_once('../../../../config.php');
 require_once('annotatormustacheconfig.php');
 require_once('../../../../mod/quiz/locallib.php');
-require('../classes/helper.php');
+require_once('../classes/helper.php');
 require_login();
 
 global $USER, $PAGE;
