@@ -218,7 +218,7 @@ if (!(file_exists($dummyfile))) {
 $contextid = strval($contextid);
 $slot = strval($slot);
 // Render the annotator UI.
-$data = get_annotator_mustache_config();
+$data = qtype_essayannotate_annotator_mustache_config::get_annotator_mustache_config();
 
 // Calling init function of pdfannotate.js and clickhandlers.js for setting the necessary parameters.
 $PAGE->requires->js_call_amd('qtype_essayannotate/pdfannotate', 'init', [$contextid, $attemptid, $filename, $usageid, $slot]);

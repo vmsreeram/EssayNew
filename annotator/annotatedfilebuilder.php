@@ -27,6 +27,7 @@
  *    Added prefix to the constants.
  */
 
+require_once('parser.php');
 define("QTYPE_ESSAYANNOTATE_BRUSHSIZE", 0.50);
 define("QTYPE_ESSAYANNOTATE_FONTTYPE", 'Times');
 define("QTYPE_ESSAYANNOTATE_OPACITY", 0.30);
@@ -92,8 +93,8 @@ class qtype_essayannotate_annotatedfilebuilder {
      * @param object $pdf the fpdi object that has information related to pdf file and annotations.
      */
     public static function draw_path($arr, $pdf) {
-        $list = parser_path($arr);
-        $stroke = process_color(end($list));
+        $list = qtype_essayannotate_parser::parser_path($arr);
+        $stroke = qtype_essayannotate_parser::process_color(end($list));
         $pdf->SetDrawColor($stroke[0], $stroke[1], $stroke[2]);   // R G B of stroke color.
         $pdf->SetLineWidth(QTYPE_ESSAYANNOTATE_BRUSHSIZE);
         for ($k = 0; $k < count($list) - 2; $k++) {
@@ -113,8 +114,8 @@ class qtype_essayannotate_annotatedfilebuilder {
      * @param object $pdf the fpdi object that has information related to pdf file and annotations.
      */
     public static function insert_text($arr, $pdf) {
-        $list = parser_text($arr);
-        $color = process_color($list[5]);
+        $list = qtype_essayannotate_parser::parser_text($arr);
+        $color = qtype_essayannotate_parser::process_color($list[5]);
         $pdf->SetTextColor($color[0], $color[1], $color[2]);       // R G B.
         $pdf->SetFont(QTYPE_ESSAYANNOTATE_FONTTYPE);
         // Converting fabricjs font size to that of fpdf.
@@ -133,8 +134,8 @@ class qtype_essayannotate_annotatedfilebuilder {
      * @param object $pdf the fpdi object that has information related to pdf file and annotations.
      */
     public static function draw_rect($arr, $pdf) {
-        $list = parser_rectangle($arr);
-        $fill = process_color($list[4]);
+        $list = qtype_essayannotate_parser::parser_rectangle($arr);
+        $fill = qtype_essayannotate_parser::process_color($list[4]);
         $pdf->SetFillColor($fill[0], $fill[1], $fill[2]);              // R G B.
         $pdf->SetAlpha(QTYPE_ESSAYANNOTATE_OPACITY);                   // For highlighting.
         $pdf->Rect($list[0],                      // X.
