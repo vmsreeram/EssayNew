@@ -151,9 +151,9 @@ class qtype_essayannotate_helper {
                 $gspath = get_config('qtype_essayannotate', 'ghostscriptpath');
                 $command = $gspath . ' -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dNOPAUSE -dBATCH -sOutputFile="' . $srcfilenew . '" "' . $srcfile . '"'.'  2>&1';
                 $safecommand = escapeshellcmd($command);
-                $shelloutput = exec($safecommand);
+                $shelloutput = exec($safecommand, $cmdoutput, $retval);
 
-                if ($shelloutput === false) {
+                if ($shelloutput === false || $retval !== 0) {
                     throw new moodle_exception('gs_fail', 'qtype_essayannotate');
                 }
                 $file = $srcfilenew;
