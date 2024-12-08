@@ -40,7 +40,7 @@
  */
 
 defined('MOODLE_INTERNAL') || die();
-use qtype_essayannotate\helper;
+require_once('classes/helper.php');
 
 /**
  * Generates the output for essayannotate questions.
@@ -144,7 +144,7 @@ class qtype_essayannotate_renderer extends qtype_renderer {
         $component = 'question';
         $filearea = 'response_attachments';
         $filepath = '/';
-        $itemid = helper::get_first_annotation_comment_step($qa)->get_id();
+        $itemid = qtype_essayannotate_helper::get_first_annotation_comment_step($qa)->get_id();
         $filenames = $this->get_filenames($qa, $options);
 
         $annotatedfiles = "";
@@ -192,7 +192,7 @@ class qtype_essayannotate_renderer extends qtype_renderer {
             $url = (explode("?", $temp))[0];
             // Check if format is not PDF.
             // Then change the filename as originalFileName_topdf.pdf.
-            [$filename, $format] = helper::get_filename_format($url);
+            [$filename, $format] = qtype_essayannotate_helper::get_filename_format($url);
             $mime = get_mimetype_description($file);
             $mime = explode(' ', $mime)[0];
             if ($mime != "PDF" || $format != "pdf") {

@@ -44,21 +44,21 @@
 require_once('../../../../config.php');
 require_once('annotatormustacheconfig.php');
 require_once('../../../../mod/quiz/locallib.php');
+require_once('../classes/helper.php');
 require_login();
-use qtype_essayannotate\helper;
 
 global $USER, $PAGE;
 
 // The $temppath is the path to the subdirectory essayPDF created in moodle's temp directory.
-$temppath = $CFG->tempdir . '/' . helper::get_essaypdf_path();
+$temppath = $CFG->tempdir . '/' . qtype_essayannotate_helper::get_essaypdf_path();
 
 $attemptid = required_param('attempt', PARAM_INT);
 $slot = required_param('slot', PARAM_INT);
 $fileno = required_param('fileno', PARAM_INT);
 $cmid = optional_param('cmid', null, PARAM_INT);
-$dummyfile = $temppath . '/' . helper::get_dummy_path() . $attemptid . "$" . $slot . "$" . $USER->id . ".pdf";
+$dummyfile = $temppath . '/' . qtype_essayannotate_helper::get_dummy_path() . $attemptid . "$" . $slot . "$" . $USER->id . ".pdf";
 if ($cmid == null) {
-    $result = helper::getcmid($attemptid);
+    $result = qtype_essayannotate_helper::getcmid($attemptid);
     if ($result) {
         $cmid = $result->cmid;
     } else {
@@ -81,7 +81,7 @@ if (!empty($cmid)) {
 require_capability('mod/quiz:grade', $PAGE->context);
 
 // Try to create the subdirectory essayPDF if not exists.
-if (!is_dir($temppath) && !make_temp_directory(helper::get_essaypdf_path(), false)) {
+if (!is_dir($temppath) && !make_temp_directory(qtype_essayannotate_helper::get_essaypdf_path(), false)) {
     throw new moodle_exception('mkdir_fail', 'qtype_essayannotate');
 }
 $attemptobj = quiz_create_attempt_handling_errors($attemptid, $cmid);
@@ -114,10 +114,10 @@ $component = 'question';
 $filearea = 'response_attachments';
 $usageid = $qa->get_usage_id();
 $filepath = '/';
-[$filename, $format] = helper::get_filename_format($fileurl);
+[$filename, $format] = qtype_essayannotate_helper::get_filename_format($fileurl);
 
 // The variable itemid is required for saving the file. Annotation step id is used as itemid so that it gets marked for backup.
-$itemid = helper::get_first_annotation_comment_step($qa)->get_id();
+$itemid = qtype_essayannotate_helper::get_first_annotation_comment_step($qa)->get_id();
 
 // If an annotation step does not exist, itemid will be null.
 if ($itemid == null) {
@@ -163,7 +163,7 @@ if ($doesexists === true) {
     unlink($filetoconvert);
     $file = $fs->get_file($contextid, $component, $filearea, $itemid, $filepath, $filename);
     $file->copy_content_to($dummyfile);
-    $fileurl = helper::create_fileurl($qa, $file);
+    $fileurl = qtype_essayannotate_helper::create_fileurl($qa, $file);
 } else if ($ispdf == false) {
     // Annotated PDF doesn't exists and the original file is not a PDF file.
     // So we need to create PDF first and update fileurl to this PDF file.
@@ -182,10 +182,13 @@ if ($doesexists === true) {
 
     // Execute the commands of imagemagick(Convert texts and images to PDF).
     $safecommand = escapeshellcmd($command);
-    $shelloutput = shell_exec($safecommand);
+    $shelloutput = exec($safecommand, $cmdoutput, $retval);
 
     unlink($filetoconvert);
 
+    if ($shelloutput === false || $retval !== 0) {
+        throw new moodle_exception('imagemagick_fail', 'qtype_essayannotate');
+    }
     // Create a PDF file in moodle database from the above created PDF file.
     $fileinfo = [
         'contextid' => $contextid,
@@ -201,7 +204,7 @@ if ($doesexists === true) {
 
     // Now update fileurl to this newly created PDF file.
     $file = $fs->get_file($contextid, $component, $filearea, $itemid, $filepath, $filename);
-    $fileurl = helper::create_fileurl($qa, $file);
+    $fileurl = qtype_essayannotate_helper::create_fileurl($qa, $file);
 } else {
     unlink($filetoconvert);
     $originalfile->copy_content_to($dummyfile);
@@ -215,7 +218,7 @@ if (!(file_exists($dummyfile))) {
 $contextid = strval($contextid);
 $slot = strval($slot);
 // Render the annotator UI.
-$data = get_annotator_mustache_config();
+$data = qtype_essayannotate_annotator_mustache_config::get_annotator_mustache_config();
 
 // Calling init function of pdfannotate.js and clickhandlers.js for setting the necessary parameters.
 $PAGE->requires->js_call_amd('qtype_essayannotate/pdfannotate', 'init', [$contextid, $attemptid, $filename, $usageid, $slot]);
