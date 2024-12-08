@@ -46,9 +46,9 @@
 
 require_once('../../../../config.php');
 require_once('../../../../mod/quiz/locallib.php');
-require(__DIR__ . '/annotatedfilebuilder.php');
-require(__DIR__ . '/parser.php');
-require(__DIR__ . '/alphapdf.php');
+require_once(__DIR__ . '/annotatedfilebuilder.php');
+require_once(__DIR__ . '/parser.php');
+require_once(__DIR__ . '/alphapdf.php');
 require_once('../classes/helper.php');
 
 require_login();
