@@ -37,7 +37,7 @@ define("QTYPE_ESSAYANNOTATE_ADJUSTPAGESIZE", false);
  * Updated by Nideesh N, VM Sreeram
  *    Added prefix to the constants.
  *    Moved functions inside the class qtype_essayannotate_annotatedfilebuilder.
- */ 
+ */
 class qtype_essayannotate_annotatedfilebuilder {
     /**
      * Takes file to annotate and the annotation data passed from upload.php and
