@@ -33,7 +33,7 @@ class qtype_essayannotate_helper {
      * Fetches course module id (cmid) associated with given attempt id from the database
      *
      * @param int $attemptid the attempt id whose cmid is to be found
-     * @return $result the record containing cmid
+     * @return object $result the record containing cmid
      */
     public static function getcmid($attemptid) {
         global $DB;
@@ -55,7 +55,7 @@ class qtype_essayannotate_helper {
      * Gets the step of first annotation made for the question attempt
      *
      * @param question_attempt $qa the question attempt whose first annotation step is to be found
-     * @return $step the question attempt step of first annotation made for the question attempt if exists,
+     * @return question_attempt_step $step the question attempt step of first annotation made for the question attempt if exists,
      *  otherwise, a readonly step is returned
      */
     public static function get_first_annotation_comment_step($qa) {
@@ -73,7 +73,7 @@ class qtype_essayannotate_helper {
      *
      * @param question_attempt $qa The question attempt object.
      * @param stored_file $file The file object.
-     * @return string The URL of the file.
+     * @return string $url The URL of the file.
      */
     public static function create_fileurl($qa, $file) {
         // Create url of this file.
@@ -132,7 +132,7 @@ class qtype_essayannotate_helper {
      * @param string $essaypdfpath the path where the file exists
      * @param int $attemptid the attempt id
      * @param int $slot the slot id
-     * @return $file the path to thepdf file after conversion (if necessary)
+     * @return string $file the path to thepdf file after conversion (if necessary)
      */
     public static function convert_pdf_version($file, $essaypdfpath, $attemptid, $slot) {
         global $USER;

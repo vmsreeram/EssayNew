@@ -25,6 +25,7 @@
  * @author     Parvathy S Kumar, Asha Jose (IIT Palakkad)
  * Updated By  Nideesh N, VM Sreeram (IIT Palakkad)
  *    Added prefix to the constant RATIO.
+ *    Moved functions inside the class qtype_essayannotate_parser.
  */
 
 require_once('../../../../config.php');
@@ -37,7 +38,7 @@ class qtype_essayannotate_parser {
     /**
      * for finding corresponding size of fpdf object given a fabricjs object
      * @param float $fabricjsunit variable corresponding to FabricJS distance unit(px)
-     * @return $fpdfunit corresponding distance unit value in FPDF
+     * @return float $fpdfunit corresponding distance unit value in FPDF
      */
     public static function normalize($fabricjsunit) {
         $fpdfunit = QTYPE_ESSAYANNOTATE_RATIO * $fabricjsunit;
@@ -50,7 +51,7 @@ class qtype_essayannotate_parser {
      * deserialize it, taking the relevant data to convert the path to an FPDF line object.
      *
      * @param object $arrpath the array containing data related to a path object.
-     * @return $list deserialized data for the path in FPDF line format
+     * @return array $list deserialized data for the path in FPDF line format
      */
     public static function parser_path($arrpath) {
         // Stored as a set of points (x and y coordinates).
@@ -81,7 +82,7 @@ class qtype_essayannotate_parser {
      * deserialize it, taking the relevant data to convert the text to an FPDF text object.
      *
      * @param object $arrtext the array containing data related to a text object.
-     * @return $list deserialized data in FPDF text format
+     * @return array $list deserialized data in FPDF text format
      */
     public static function parser_text($arrtext) {
         $list = [];
@@ -101,7 +102,7 @@ class qtype_essayannotate_parser {
      * scaling factor is also taken into consideration while transforming.
      *
      * @param object $arrrect the array containing data related to a Rect object.
-     * @return $list deserialized data in FPDF Rect format
+     * @return array $list deserialized data in FPDF Rect format
      */
     public static function parser_rectangle($arrrect) {
         $list = [];

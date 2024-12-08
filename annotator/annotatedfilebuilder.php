@@ -25,6 +25,7 @@
  * @author     Asha Jose, Parvathy S Kumar (IIT Palakkad)
  * Updated by Nideesh N, VM Sreeram
  *    Added prefix to the constants.
+ *    Moved functions inside the class qtype_essayannotate_annotatedfilebuilder.
  */
 
 require_once('parser.php');
@@ -44,7 +45,7 @@ class qtype_essayannotate_annotatedfilebuilder {
      *
      * @param string $file the name of the file to annotate
      * @param object $json the annotation data
-     * @return $pdf the fpdi object that has information related to pdf file and annotations.
+     * @return object $pdf the fpdi object that has information related to pdf file and annotations.
      */
     public static function build_annotated_file($file, $json) {
         // Get the page orientation.

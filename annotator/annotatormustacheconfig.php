@@ -21,6 +21,7 @@
  * @copyright  2024 IIT Palakkad
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @author     Nideesh N, VM Sreeram
+ *    Moved functions inside the class qtype_essayannotate_annotator_mustache_config.
  */
 require_once('../../../../config.php');
 require_login();

@@ -42,6 +42,7 @@
  *
  * Then create new file in databse using this temporary file.
  * Removed get_string usage in paths and changed to use helper functions
+ * Moved the functions to helper.php
  */
 
 require_once('../../../../config.php');
