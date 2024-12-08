@@ -25,7 +25,7 @@
  *   Added helper functions for retrieving hardcoded repeated paths
  */
 
-use question_attempt_step_read_only;
+require_once('../../../engine/questionattemptstep.php');
 use moodle_url;
 /**
  * Class with helper functions for qtype_essayannotate plugin
