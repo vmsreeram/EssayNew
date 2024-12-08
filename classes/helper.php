@@ -198,11 +198,10 @@ class qtype_essayannotate_helper {
         $memorylimit = (int)(ini_get('memory_limit'));
         $maxmb = 0;
 
-        # If memory limit is -1, there is no limit
+        // If memory limit is -1, there is no limit
         if ($memorylimit != -1) {
             $maxmb = min($maxupload, $maxpost, $memorylimit);
-        }
-        else {
+        } else {
             $maxmb = min($maxupload, $maxpost);
         }
 

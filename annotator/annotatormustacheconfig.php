@@ -14,6 +14,9 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+require_once('../../../../config.php');
+require_login();
+
 /**
  * This page consists of data for annotator.mustache. These definitions are used in annotator.php.
  *
@@ -23,9 +26,6 @@
  * @author     Nideesh N, VM Sreeram
  *    Moved functions inside the class qtype_essayannotate_annotator_mustache_config.
  */
-require_once('../../../../config.php');
-require_login();
-
 class qtype_essayannotate_annotator_mustache_config {
     /**
      * Generates and returns the data for annotator.mustache.

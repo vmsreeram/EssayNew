@@ -14,6 +14,11 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+defined('MOODLE_INTERNAL') || die();
+require_once('../../../../config.php');
+require_login();
+define("QTYPE_ESSAYANNOTATE_RATIO", 0.238); // Ratio to convert FabricJS objects to FPDF objects.
+
 /**
  * This page contains functions for parsing
  * The data from serialiser of fabricjs is read and processed.
@@ -27,13 +32,6 @@
  *    Added prefix to the constant RATIO.
  *    Moved functions inside the class qtype_essayannotate_parser.
  */
-
-require_once('../../../../config.php');
-require_login();
-
-defined('MOODLE_INTERNAL') || die();
-
-define("QTYPE_ESSAYANNOTATE_RATIO", 0.238); // Ratio to convert FabricJS objects to FPDF objects.
 class qtype_essayannotate_parser {
     /**
      * for finding corresponding size of fpdf object given a fabricjs object

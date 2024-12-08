@@ -14,6 +14,17 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+defined('MOODLE_INTERNAL') || die();
+require_once('parser.php');
+define("QTYPE_ESSAYANNOTATE_BRUSHSIZE", 0.50);
+define("QTYPE_ESSAYANNOTATE_FONTTYPE", 'Times');
+define("QTYPE_ESSAYANNOTATE_OPACITY", 0.30);
+define("QTYPE_ESSAYANNOTATE_FULLOPACITY", 1);
+define("QTYPE_ESSAYANNOTATE_FONTRATIO", 1.6);
+define("QTYPE_ESSAYANNOTATE_XOFFSET", 1);
+define("QTYPE_ESSAYANNOTATE_YOFFSET", 1);
+define("QTYPE_ESSAYANNOTATE_ADJUSTPAGESIZE", false);
+
 /**
  * This page contains functions that annotates using fpdf
  * The data stored as suitable arrays by the parser.php file is utilized here.
@@ -26,18 +37,7 @@
  * Updated by Nideesh N, VM Sreeram
  *    Added prefix to the constants.
  *    Moved functions inside the class qtype_essayannotate_annotatedfilebuilder.
- */
-
-require_once('parser.php');
-define("QTYPE_ESSAYANNOTATE_BRUSHSIZE", 0.50);
-define("QTYPE_ESSAYANNOTATE_FONTTYPE", 'Times');
-define("QTYPE_ESSAYANNOTATE_OPACITY", 0.30);
-define("QTYPE_ESSAYANNOTATE_FULLOPACITY", 1);
-define("QTYPE_ESSAYANNOTATE_FONTRATIO", 1.6);
-define("QTYPE_ESSAYANNOTATE_XOFFSET", 1);
-define("QTYPE_ESSAYANNOTATE_YOFFSET", 1);
-define("QTYPE_ESSAYANNOTATE_ADJUSTPAGESIZE", false);
-
+ */ 
 class qtype_essayannotate_annotatedfilebuilder {
     /**
      * Takes file to annotate and the annotation data passed from upload.php and
